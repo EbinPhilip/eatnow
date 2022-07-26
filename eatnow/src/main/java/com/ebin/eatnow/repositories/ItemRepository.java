@@ -5,10 +5,15 @@ import java.util.List;
 import com.ebin.eatnow.entities.Item;
 
 public interface ItemRepository {
-    Item findById(String id);
-    List<Item> findById(List<String> ids);
-    List<Item> findByRestaurantId(String id);
+    public Item findById(String id);
+    public List<Item> findById(List<String> ids);
 
-    boolean exists(String id);
-    Item save(Item item);
+    public List<Item> findByRestaurantId(String id);
+    public Item findByRestaurantIdAndIndex(String restaurantId, int itemIndex);
+
+    public boolean existsById(String id);
+    public Item create(Item item);
+    public Item update(Item item);
+    public boolean delete(String restaurantId, int ItemIndex);
+
 }
