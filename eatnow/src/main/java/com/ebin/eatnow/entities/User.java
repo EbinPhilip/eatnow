@@ -4,11 +4,10 @@ import javax.persistence.Entity;
 
 import org.springframework.data.annotation.Id;
 
-import com.mongodb.lang.NonNull;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NonNull;
 
 @Entity
 @AllArgsConstructor
