@@ -8,7 +8,8 @@ public interface UserAddressRepository {
     public UserAddress findById(String id);
     public List<UserAddress> findById(List<String> ids);
 
-    public List<UserAddress> findByUserId(String userIds);
+    public List<UserAddress> findByUserId(String userId);
+    public UserAddress findByUserIdAndIndex(String userId, int index);
 
     public boolean existsById(String id);
     public UserAddress create(UserAddress address);

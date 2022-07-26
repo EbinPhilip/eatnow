@@ -19,19 +19,24 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.ebin.eatnow.dtos.UserAddressDto;
 import com.ebin.eatnow.dtos.UserDto;
+import com.ebin.eatnow.services.UserAddressService;
 import com.ebin.eatnow.services.UserService;
 
 @RestController
 public class UserController {
-    public static final String USER_ENDPOINT = "/user";
+    public static final String USER_ENDPOINT = "/users";
     public static final String USER_API = USER_ENDPOINT+"/{userId}";
-    public static final String USER_ADDRESS_API = USER_API + "/address";
+    public static final String USER_ADDRESS_ENDPOINT = USER_API + "/address";
+    public static final String USER_ADDRESS_API = USER_ADDRESS_ENDPOINT + "/{index}";
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserAddressService addressService;
+
     @GetMapping(USER_API)
-    public ResponseEntity<UserDto> getUser(@PathVariable String userId) {
+    public ResponseEntity<UserDto> getUser(@PathVariable @NotNull String userId) {
         return ResponseEntity.ok().body(userService.getUserById(userId));
     }
 
@@ -42,7 +47,7 @@ public class UserController {
 
     @PutMapping(USER_API)
     public ResponseEntity<UserDto> putUser(
-            @PathVariable String userId,
+            @PathVariable @NotNull String userId,
             @Valid @RequestBody UserDto user) {
         
         if (!userId.equals(user.getId()))
@@ -53,44 +58,52 @@ public class UserController {
         return ResponseEntity.ok().body(userService.updateUser(user));
     }
 
-    @GetMapping(USER_ADDRESS_API)
-    public ResponseEntity<List<UserAddressDto>> getUserAddresses(@PathVariable String userId) {
-        return ResponseEntity.ok().body(userService.getAddressByUserId(userId));
+    @GetMapping(USER_ADDRESS_ENDPOINT)
+    public ResponseEntity<List<UserAddressDto>> getUserAddresses(@PathVariable @NotNull String userId) {
+        return ResponseEntity.ok().body(addressService.getAddressesByUserId(userId));
     }
 
-    @PostMapping(USER_ADDRESS_API)
-    public ResponseEntity<UserAddressDto> postUserAddress(@PathVariable String userId,
+    @PostMapping(USER_ADDRESS_ENDPOINT)
+    public ResponseEntity<UserAddressDto> postUserAddress(@PathVariable @NotNull String userId,
     @Valid @RequestBody UserAddressDto address) {
         if (!userId.equals(address.getUserId()))
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                  "User id provided in the address is different");
         }
-        return new ResponseEntity<UserAddressDto>(userService.createAddress(address),
+        return new ResponseEntity<UserAddressDto>(addressService.createAddress(address),
                 HttpStatus.OK);
     }
 
-    @PutMapping(USER_ADDRESS_API+"/{index}")
+    @GetMapping(USER_ADDRESS_API)
+    public ResponseEntity<UserAddressDto> getUserAddressesByIndex(
+        @PathVariable("userId") @NotNull String userId,
+        @PathVariable("index") Integer index) {
+
+        return ResponseEntity.ok().body(addressService.getAddressByUserIdAndIndex(userId, index));
+    }
+
+    @PutMapping(USER_ADDRESS_API)
     public ResponseEntity<UserAddressDto> putUserAddress(
-                @PathVariable("userId") String userId,
+                @PathVariable("userId") @NotNull String userId,
                 @PathVariable("index") @NotNull Integer index,
                 @Valid @RequestBody UserAddressDto address) {
 
         if (!userId.equals(address.getUserId()) || !index.equals(address.getIndex()))
         {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                "User id and index cannot be changed");
+                "User id and address index cannot be changed");
         }
-        return new ResponseEntity<UserAddressDto>(userService.updateAddress(address),
+        return new ResponseEntity<UserAddressDto>(addressService.updateAddress(address),
                 HttpStatus.OK);
     }
 
-    @DeleteMapping(USER_ADDRESS_API+"/{index}")
+    @DeleteMapping(USER_ADDRESS_API)
     public ResponseEntity<Boolean> deleteUserAddress(
-                @PathVariable("userId") String userId,
+                @PathVariable("userId") @NotNull String userId,
                 @PathVariable("index") @NotNull Integer index) {
 
-        return new ResponseEntity<Boolean>(userService.deleteAddress(userId, index),
+        return new ResponseEntity<Boolean>(addressService.deleteAddress(userId, index),
                 HttpStatus.OK);
     }
 }
