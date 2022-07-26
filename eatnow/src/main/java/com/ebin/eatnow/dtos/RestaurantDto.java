@@ -1,47 +1,41 @@
-package com.ebin.eatnow.entities;
+package com.ebin.eatnow.dtos;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
-import com.ebin.eatnow.utils.Location;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.mongodb.lang.NonNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Builder.Default;
 
-@Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Restaurant {
-    @Id
+public class RestaurantDto {
+    @NonNull
+    @NotBlank
     private String id;
 
     @NonNull
+    @NotBlank
     private String name;
 
     @NonNull
+    @NotBlank
     private String address;
 
-    @NonNull
-    private Location location;
-
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Default
     private List<String> tags = new ArrayList<>();
 
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @Default
-    private boolean isOpen = true;
-
-    @Default
-    private double rating = 0;
-
-    @Default
-    private int reviews = 0;
+    private Double rating = 0.0d;
 }

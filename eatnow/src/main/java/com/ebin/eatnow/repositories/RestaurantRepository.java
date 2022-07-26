@@ -4,16 +4,17 @@ import java.util.List;
 import java.util.Map;
 
 import com.ebin.eatnow.entities.Restaurant;
+import com.ebin.eatnow.utils.Location;
 
 public interface RestaurantRepository {
-    Restaurant findById(String id);
+    public Restaurant findById(String id);
 
-    List<Restaurant> findById(List<String> ids);
+    public List<Restaurant> findById(List<String> id);
 
-    Map<String, Restaurant> findOpenRestaurantsNearby
-        (double latitude, double longitude, double distance);
+    public Map<String, Restaurant> findOpenRestaurantsNearby
+        (Location location, double distance);
 
-    boolean exists(String id);
+    public boolean existsById(String id);
 
-    Restaurant save(Restaurant restaurant);
+    public Restaurant update(Restaurant restaurant);
 }

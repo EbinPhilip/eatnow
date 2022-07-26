@@ -1,29 +1,21 @@
-package com.ebin.eatnow.entities;
+package com.ebin.eatnow.dtos;
 
 import java.util.List;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import com.mongodb.lang.NonNull;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Builder.Default;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Item {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Default
-    private String id = null;
-
+public class ItemDto {
     @NonNull
     private String restaurantId;
 
@@ -42,10 +34,12 @@ public class Item {
     @NonNull
     private Double price;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private String description;
 
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> tags;
 
-    @Default
-    boolean available = true;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    Boolean available;
 }
