@@ -58,11 +58,13 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
         save(a4);
     }
 
+    @Override
     public UserAddress findById(String id)
     {
         return Optional.ofNullable(addresses.get(id)).orElseThrow(RuntimeException::new);
     }
 
+    @Override
     public List<UserAddress> findById(List<String> ids)
     {
         List<UserAddress> addressList = new ArrayList<>();
@@ -75,15 +77,31 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
         return addressList;
     }
 
+    @Override
     public List<UserAddress> findByUserId(String userId)
     {
         List<UserAddress> addressList = new ArrayList<>();
         addressList.addAll(
-        addresses.values().stream().filter(
-            (i)->(i.getUserId().equals(userId))).collect(Collectors.toList())
+            addresses.values().stream().filter(
+            (i)->(
+                i.getUserId().equals(userId)
+            ))
+            .collect(Collectors.toList())
         );
 
         return addressList;
+    }
+
+    @Override
+    public UserAddress findByUserIdAndIndex(String userId, int index)
+    {
+        return addresses.values().stream().filter(
+            (i)->(
+                i.getUserId().equals(userId)
+                && i.getIndex().equals(index)
+            ))
+            .findFirst()
+            .orElseThrow(RuntimeException::new);
     }
 
     @Override
@@ -99,7 +117,11 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
             String.valueOf(addresses.keySet().stream().count() + 1)
         );
         address.setIndex(
-            (int)(addresses.values().stream().filter((i)->(i.getUserId().equals(address.getUserId()))).count() + 1)
+            (int)(addresses.values().stream().filter(
+                (i)->(
+                    i.getUserId().equals(address.getUserId())
+                ))
+                .count() + 1)
         );
 
         return save(address);
@@ -135,6 +157,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
 
     private UserAddress save(UserAddress address)
     {
-        return addresses.put(address.getId(), address);
+        addresses.put(address.getId(), address);
+        return address;
     }
 }

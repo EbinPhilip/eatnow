@@ -71,6 +71,7 @@ public class UserRepositoryDummy implements UserRepository{
 
     private User save(User user)
     {
-        return users.put(user.getId(), user);
+        users.put(user.getId(), user);
+        return user;
     }
 }
