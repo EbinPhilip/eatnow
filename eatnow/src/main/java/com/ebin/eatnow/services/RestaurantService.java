@@ -50,7 +50,12 @@ public class RestaurantService {
         
         restaurant = restaurantRepository.update(restaurant);
         return restaurantToDto(restaurant);
-    } 
+    }
+
+    public boolean isRestaurantServiceable(String restaurantId, Location location) {
+
+        return restaurantRepository.isRestaurantServiceable(restaurantId, location, max_distance);
+    }
 
     private Restaurant dtoToRestaurant(RestaurantDto dto, Restaurant old)
     {

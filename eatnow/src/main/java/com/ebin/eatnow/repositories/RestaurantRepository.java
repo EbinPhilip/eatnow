@@ -11,10 +11,12 @@ public interface RestaurantRepository {
 
     public List<Restaurant> findById(List<String> id);
 
-    public Map<String, Restaurant> findOpenRestaurantsNearby
-        (Location location, double distance);
+    public Map<String, Restaurant> findOpenRestaurantsNearby(Location location, double distance);
 
     public boolean existsById(String id);
 
     public Restaurant update(Restaurant restaurant);
+
+    public boolean isRestaurantServiceable(String restaurantId,
+            Location location, double distance);
 }
