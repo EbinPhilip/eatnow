@@ -18,7 +18,9 @@ import com.ebin.eatnow.utils.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(
+    prePostEnabled = true,
+    securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -51,13 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }
             )
             .and();
-
-        http.authorizeRequests()
-            .antMatchers("/users/login").permitAll()
-            .antMatchers(HttpMethod.GET, "/restaurant/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/restaurant/{restaurantId}").permitAll()
-            .antMatchers(HttpMethod.GET, "/menu/**").permitAll()
-            .anyRequest().authenticated();
 
         http.addFilterBefore(
             jwtFilter,

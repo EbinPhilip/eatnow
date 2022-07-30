@@ -25,11 +25,8 @@ import com.ebin.eatnow.services.RestaurantService;
 import com.ebin.eatnow.services.UserService;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.UnsupportedJwtException;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -76,12 +73,12 @@ public class JwtFilter extends OncePerRequestFilter {
             if (role.equals("restaurant")) {
                 String restaurantId = claims.getSubject();
                 RestaurantDto restaurantDto = restaurantService.getRestaurantbyId(restaurantId);
-                authorities.add(new SimpleGrantedAuthority("restaurant"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_RESTAURANT"));
                 user = new User(restaurantDto.getId(), "", authorities);
             } else if (role.equals("user")) {
                 String userId = claims.getSubject();
                 UserDto userDto = userService.getUserById(userId);
-                authorities.add(new SimpleGrantedAuthority("user"));
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
                 user = new User(userDto.getId(), "", authorities);
             }
 
