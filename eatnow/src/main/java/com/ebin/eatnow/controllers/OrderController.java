@@ -7,6 +7,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,103 +36,127 @@ public class OrderController {
 
     public static final String ORDER_PAYMENT_ENDPOINT = ORDERS_ENDPOINT + "/payment";
 
-    public static final String ORDERS_RESTAURANT_ENDPOINT = ORDERS_ENDPOINT+"/by-restaurant/" + restaurantIdStringParam;
+    public static final String ORDERS_RESTAURANT_ENDPOINT = ORDERS_ENDPOINT + "/by-restaurant/"
+            + restaurantIdStringParam;
     public static final String ORDERS_RESTAURANT_ENDPOINT_NEW = ORDERS_RESTAURANT_ENDPOINT + "/new";
     public static final String ORDERS_RESTAURANT_ENDPOINT_ACCEPTED = ORDERS_RESTAURANT_ENDPOINT + "/accepted";
     public static final String ORDERS_RESTAURANT_ENDPOINT_COMPLETED = ORDERS_RESTAURANT_ENDPOINT + "/completed";
 
-    public static final String ORDERS_USER_ENDPOINT = ORDERS_ENDPOINT+"/by-user/" + userIdStringParam;
+    public static final String ORDERS_USER_ENDPOINT = ORDERS_ENDPOINT + "/by-user/" + userIdStringParam;
 
     @Autowired
     private OrderService orderService;
 
     @PostMapping(ORDERS_ENDPOINT)
     public ResponseEntity<OrderDto> createOrder(
-        @Valid @RequestBody OrderDto order) {
-        
+            @Valid @RequestBody OrderDto order) {
+
         return ResponseEntity.ok().body(
-            orderService.createOrder(order));
+                orderService.createOrder(order));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(ORDER_PAYMENT_ENDPOINT)
     public ResponseEntity<PaymentDto> payAndConfirmOrder(
-        @RequestParam(orderIdString) @NotNull String orderId,
-        @RequestParam(name="details", required=false) String paymentDetails) {
-        
+            @RequestParam(orderIdString) @NotNull String orderId,
+            @RequestParam(name = "details", required = false) String paymentDetails) {
+
         return ResponseEntity.ok().body(
-            orderService.confirmOrderAndPay(orderId));
+                orderService.confirmOrderAndPay(orderId));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') or hasRole('ROLE_USER')")
+    @PostAuthorize("returnObject.getBody().getRestaurantId() == authentication.principal.username" +
+            " or returnObject.getBody().getUserId() == authentication.principal.username")
     @GetMapping(ORDERS_ENDPOINT)
     public ResponseEntity<OrderDto> fetchOrder(
-        @RequestParam(orderIdString) @NotNull String orderId) {
-        
+            @RequestParam(orderIdString) @NotNull String orderId) {
+
         return ResponseEntity.ok().body(
-            orderService.getOrder(orderId));
+                orderService.getOrder(orderId));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @PostAuthorize("returnObject.getBody().getRestaurantId()" +
+            " == authentication.principal.username")
     @PostMapping(ORDER_ID_ENDPOINT_ACCEPT)
     public ResponseEntity<OrderDto> acceptOrder(
-        @RequestParam(orderIdString) @NotNull String orderId) {
-        
+            @RequestParam(orderIdString) @NotNull String orderId) {
+
         return ResponseEntity.ok().body(
-            orderService.acceptOrder(orderId));
+                orderService.acceptOrder(orderId));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @PostAuthorize("returnObject.getBody().getRestaurantId()" +
+            " == authentication.principal.username")
     @PostMapping(ORDER_ID_ENDPOINT_COMPLETE)
     public ResponseEntity<OrderDto> completeOrder(
-        @RequestParam(orderIdString) @NotNull String orderId) {
-        
+            @RequestParam(orderIdString) @NotNull String orderId) {
+
         return ResponseEntity.ok().body(
-            orderService.completeOrder(orderId));
+                orderService.completeOrder(orderId));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT')")
+    @PostAuthorize("returnObject.getBody().getRestaurantId()" +
+            " == authentication.principal.username")
     @PostMapping(ORDER_ID_ENDPOINT_CANCEL)
     public ResponseEntity<OrderDto> cancelOrder(
-        @RequestParam(orderIdString) @NotNull String orderId) {
-        
+            @RequestParam(orderIdString) @NotNull String orderId) {
+
         return ResponseEntity.ok().body(
-            orderService.cancelOrder(orderId));
+                orderService.cancelOrder(orderId));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
+            "#restaurantId == authentication.principal.username")
     @GetMapping(ORDERS_RESTAURANT_ENDPOINT)
     public ResponseEntity<List<OrderDto>> fetchOrdersByRestaurantId(
-        @PathVariable(restaurantIdString) @NotNull String restaurantId) {
-        
+            @PathVariable(restaurantIdString) @NotNull String restaurantId) {
+
         return ResponseEntity.ok().body(
-            orderService.getOrdersbyRestaurantId(restaurantId, null));
+                orderService.getOrdersbyRestaurantId(restaurantId, null));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
+            "#restaurantId == authentication.principal.username")
     @GetMapping(ORDERS_RESTAURANT_ENDPOINT_NEW)
     public ResponseEntity<List<OrderDto>> fetchNewOrdersByRestaurantId(
-        @PathVariable(restaurantIdString) @NotNull String restaurantId) {
-        
+            @PathVariable(restaurantIdString) @NotNull String restaurantId) {
+
         return ResponseEntity.ok().body(
-            orderService.getOrdersbyRestaurantId(restaurantId, "NEW"));
+                orderService.getOrdersbyRestaurantId(restaurantId, "NEW"));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
+            "#restaurantId == authentication.principal.username")
     @GetMapping(ORDERS_RESTAURANT_ENDPOINT_ACCEPTED)
     public ResponseEntity<List<OrderDto>> fetchAcceptedOrdersByRestaurantId(
-        @PathVariable(restaurantIdString) @NotNull String restaurantId) {
-        
+            @PathVariable(restaurantIdString) @NotNull String restaurantId) {
+
         return ResponseEntity.ok().body(
-            orderService.getOrdersbyRestaurantId(restaurantId, "ACCEPTED"));
+                orderService.getOrdersbyRestaurantId(restaurantId, "ACCEPTED"));
     }
 
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
+            "#restaurantId == authentication.principal.username")
     @GetMapping(ORDERS_RESTAURANT_ENDPOINT_COMPLETED)
     public ResponseEntity<List<OrderDto>> fetchCompletedOrdersByRestaurantId(
-        @PathVariable(restaurantIdString) @NotNull String restaurantId) {
-        
+            @PathVariable(restaurantIdString) @NotNull String restaurantId) {
+
         return ResponseEntity.ok().body(
-            orderService.getOrdersbyRestaurantId(restaurantId, "COMPLETED"));
+                orderService.getOrdersbyRestaurantId(restaurantId, "COMPLETED"));
     }
 
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
     @GetMapping(ORDERS_USER_ENDPOINT)
     public ResponseEntity<List<OrderDto>> fetchOrdersByUserId(
-        @PathVariable(userIdString) @NotNull String userId) {
-        
+            @PathVariable(userIdString) @NotNull String userId) {
+
         return ResponseEntity.ok().body(
-            orderService.getOrdersbyUserId(userId));
+                orderService.getOrdersbyUserId(userId));
     }
 
 }
