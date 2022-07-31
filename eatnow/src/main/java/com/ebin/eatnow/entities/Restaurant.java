@@ -6,7 +6,7 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
-import com.ebin.eatnow.utils.Location;
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +29,9 @@ public class Restaurant {
 
     @NonNull
     private String address;
-
+    
     @NonNull
-    private Location location;
+    private GeoJsonPoint location;
 
     @Default
     private List<String> tags = new ArrayList<>();

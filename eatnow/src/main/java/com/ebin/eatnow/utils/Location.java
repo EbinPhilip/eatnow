@@ -3,16 +3,17 @@ package com.ebin.eatnow.utils;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonUnwrapped;
-import com.mongodb.client.model.geojson.Point;
-import com.mongodb.client.model.geojson.Position;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Data
+@NoArgsConstructor
 public class Location {
     @NonNull
     @Max(90)
@@ -27,7 +28,7 @@ public class Location {
     private Double longitude;
     
     @JsonUnwrapped
-    private Point point;
+    private GeoJsonPoint point;
 
     public Location(double latitude, double longitude) {
         setLatitudeInternal(latitude);
@@ -67,6 +68,6 @@ public class Location {
 
     protected void recalculatePosition()
     {
-        this.point = new Point(new Position(latitude, longitude));
+        point = new GeoJsonPoint(latitude, longitude);
     }
 }
