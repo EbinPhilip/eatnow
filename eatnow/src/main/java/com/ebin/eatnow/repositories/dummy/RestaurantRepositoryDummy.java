@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Repository;
 
 import com.ebin.eatnow.entities.Restaurant;
@@ -23,7 +24,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .id("r1")
                 .name("r1")
                 .address("")
-                .location(new Location(11.1, 22.2))
+                .location(new GeoJsonPoint(-73.9667, 40.78))
                 .tags(Arrays.asList("food", "yummy"))
                 .rating(4.4)
                 .reviews(10)
@@ -32,7 +33,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .id("r2")
                 .name("r2")
                 .address("")
-                .location(new Location(11.1, 22.2))
+                .location(new GeoJsonPoint(-73.9667, 40.78))
                 .rating(2.4)
                 .reviews(50)
                 .build();
@@ -40,7 +41,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .id("r3")
                 .name("r3")
                 .address("")
-                .location(new Location(11.1, 22.2))
+                .location(new GeoJsonPoint(-73.9667, 40.78))
                 .tags(Arrays.asList(""))
                 .rating(3.4)
                 .reviews(10)
@@ -49,7 +50,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .id("r4")
                 .name("r4")
                 .address("")
-                .location(new Location(11.1, 22.2))
+                .location(new GeoJsonPoint(-73.9667, 40.78))
                 .tags(Arrays.asList("yummy"))
                 .build();
         restaurants.put(r1.getId(), r1);
