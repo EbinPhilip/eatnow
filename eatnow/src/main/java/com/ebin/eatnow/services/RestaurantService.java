@@ -43,6 +43,27 @@ public class RestaurantService {
         return restaurantList;
     }
 
+    public boolean isRestaurantOpen(String restaurantId) {
+
+        Restaurant restaurant = 
+            Optional.ofNullable(restaurantRepository.findById(restaurantId))
+            .orElseThrow(RuntimeException::new);
+
+        return restaurant.isOpen();
+    }
+
+    public boolean setRestaurantOpen(String restaurantId, boolean openStatus) {
+
+        Restaurant restaurant = 
+            Optional.ofNullable(restaurantRepository.findById(restaurantId))
+            .orElseThrow(RuntimeException::new);
+
+        restaurant.setOpen(openStatus);
+        restaurantRepository.update(restaurant);
+
+        return restaurant.isOpen();
+    }
+
     public RestaurantDto updateRestaurant(RestaurantDto dto)
     {
         Restaurant old = restaurantRepository.findById(dto.getId());
@@ -67,6 +88,7 @@ public class RestaurantService {
             .tags(dto.getTags())
             .rating(old.getRating())
             .reviews(old.getReviews())
+            .isOpen(old.isOpen())
             .build();
         return restaurant;
     }
@@ -79,6 +101,7 @@ public class RestaurantService {
             .address(restaurant.getAddress())
             .tags(restaurant.getTags())
             .rating(restaurant.getRating())
+            .isOpen(restaurant.isOpen())
             .build();
         return dto;
     }
