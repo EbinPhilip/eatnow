@@ -6,12 +6,12 @@ import java.util.List;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mongodb.lang.NonNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Builder.Default;
 
 @Data
@@ -38,4 +38,7 @@ public class RestaurantDto {
     @JsonInclude(JsonInclude.Include.NON_DEFAULT)
     @Default
     private Double rating = 0.0d;
+
+    @Default
+    boolean isOpen = true;
 }

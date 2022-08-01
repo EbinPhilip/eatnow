@@ -57,17 +57,17 @@ public class RestaurantController {
     @GetMapping(RESTAURANTS_LOGIN_ENDPOINT)
     public ResponseEntity<String> login(
             @RequestParam(name = "restaurant-id") String restaurantId) {
-        
+
         RestaurantDto restaurant = restaurantService.getRestaurantbyId(restaurantId);
         String key = Jwts
-            .builder()
-            .setIssuer(issuer)
-            .setSubject(restaurant.getId())
-            .claim("role", "restaurant")
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-            .signWith(new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName()))
-            .compact();
+                .builder()
+                .setIssuer(issuer)
+                .setSubject(restaurant.getId())
+                .claim("role", "restaurant")
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName()))
+                .compact();
         return ResponseEntity.ok().body(key);
     }
 
@@ -86,6 +86,25 @@ public class RestaurantController {
 
         return ResponseEntity.ok().body(
                 restaurantService.getRestaurantbyId(restaurantId));
+    }
+
+    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
+            "#restaurantId == authentication.principal.username")
+    @PostMapping(RESTAURANT_OPEN_API)
+    public ResponseEntity<Boolean> setRestaurantOpen(
+            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
+            @RequestParam(name = "open") boolean openStatus) {
+
+        return ResponseEntity.ok().body(
+                restaurantService.setRestaurantOpen(restaurantId, openStatus));
+    }
+
+    @GetMapping(RESTAURANT_OPEN_API)
+    public ResponseEntity<Boolean> getRestaurantOpen(
+            @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
+
+        return ResponseEntity.ok().body(
+                restaurantService.isRestaurantOpen(restaurantId));
     }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
