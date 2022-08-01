@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.ebin.eatnow.dtos.ItemDto;
+import com.ebin.eatnow.dtos.MenuDto;
 import com.ebin.eatnow.dtos.RestaurantDto;
 import com.ebin.eatnow.services.MenuService;
 import com.ebin.eatnow.services.RestaurantService;
@@ -35,6 +36,7 @@ public class RestaurantController {
     public static final String RESTAURANTS_ENDPOINT = "/restaurant";
     public static final String RESTAURANTS_LOGIN_ENDPOINT = RESTAURANTS_ENDPOINT + "/login";
     public static final String RESTAURANT_API = RESTAURANTS_ENDPOINT + "/{restaurantId}";
+    public static final String RESTAURANT_OPEN_API = RESTAURANT_API + "/is-open";
 
     public static final String MENU_ENDPOINT = "/menu/{restaurantId}";
     public static final String ITEM_ENDPOINT = MENU_ENDPOINT + "/{itemIndex}";
@@ -102,11 +104,11 @@ public class RestaurantController {
     }
 
     @GetMapping(MENU_ENDPOINT)
-    public ResponseEntity<List<ItemDto>> getMenu(
+    public ResponseEntity<MenuDto> getMenu(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
 
         return ResponseEntity.ok().body(
-                menuService.getItemsByRestaurantId(restaurantId));
+                menuService.getMenuByRestaurantId(restaurantId));
     }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
@@ -116,12 +118,8 @@ public class RestaurantController {
             @PathVariable(name = "restaurantId") @NotNull String restaurantId,
             @Valid @RequestBody ItemDto item) {
 
-        if (!restaurantId.equals(item.getRestaurantId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Restaurant id provided in the item is different");
-        }
         return ResponseEntity.ok().body(
-                menuService.createItem(item));
+                menuService.createItem(restaurantId, item));
     }
 
     @GetMapping(ITEM_ENDPOINT)
@@ -141,12 +139,8 @@ public class RestaurantController {
             @PathVariable(name = "itemIndex") @NotNull Integer itemIndex,
             @Valid @RequestBody ItemDto item) {
 
-        if (!restaurantId.equals(item.getRestaurantId()) || !itemIndex.equals(item.getItemIndex())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Restaurant id and item index cannot be changed");
-        }
         return ResponseEntity.ok().body(
-                menuService.updateItem(item));
+                menuService.updateItem(restaurantId, itemIndex, item));
     }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +

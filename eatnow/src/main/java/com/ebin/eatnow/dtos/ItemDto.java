@@ -16,7 +16,7 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @Builder
 public class ItemDto {
-    @NonNull
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String restaurantId;
 
     @Default
@@ -25,11 +25,8 @@ public class ItemDto {
     @NonNull
     private String name;
 
-    @NonNull
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private String restaurantName;
-    
-    @NonNull
-    private String category;
 
     @NonNull
     private Double price;
