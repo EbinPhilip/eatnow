@@ -8,24 +8,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ebin.eatnow.dtos.ItemDto;
+import com.ebin.eatnow.dtos.MenuDto;
 import com.ebin.eatnow.entities.Item;
-import com.ebin.eatnow.repositories.ItemRepository;
+import com.ebin.eatnow.entities.Menu;
+import com.ebin.eatnow.repositories.MenuRepository;
 import com.ebin.eatnow.utils.Location;
 
 @Service
 public class MenuService {
     @Autowired
-    private ItemRepository itemRepository;
+    private MenuRepository menuRepository;
 
     @Autowired
     private RestaurantService restaurantService;
 
-    public List<ItemDto> getItemsByRestaurantId(String restaurantId) {
-        restaurantService.getRestaurantbyId(restaurantId);
-        return itemRepository.findByRestaurantId(restaurantId).stream().map(
-                (i) -> {
+    public MenuDto getMenuByRestaurantId(String restaurantId) {
+
+        Menu menu = menuRepository.findByRestaurantId(restaurantId);
+        List<ItemDto> items = menu.getItems()
+                .stream()
+                .map((i)->{
                     return itemToDto(i);
                 }).collect(Collectors.toList());
+        
+        return MenuDto.builder()
+                    .restaurantId(restaurantId)
+                    .restaurantName(menu.getRestaurantName())
+                    .items(items)
+                    .build();
     }
 
     public List<ItemDto> checkServiceabilityAndFetchItems(String restaurantId,
@@ -35,7 +45,7 @@ public class MenuService {
             throw new RuntimeException();
         }
 
-        return itemRepository.findByRestaurantIdAndIndices(restaurantId, itemIndices)
+        return menuRepository.findByRestaurantIdAndIndices(restaurantId, itemIndices)
                 .stream().map(
                         (i) -> {
                             return itemToDto(i);
@@ -44,50 +54,48 @@ public class MenuService {
     }
 
     public ItemDto getItemByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
-        Item item = itemRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
+
+        Item item = menuRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
         ItemDto dto = itemToDto(item);
+        dto.setRestaurantId(restaurantId);
         dto.setAvailable(item.isAvailable());
         return dto;
     }
 
-    public ItemDto createItem(ItemDto dto) {
-        restaurantService.getRestaurantbyId(dto.getRestaurantId());
+    public ItemDto createItem(String restaurantId, ItemDto dto) {
+
         Item item = dtoToItem(dto);
-        itemRepository.create(item);
+        menuRepository.createItem(restaurantId, item);
         return itemToDto(item);
     }
 
-    public ItemDto updateItem(ItemDto dto) {
-        Item old = itemRepository
-                .findByRestaurantIdAndIndex(dto.getRestaurantId(), dto.getItemIndex());
+    public ItemDto updateItem(String restaurantId, int itemIndex, ItemDto dto) {
+
         Item item = dtoToItem(dto);
-        item.setRestaurantName(old.getName());
-        item = itemRepository.update(item);
+        item = menuRepository.updateItem(restaurantId, itemIndex, item);
         return itemToDto(item);
     }
 
     public boolean deleteItem(String restaurantId, int itemIndex) {
-        return itemRepository.delete(restaurantId, itemIndex);
+
+        return menuRepository.deleteItem(restaurantId, itemIndex);
     }
 
     public boolean setItemAvailability(String restaurantId, int itemIndex, boolean isAvailable) {
-        Item item = itemRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
+
+        Item item = menuRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
         item.setAvailable(isAvailable);
-        return itemRepository.update(item).isAvailable();
+        return menuRepository.updateItem(restaurantId, itemIndex, item).isAvailable();
     }
 
     public boolean getItemAvailability(String restaurantId, int itemIndex) {
-        Item item = itemRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
+        Item item = menuRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
         return item.isAvailable();
     }
 
     private Item dtoToItem(ItemDto dto) {
         Item item = Item.builder()
-                .restaurantId(dto.getRestaurantId())
-                .itemIndex(dto.getItemIndex())
                 .name(dto.getName())
-                .restaurantName("")
-                .category(dto.getCategory())
                 .price(dto.getPrice())
                 .description(dto.getDescription())
                 .tags(dto.getTags())
@@ -100,14 +108,12 @@ public class MenuService {
 
     private ItemDto itemToDto(Item item) {
         ItemDto dto = ItemDto.builder()
-                .restaurantId(item.getRestaurantId())
                 .itemIndex(item.getItemIndex())
                 .name(item.getName())
-                .restaurantName(item.getRestaurantName())
-                .category(item.getCategory())
                 .price(item.getPrice())
                 .description(item.getDescription())
                 .tags(item.getTags())
+                .available(item.isAvailable())
                 .build();
         return dto;
     }
