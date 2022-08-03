@@ -6,7 +6,6 @@ import javax.validation.constraints.Min;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,16 +17,14 @@ public class Location {
     @NonNull
     @Max(90)
     @Min(-90)
-    @JsonIgnore
     private Double latitude;
 
     @NonNull
     @Max(180)
     @Min(-180)
-    @JsonIgnore
     private Double longitude;
     
-    @JsonUnwrapped
+    @JsonIgnore
     private GeoJsonPoint point;
 
     public Location(double latitude, double longitude) {

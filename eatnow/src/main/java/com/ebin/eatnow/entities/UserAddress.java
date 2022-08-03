@@ -1,23 +1,28 @@
 package com.ebin.eatnow.entities;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-import com.ebin.eatnow.utils.Location;
-
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Builder.Default;
 
+@Entity
+@Table(name="address", schema = "public")
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserAddress {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Default
-    private String id = null;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @NonNull
     private String userId;
@@ -28,6 +33,7 @@ public class UserAddress {
     @NonNull
     private String address;
 
-    @NonNull
-    private Location location;
+    private double latitude;
+
+    private double longitude;
 }
