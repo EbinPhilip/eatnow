@@ -3,15 +3,13 @@ package com.ebin.eatnow.entities;
 import java.util.LinkedHashMap;
 import java.util.Optional;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import org.springframework.data.annotation.Id;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-@Entity
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
