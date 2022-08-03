@@ -39,8 +39,8 @@ public class CartController {
         @PostMapping(CART_API)
         public ResponseEntity<CartDto> postToCart(
                         @PathVariable("userId") @NotNull String userId,
-                        @RequestParam("restaurantId") @NotNull String restaurantId,
-                        @RequestParam("itemIndex") @NotNull Integer itemIndex,
+                        @RequestParam("restaurant-id") @NotNull String restaurantId,
+                        @RequestParam("item-index") @NotNull Integer itemIndex,
                         @RequestParam("quantity") @NotNull Integer quantity) {
 
                 return ResponseEntity.ok().body(
