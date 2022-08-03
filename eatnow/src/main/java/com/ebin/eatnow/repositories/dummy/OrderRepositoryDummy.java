@@ -3,6 +3,7 @@ package com.ebin.eatnow.repositories.dummy;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -12,9 +13,9 @@ import com.ebin.eatnow.repositories.OrderRepository;
 
 @Repository
 public class OrderRepositoryDummy implements OrderRepository {
-    private HashMap<String, Order> orders = new HashMap<>();
+    private HashMap<UUID, Order> orders = new HashMap<>();
 
-    public Order findById(String orderId) {
+    public Order findById(UUID orderId) {
         return Optional.ofNullable(orders.get(orderId))
                 .orElseThrow(RuntimeException::new);
     }
@@ -26,11 +27,21 @@ public class OrderRepositoryDummy implements OrderRepository {
                 .collect(Collectors.toList());
     }
 
+    public List<Order> findByUserIdPaged(String userId, int pageSize, int pageNumber) {
+
+        return findByUserId(userId);
+    }
+
     public List<Order> findByRestaurantId(String restaurantId) {
 
         return orders.values().stream().filter(
                 (i) -> (i.getRestaurantId().equals(restaurantId)))
                 .collect(Collectors.toList());
+    }
+
+    public List<Order> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber) {
+
+        return findByRestaurantId(restaurantId);
     }
 
     public List<Order> findByRestaurantIdAndStatus(String restaurantId, String status) {
@@ -42,7 +53,7 @@ public class OrderRepositoryDummy implements OrderRepository {
                 .collect(Collectors.toList());
     }
 
-    public boolean existsById(String orderId) {
+    public boolean existsById(UUID orderId) {
         return orders.containsKey(orderId);
     }
 
@@ -56,7 +67,7 @@ public class OrderRepositoryDummy implements OrderRepository {
         return order;
     }
 
-    public boolean delete(String orderId) {
+    public boolean delete(UUID orderId) {
         orders.remove(orderId);
         return true;
     }

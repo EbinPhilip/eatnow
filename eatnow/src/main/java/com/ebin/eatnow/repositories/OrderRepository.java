@@ -1,21 +1,26 @@
 package com.ebin.eatnow.repositories;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.ebin.eatnow.entities.Order;
 
 public interface OrderRepository {
-    public Order findById(String orderId);
+
+    public Order findById(UUID orderId);
 
     public List<Order> findByUserId(String userId);
+    public List<Order> findByUserIdPaged(String userId, int pageSize, int pageNumber);
+
     public List<Order> findByRestaurantId(String restaurantId);
+    public List<Order> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber);
     public List<Order> findByRestaurantIdAndStatus(String restaurantId, String status);
 
-    public boolean existsById(String orderId);
+    public boolean existsById(UUID orderId);
 
     public Order create(Order order);
 
     public Order update(Order order);
 
-    public boolean delete(String orderId);
+    public boolean delete(UUID orderId);
 }

@@ -34,7 +34,7 @@ public class OrderService {
 
     public OrderDto createOrder(OrderDto dto) {
 
-        String orderId = UUID.randomUUID().toString();
+        UUID orderId = UUID.randomUUID();
 
         UserAddressDto address = userAddressService
                 .getAddressByUserIdAndIndex(dto.getUserId(), dto.getAddressIndex());
@@ -45,7 +45,6 @@ public class OrderService {
                 .map(
                         (i) -> {
                             return OrderItem.builder()
-                                    .orderId(orderId)
                                     .itemIndex(i.getItemIndex())
                                     .quantity(i.getQuantity())
                                     .build();
@@ -59,18 +58,18 @@ public class OrderService {
                         items.keySet());
 
         double total = 0.0d;
-        for(ItemDto itemDto : itemList)
-        {
+        for (ItemDto itemDto : itemList) {
             OrderItem orderItem = items.get(itemDto.getItemIndex());
             orderItem.setPrice(itemDto.getPrice());
-            total = total + orderItem.getPrice()*orderItem.getQuantity();
+            total = total + orderItem.getPrice() * orderItem.getQuantity();
         }
 
         Order order = Order.builder()
                 .id(orderId)
                 .userId(dto.getUserId())
                 .restaurantId(dto.getRestaurantId())
-                .addressLocation(addressLocation)
+                .latitude(addressLocation.getLatitude())
+                .longitude(addressLocation.getLongitude())
                 .address(address.getAddress())
                 .items(items.values().stream().collect(Collectors.toList()))
                 .total(total)
@@ -83,7 +82,7 @@ public class OrderService {
 
     public PaymentDto confirmOrderAndPay(String orderId) {
 
-        Order order = orderRepository.findById(orderId);
+        Order order = orderRepository.findById(UUID.fromString(orderId));
         if (order.getStatus() != Order.Status.UNPAID) {
             throw new RuntimeException();
         }
@@ -91,7 +90,7 @@ public class OrderService {
         PaymentDto payment = paymentService.pay(orderId, order.getTotal(), "");
         if (payment.getStatus().equals(PaymentDto.PaymentStatus.SUCCESS.toString())) {
             order.setStatus(Order.Status.NEW);
-            order.setTransactionId(payment.getTransactionId());
+            order.setTransactionId(UUID.fromString(payment.getTransactionId()));
             orderRepository.update(order);
         } else {
             order.setStatus(Order.Status.CANCELLED);
@@ -102,7 +101,7 @@ public class OrderService {
 
     public OrderDto getOrder(String orderId) {
 
-        Order order = orderRepository.findById(orderId);
+        Order order = orderRepository.findById(UUID.fromString(orderId));
         return dtoFromOrder(order);
     }
 
@@ -135,7 +134,7 @@ public class OrderService {
 
     public OrderDto acceptOrder(String orderId) {
 
-        Order order = orderRepository.findById(orderId);
+        Order order = orderRepository.findById(UUID.fromString(orderId));
         if (order.getStatus() != Order.Status.NEW) {
             throw new RuntimeException();
         }
@@ -147,7 +146,7 @@ public class OrderService {
 
     public OrderDto completeOrder(String orderId) {
 
-        Order order = orderRepository.findById(orderId);
+        Order order = orderRepository.findById(UUID.fromString(orderId));
         if (order.getStatus() != Order.Status.ACCEPTED) {
             throw new RuntimeException();
         }
@@ -159,9 +158,9 @@ public class OrderService {
 
     public OrderDto cancelOrder(String orderId) {
 
-        Order order = orderRepository.findById(orderId);
+        Order order = orderRepository.findById(UUID.fromString(orderId));
 
-        if (paymentService.revert(order.getTransactionId())) {
+        if (paymentService.revert(order.getTransactionId().toString())) {
             order.setStatus(Order.Status.CANCELLED);
             order = orderRepository.update(order);
         } else {
@@ -174,7 +173,7 @@ public class OrderService {
     private OrderDto dtoFromOrder(Order order) {
 
         OrderDto dto = OrderDto.builder()
-                .orderId(order.getId())
+                .orderId(order.getId().toString())
                 .userId(order.getUserId())
                 .address(order.getAddress())
                 .restaurantId(order.getRestaurantId())
@@ -185,7 +184,8 @@ public class OrderService {
                                             i.getPrice(), i.getQuantity());
                                 }).collect(Collectors.toList()))
                 .total(order.getTotal())
-                .transactionId(order.getTransactionId())
+                .transactionId(order.getTransactionId() == null ? null
+                        : order.getTransactionId().toString())
                 .timeStamp(order.getTimeStamp())
                 .status(order.getStatus().toString())
                 .build();
