@@ -1,16 +1,19 @@
 package com.ebin.eatnow.entities;
 
 import javax.persistence.Entity;
-
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 @Entity
+@Table(name="user", schema = "public")
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
 public class User {
