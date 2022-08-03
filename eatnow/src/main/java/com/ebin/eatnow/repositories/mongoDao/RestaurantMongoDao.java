@@ -1,4 +1,4 @@
-package com.ebin.eatnow.repositories.dao;
+package com.ebin.eatnow.repositories.mongoDao;
 
 import java.util.List;
 
