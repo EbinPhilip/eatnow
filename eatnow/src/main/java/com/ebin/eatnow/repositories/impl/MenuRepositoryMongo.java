@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.ebin.eatnow.entities.Item;
 import com.ebin.eatnow.entities.Menu;
 import com.ebin.eatnow.repositories.MenuRepository;
-import com.ebin.eatnow.repositories.dao.MenuMongoDao;
+import com.ebin.eatnow.repositories.mongoDao.MenuMongoDao;
 
 @Repository
 @Primary

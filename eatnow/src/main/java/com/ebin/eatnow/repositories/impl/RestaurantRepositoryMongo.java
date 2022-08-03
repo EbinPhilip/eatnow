@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ebin.eatnow.entities.Restaurant;
 import com.ebin.eatnow.repositories.RestaurantRepository;
-import com.ebin.eatnow.repositories.dao.RestaurantMongoDao;
+import com.ebin.eatnow.repositories.mongoDao.RestaurantMongoDao;
 import com.ebin.eatnow.utils.Location;
 
 @Primary

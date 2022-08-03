@@ -3,7 +3,6 @@ package com.ebin.eatnow.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
@@ -15,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Builder.Default;
 
-@Entity
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
