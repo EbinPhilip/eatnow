@@ -19,8 +19,8 @@ public class UserAddressService {
     @Autowired
     private UserService userService;
     
-    public List<UserAddressDto> getAddressesByUserId(String userId)
-    {
+    public List<UserAddressDto> getAddressesByUserId(String userId) {
+
         userService.getUserById(userId);
         return addressRepository.findByUserId(userId).stream().map(
             (i)->{
@@ -28,51 +28,56 @@ public class UserAddressService {
             }).collect(Collectors.toList());
     }
 
-    public UserAddressDto getAddressByUserIdAndIndex(String userId, int index)
-    {
+    public UserAddressDto getAddressByUserIdAndIndex(String userId, int index) {
+
         UserAddress address = addressRepository.findByUserIdAndIndex(userId, index);
         return userAddressToDto(address);
     }
 
-    public UserAddressDto createAddress(UserAddressDto dto)
-    {
-        userService.getUserById(dto.getUserId());
+    public UserAddressDto createAddress(String userId, UserAddressDto dto) {
+
+        userService.getUserById(userId);
+        dto.setUserId(userId);
         UserAddress address = dtoToUserAddress(dto);
         addressRepository.create(address);
         return userAddressToDto(address);
     }
 
-    public UserAddressDto updateAddress(UserAddressDto dto)
-    {        
+    public UserAddressDto updateAddress(String userId, int index, UserAddressDto dto) {
+
+        dto.setUserId(userId);
+        dto.setIndex(index);        
         UserAddress address = dtoToUserAddress(dto);
         address = addressRepository.update(address);
         return userAddressToDto(address);
     }
 
-    public boolean deleteAddress(String userId, int index)
-    {
+    public boolean deleteAddress(String userId, int index) {
+
         return addressRepository.delete(userId, index);
     }
 
-    private UserAddress dtoToUserAddress(UserAddressDto dto)
-    {
+    private UserAddress dtoToUserAddress(UserAddressDto dto) {
+
+        Location location = new Location(dto.getLatitude(), dto.getLongitude());
         UserAddress address = UserAddress.builder()
             .userId(dto.getUserId())
             .index(dto.getIndex())
             .address(dto.getAddress())
-            .location(new Location(dto.getLatitude(), dto.getLongitude()))
+            .latitude(location.getLatitude())
+            .longitude(location.getLongitude())
             .build();
         return address;
     }
 
-    private UserAddressDto userAddressToDto(UserAddress address)
-    {
+    private UserAddressDto userAddressToDto(UserAddress address) {
+
         UserAddressDto dto = UserAddressDto.builder()
             .userId(address.getUserId())
             .index(address.getIndex())
             .address(address.getAddress())
-            .latitude(address.getLocation().getLatitude())
-            .longitude(address.getLocation().getLongitude())
+            .latitude(address.getLatitude())
+            .longitude(address.getLongitude())
             .build();
         return dto;
     }
