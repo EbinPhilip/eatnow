@@ -104,11 +104,8 @@ public class UserController {
     @PostMapping(USER_ADDRESS_ENDPOINT)
     public ResponseEntity<UserAddressDto> postUserAddress(@PathVariable @NotNull String userId,
             @Valid @RequestBody UserAddressDto address) {
-        if (!userId.equals(address.getUserId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "User id provided in the address is different");
-        }
-        return new ResponseEntity<UserAddressDto>(addressService.createAddress(address),
+
+        return new ResponseEntity<UserAddressDto>(addressService.createAddress(userId, address),
                 HttpStatus.OK);
     }
 
@@ -116,7 +113,7 @@ public class UserController {
             "#userId == authentication.principal.username")
     @GetMapping(USER_ADDRESS_API)
     public ResponseEntity<UserAddressDto> getUserAddressesByIndex(
-            @PathVariable("user-id") @NotNull String userId,
+            @PathVariable("userId") @NotNull String userId,
             @PathVariable("index") Integer index) {
 
         return ResponseEntity.ok().body(addressService.getAddressByUserIdAndIndex(userId, index));
@@ -126,15 +123,11 @@ public class UserController {
             "#userId == authentication.principal.username")
     @PutMapping(USER_ADDRESS_API)
     public ResponseEntity<UserAddressDto> putUserAddress(
-            @PathVariable("user-id") @NotNull String userId,
+            @PathVariable("userId") @NotNull String userId,
             @PathVariable("index") @NotNull Integer index,
             @Valid @RequestBody UserAddressDto address) {
 
-        if (!userId.equals(address.getUserId()) || !index.equals(address.getIndex())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "User id and address index cannot be changed");
-        }
-        return new ResponseEntity<UserAddressDto>(addressService.updateAddress(address),
+        return new ResponseEntity<UserAddressDto>(addressService.updateAddress(userId, index, address),
                 HttpStatus.OK);
     }
 
@@ -142,7 +135,7 @@ public class UserController {
             "#userId == authentication.principal.username")
     @DeleteMapping(USER_ADDRESS_API)
     public ResponseEntity<Boolean> deleteUserAddress(
-            @PathVariable("user-id") @NotNull String userId,
+            @PathVariable("userId") @NotNull String userId,
             @PathVariable("index") @NotNull Integer index) {
 
         return new ResponseEntity<Boolean>(addressService.deleteAddress(userId, index),
