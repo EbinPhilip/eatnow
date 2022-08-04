@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import ch.hsr.geohash.GeoHash;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
@@ -37,6 +38,11 @@ public class Location {
     {
         setLatitudeInternal(latitude);
         recalculatePosition();
+    }
+
+    public GeoHash getGeoHash() {
+        return GeoHash.withCharacterPrecision(latitude,
+            longitude, 7);
     }
 
     private void setLatitudeInternal(double latitude)

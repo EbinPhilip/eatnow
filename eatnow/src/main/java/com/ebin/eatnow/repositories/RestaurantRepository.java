@@ -16,7 +16,4 @@ public interface RestaurantRepository {
     public boolean existsById(String id);
 
     public Restaurant update(Restaurant restaurant);
-
-    public boolean isRestaurantServiceable(String restaurantId,
-            Location location, double distance);
 }
