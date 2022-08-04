@@ -1,5 +1,7 @@
 package com.ebin.eatnow.services;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,28 +15,31 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public UserDto getUserById(String userId)
-    {
+    public UserDto getUserById(String userId) {
+
         User user = repository.findById(userId);
         return userToDto(user);
     }
 
-    public UserDto createUser(UserDto dto)
-    {
+    @Transactional
+    public UserDto createUser(UserDto dto) {
+
         User user = dtoToUser(dto);
         repository.create(user);
         return userToDto(user);
     }
 
-    public UserDto updateUser(UserDto dto)
-    {
+    @Transactional
+    public UserDto updateUser(String userId, UserDto dto) {
+
+        dto.setId(userId);
         User user = dtoToUser(dto);
         repository.update(user);
         return userToDto(user);
     }
 
-    private User dtoToUser(UserDto dto)
-    {
+    private User dtoToUser(UserDto dto) {
+
         User user = User.builder()
             .id(dto.getId())
             .name(dto.getName())
@@ -44,8 +49,8 @@ public class UserService {
         return user;
     }
 
-    private UserDto userToDto(User user)
-    {
+    private UserDto userToDto(User user) {
+
         UserDto dto = UserDto.builder()
             .id(user.getId())
             .name(user.getName())
@@ -54,6 +59,4 @@ public class UserService {
             .build();
         return dto;
     }
-
-    
 }

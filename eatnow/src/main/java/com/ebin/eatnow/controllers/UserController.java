@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.ebin.eatnow.dtos.UserAddressDto;
 import com.ebin.eatnow.dtos.UserDto;
@@ -85,11 +84,7 @@ public class UserController {
             @PathVariable @NotNull String userId,
             @Valid @RequestBody UserDto user) {
 
-        if (!userId.equals(user.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "User id cannot be changed");
-        }
-        return ResponseEntity.ok().body(userService.updateUser(user));
+        return ResponseEntity.ok().body(userService.updateUser(userId, user));
     }
 
     @PreAuthorize("hasRole('ROLE_USER') and" +
