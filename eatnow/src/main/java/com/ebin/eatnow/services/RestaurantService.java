@@ -75,7 +75,7 @@ public class RestaurantService {
 
     public boolean isRestaurantServiceable(String restaurantId, Location location) {
 
-        return restaurantRepository.isRestaurantServiceable(restaurantId, location, max_distance);
+        return true;
     }
 
     private Restaurant dtoToRestaurant(RestaurantDto dto, Restaurant old)

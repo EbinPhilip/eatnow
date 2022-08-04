@@ -2,10 +2,13 @@ package com.ebin.eatnow.entities;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Id;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,4 +46,12 @@ public class Restaurant {
 
     @Default
     private int reviews = 0;
+
+    @SuppressWarnings("unchecked")
+    @JsonProperty("location")
+    private void setLocationFromJson(Map<String, Object> geoPoint) {
+
+        List<Double> points = (List<Double>)geoPoint.get("coordinates");
+        this.location = new GeoJsonPoint(points.get(0), points.get(1));
+    }
 }

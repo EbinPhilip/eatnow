@@ -87,10 +87,4 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
         restaurants.put(restaurant.getId(), restaurant);
         return restaurant;
     }
-
-    public boolean isRestaurantServiceable(String restaurantId,
-            Location location, double distance) {
-
-        return restaurants.containsKey(restaurantId);
-    }
 }
