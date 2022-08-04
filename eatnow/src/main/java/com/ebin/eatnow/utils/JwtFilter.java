@@ -19,8 +19,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.ebin.eatnow.dtos.RestaurantDto;
-import com.ebin.eatnow.dtos.UserDto;
 import com.ebin.eatnow.services.RestaurantService;
 import com.ebin.eatnow.services.UserService;
 
@@ -72,14 +70,14 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (role.equals("restaurant")) {
                 String restaurantId = claims.getSubject();
-                RestaurantDto restaurantDto = restaurantService.getRestaurantbyId(restaurantId);
+                // RestaurantDto restaurantDto = restaurantService.getRestaurantbyId(restaurantId);
                 authorities.add(new SimpleGrantedAuthority("ROLE_RESTAURANT"));
-                user = new User(restaurantDto.getId(), "", authorities);
+                user = new User(restaurantId, "", authorities);
             } else if (role.equals("user")) {
                 String userId = claims.getSubject();
-                UserDto userDto = userService.getUserById(userId);
+                // UserDto userDto = userService.getUserById(userId);
                 authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                user = new User(userDto.getId(), "", authorities);
+                user = new User(userId, "", authorities);
             }
 
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
