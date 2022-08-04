@@ -1,12 +1,9 @@
 package com.ebin.eatnow.repositories.dummy;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -30,18 +27,6 @@ public class UserRepositoryDummy implements UserRepository{
     public User findById(String id)
     {
         return Optional.ofNullable(users.get(id)).orElseThrow(NoSuchElementException::new);
-    }
-
-    public List<User> findById(List<String> ids)
-    {
-        List<User> usersList = new ArrayList<>();
-        usersList.addAll(
-            users.values().stream().filter(
-                (i)->(ids.contains(i.getId()))
-            ).collect(Collectors.toList())
-        );
-
-        return usersList;
     }
 
     public boolean existsById(String id)
