@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
@@ -105,28 +104,12 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
     public UserAddress create(UserAddress address)
     {
         address.setId(addresses.keySet().stream().count() + 1);
-        address.setIndex(
-            (int)(addresses.values().stream().filter(
-                (i)->(
-                    i.getUserId().equals(address.getUserId())
-                ))
-                .count() + 1)
-        );
-
         return save(address);
     }
 
     @Override
     public UserAddress update(UserAddress address)
     {
-        UserAddress old = addresses.values().stream().filter(
-            (i) -> (
-                i.getUserId().equals(address.getUserId()) &&
-                i.getIndex().equals(address.getIndex())
-            )
-        ).findFirst()
-        .orElseThrow(NoSuchElementException::new);
-        address.setId(old.getId());
         return save(address);
     }
 
