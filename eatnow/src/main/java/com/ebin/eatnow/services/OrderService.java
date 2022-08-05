@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +34,7 @@ public class OrderService {
     @Autowired
     private PaymentService paymentService;
 
+    @Transactional
     public OrderDto createOrder(OrderDto dto) {
 
         UUID orderId = UUID.randomUUID();
@@ -80,6 +83,7 @@ public class OrderService {
         return dtoFromOrder(order);
     }
 
+    @Transactional
     public PaymentDto confirmOrderAndPay(String orderId) {
 
         Order order = orderRepository.findById(UUID.fromString(orderId));
@@ -112,7 +116,8 @@ public class OrderService {
         if (status == null || status.isEmpty()) {
             ordersList = orderRepository.findByRestaurantId(restaurantId);
         } else {
-            ordersList = orderRepository.findByRestaurantIdAndStatus(restaurantId, status);
+            ordersList = orderRepository.findByRestaurantIdAndStatus(restaurantId,
+                    Order.Status.valueOf(status));
         }
 
         return ordersList.stream().map(
@@ -132,6 +137,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public OrderDto acceptOrder(String orderId) {
 
         Order order = orderRepository.findById(UUID.fromString(orderId));
@@ -144,6 +150,7 @@ public class OrderService {
         return dtoFromOrder(order);
     }
 
+    @Transactional
     public OrderDto completeOrder(String orderId) {
 
         Order order = orderRepository.findById(UUID.fromString(orderId));
@@ -156,6 +163,7 @@ public class OrderService {
         return dtoFromOrder(order);
     }
 
+    @Transactional
     public OrderDto cancelOrder(String orderId) {
 
         Order order = orderRepository.findById(UUID.fromString(orderId));
@@ -169,6 +177,7 @@ public class OrderService {
 
         return dtoFromOrder(order);
     }
+
 
     private OrderDto dtoFromOrder(Order order) {
 

@@ -14,13 +14,11 @@ public interface OrderRepository {
 
     public List<Order> findByRestaurantId(String restaurantId);
     public List<Order> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber);
-    public List<Order> findByRestaurantIdAndStatus(String restaurantId, String status);
+    public List<Order> findByRestaurantIdAndStatus(String restaurantId, Order.Status status);
 
     public boolean existsById(UUID orderId);
 
     public Order create(Order order);
 
     public Order update(Order order);
-
-    public boolean delete(UUID orderId);
 }
