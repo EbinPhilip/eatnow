@@ -71,8 +71,9 @@ public class MenuService {
 
     public ItemDto updateItem(String restaurantId, int itemIndex, ItemDto dto) {
 
+        dto.setItemIndex(itemIndex);
         Item item = dtoToItem(dto);
-        item = menuRepository.updateItem(restaurantId, itemIndex, item);
+        item = menuRepository.updateItem(restaurantId, item);
         return itemToDto(item);
     }
 
@@ -85,7 +86,7 @@ public class MenuService {
 
         Item item = menuRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
         item.setAvailable(isAvailable);
-        return menuRepository.updateItem(restaurantId, itemIndex, item).isAvailable();
+        return menuRepository.updateItem(restaurantId, item).isAvailable();
     }
 
     public boolean getItemAvailability(String restaurantId, int itemIndex) {
