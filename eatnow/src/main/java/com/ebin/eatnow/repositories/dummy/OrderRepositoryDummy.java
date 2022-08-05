@@ -44,9 +44,9 @@ public class OrderRepositoryDummy implements OrderRepository {
         return findByRestaurantId(restaurantId);
     }
 
-    public List<Order> findByRestaurantIdAndStatus(String restaurantId, String status) {
+    public List<Order> findByRestaurantIdAndStatus(String restaurantId, Order.Status status) {
 
-        Order.Status statusActual = Order.Status.valueOf(status);
+        Order.Status statusActual = status;
         return orders.values().stream().filter(
                 (i) -> (i.getRestaurantId().equals(restaurantId)
                         && i.getStatus().equals(statusActual)))
@@ -65,10 +65,5 @@ public class OrderRepositoryDummy implements OrderRepository {
     public Order update(Order order) {
         orders.put(order.getId(), order);
         return order;
-    }
-
-    public boolean delete(UUID orderId) {
-        orders.remove(orderId);
-        return true;
     }
 }
