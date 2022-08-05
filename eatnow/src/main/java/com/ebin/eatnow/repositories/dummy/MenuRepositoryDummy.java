@@ -98,20 +98,19 @@ public class MenuRepositoryDummy implements MenuRepository {
         return item;
     }
 
-    public Item updateItem(String restaurantId, int itemIndex, Item item) {
+    public Item updateItem(String restaurantId, Item item) {
 
         Menu menu = findByRestaurantId(restaurantId);
         menu.getItems().stream()
-                        .filter((i)->(i.getItemIndex() == itemIndex))
+                        .filter((i)->(i.getItemIndex() == item.getItemIndex()))
                         .findFirst()
                         .orElseThrow(RuntimeException::new);
         
         List<Item> items = menu.getItems()
                         .stream()
-                        .filter((i)->(i.getItemIndex() != itemIndex))
+                        .filter((i)->(i.getItemIndex() != item.getItemIndex()))
                         .collect(Collectors.toList());
 
-        item.setItemIndex(itemIndex);
         items.add(item);
 
         menu.setItems(items);

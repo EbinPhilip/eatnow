@@ -19,7 +19,7 @@ public interface MenuRepository {
 
     public Item createItem(String restaurantId, Item item);
 
-    public Item updateItem(String restaurantId, int itemIndex, Item item);
+    public Item updateItem(String restaurantId, Item item);
 
     public boolean deleteItem(String restaurantId, int itemIndex);
 

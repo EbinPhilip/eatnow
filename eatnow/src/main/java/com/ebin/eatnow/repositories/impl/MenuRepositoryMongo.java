@@ -173,15 +173,13 @@ public class MenuRepositoryMongo implements MenuRepository {
         return null;
     }
 
-    public Item updateItem(String restaurantId, int itemIndex, Item item) {
+    public Item updateItem(String restaurantId, Item item) {
 
         Menu menu = findByRestaurantIdFromCache(restaurantId);
-        int index = Optional.ofNullable(findListPositionOfItem(menu, itemIndex))
+        int index = Optional.ofNullable(findListPositionOfItem(menu, item.getItemIndex()))
                 .orElseThrow(RuntimeException::new);
 
-        item.setItemIndex(itemIndex);
         menu.getItems().set(index, item);
-
         saveMenu(menu);
 
         return item;
