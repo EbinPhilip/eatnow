@@ -2,6 +2,7 @@ package com.ebin.eatnow.controllers;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.validation.Valid;
@@ -27,6 +28,7 @@ import com.ebin.eatnow.dtos.MenuDto;
 import com.ebin.eatnow.dtos.RestaurantDto;
 import com.ebin.eatnow.services.MenuService;
 import com.ebin.eatnow.services.RestaurantService;
+import com.ebin.eatnow.utils.Location;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -41,6 +43,8 @@ public class RestaurantController {
     public static final String MENU_ENDPOINT = "/menu/{restaurantId}";
     public static final String ITEM_ENDPOINT = MENU_ENDPOINT + "/{itemIndex}";
     public static final String ITEM_AVAILABLE_ENDPOINT = MENU_ENDPOINT + "/{itemIndex}/is-available";
+
+    public static final String INTERNAL_FETCH_ITEMS_ENDPOINT = "/internal/serviceable-items";
 
     @Autowired
     private RestaurantService restaurantService;
@@ -197,5 +201,20 @@ public class RestaurantController {
         return new ResponseEntity<Boolean>(
                 menuService.setItemAvailability(restaurantId, itemIndex, available),
                 HttpStatus.OK);
+    }
+
+    @GetMapping(INTERNAL_FETCH_ITEMS_ENDPOINT)
+    public ResponseEntity<List<ItemDto>> getServiceableItems(
+            @RequestParam(name = "restaurant-id") String restaurantId,
+            @RequestParam(name = "latitude") double latitude,
+            @RequestParam(name = "longitude") double longitude,
+            @RequestParam(name = "indices") Set<Integer> itemIndices) {
+
+        return new ResponseEntity<List<ItemDto>>(menuService
+                .checkServiceabilityAndFetchItems(restaurantId,
+                        new Location(latitude, longitude),
+                        itemIndices),
+                HttpStatus.OK);
+
     }
 }
