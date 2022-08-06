@@ -9,10 +9,10 @@ import com.eatnow.order.utils.RedisCache;
 @Configuration
 public class AppConfig {
 
-    @Value("${cart.redis.host}")
+    @Value("${order.redis.host}")
     private String redisHost;
 
-    @Value("${cart.redis.port}")
+    @Value("${order.redis.port}")
     private int redisPort;
 
     @Bean
