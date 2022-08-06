@@ -19,8 +19,6 @@ import lombok.Builder.Default;
 @AllArgsConstructor
 @Builder
 public class RestaurantDto {
-    @NonNull
-    @NotBlank
     private String id;
 
     @NonNull
