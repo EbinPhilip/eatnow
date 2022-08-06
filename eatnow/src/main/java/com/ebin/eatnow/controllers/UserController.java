@@ -37,6 +37,8 @@ public class UserController {
     public static final String USER_ADDRESS_ENDPOINT = USER_API + "/address";
     public static final String USER_ADDRESS_API = USER_ADDRESS_ENDPOINT + "/{index}";
 
+    public static final String INTERNAL_USER_ADDRESS_ENDPOINT = "/internal/user-address";
+
     @Autowired
     private UserService userService;
 
@@ -54,14 +56,14 @@ public class UserController {
 
         UserDto user = userService.getUserById(userId);
         String key = Jwts
-            .builder()
-            .setIssuer(issuer)
-            .setSubject(user.getId())
-            .claim("role", "user")
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 86400000))
-            .signWith(new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName()))
-            .compact();
+                .builder()
+                .setIssuer(issuer)
+                .setSubject(user.getId())
+                .claim("role", "user")
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 86400000))
+                .signWith(new SecretKeySpec(secret.getBytes(), SignatureAlgorithm.HS256.getJcaName()))
+                .compact();
         return ResponseEntity.ok().body(key);
     }
 
@@ -134,6 +136,16 @@ public class UserController {
             @PathVariable("index") @NotNull Integer index) {
 
         return new ResponseEntity<Boolean>(addressService.deleteAddress(userId, index),
+                HttpStatus.OK);
+    }
+
+    @GetMapping(INTERNAL_USER_ADDRESS_ENDPOINT)
+    public ResponseEntity<UserAddressDto> getUserAddressInternal(
+            @RequestParam("user-id") String userId,
+            @RequestParam("address-index") int index) {
+
+        return new ResponseEntity<UserAddressDto>(addressService
+                .getAddressByUserIdAndIndex(userId, index),
                 HttpStatus.OK);
     }
 }
