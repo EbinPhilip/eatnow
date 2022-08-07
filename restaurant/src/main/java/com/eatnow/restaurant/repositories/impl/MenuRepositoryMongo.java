@@ -7,10 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -27,22 +24,13 @@ import redis.clients.jedis.Jedis;
 @Primary
 public class MenuRepositoryMongo implements MenuRepository {
 
+    private static final String menuPrefix = "m";
+
     @Autowired
     private MenuMongoDao dao;
 
+    @Autowired
     private RedisCache cache;
-
-    @Value("${menu.redis.host}")
-    private String redisHost;
-
-    @Value("${menu.redis.port}")
-    private int redisPort;
-
-    @PostConstruct
-    private void initCache() {
-
-        cache = new RedisCache(redisHost, redisPort);
-    }
 
     public Menu findByRestaurantId(String id) {
 
@@ -61,12 +49,12 @@ public class MenuRepositoryMongo implements MenuRepository {
 
         try (Jedis jedis = cache.getResource()) {
 
-            String menuJson = jedis.get(restaurantId);
+            String menuJson = jedis.hget(restaurantId, menuPrefix);
             if (menuJson == null) {
 
                 menu = findByRestaurantIdFromDb(restaurantId);
                 menuJson = toJson(menu);
-                jedis.set(restaurantId, menuJson);
+                jedis.hset(restaurantId, menuPrefix, menuJson);
             } else {
 
                 menu = fromJson(menuJson);
@@ -122,17 +110,17 @@ public class MenuRepositoryMongo implements MenuRepository {
 
         try (Jedis jedis = cache.getResource()) {
 
-            if (jedis.get(id) != null) {
+            if (jedis.exists(id)) {
                 return true;
             }
         }
-        return dao.existsById(id);
+        return dao.existsByRestaurantId(id);
     }
 
     private Menu saveMenu(Menu menu) {
 
         try (Jedis jedis = cache.getResource()) {
-            jedis.set(menu.getRestaurantId(), toJson(menu));
+            jedis.hset(menu.getRestaurantId(), menuPrefix, toJson(menu));
         }
 
         return dao.save(menu);
@@ -192,7 +180,6 @@ public class MenuRepositoryMongo implements MenuRepository {
                 .orElseThrow(RuntimeException::new);
 
         menu.getItems().remove(index);
-
         saveMenu(menu);
 
         return true;

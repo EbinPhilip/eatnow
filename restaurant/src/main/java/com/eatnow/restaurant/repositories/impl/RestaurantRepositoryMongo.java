@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
@@ -29,27 +26,16 @@ import redis.clients.jedis.Jedis;
 @Repository
 public class RestaurantRepositoryMongo implements RestaurantRepository {
 
-    private static final Duration restaurantEntryCacheTimeout = Duration.ofSeconds(900);
-    private static final Duration restaurantsNearbyCacheTimeout = Duration.ofSeconds(300);
+    private static final Duration restaurantsNearbyCacheTimeout = Duration.ofMinutes(5);
 
     private static final String distancePrefix = ":";
+    private static final String restaurantPrefix = "r";
 
     @Autowired
     private RestaurantMongoDao mongoDao;
 
+    @Autowired
     private RedisCache cache;
-
-    @Value("${restaurant.redis.host}")
-    private String redisHost;
-
-    @Value("${restaurant.redis.port}")
-    private int redisPort;
-
-    @PostConstruct
-    private void initCache() {
-
-        cache = new RedisCache(redisHost, redisPort);
-    }
 
     public Restaurant findById(String id) {
 
@@ -68,16 +54,15 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
 
         try (Jedis jedis = cache.getResource()) {
 
-            String restaurantJson = jedis.get(id);
+            String restaurantJson = jedis.hget(id, restaurantPrefix);
             if (restaurantJson == null) {
 
                 restaurant = findByIdFromDb(id);
                 restaurantJson = toJson(restaurant);
-                jedis.setex(id, restaurantEntryCacheTimeout.getSeconds(), restaurantJson);
+                jedis.hset(id, restaurantPrefix, restaurantJson);
             } else {
 
                 restaurant = fromJson(restaurantJson);
-                jedis.expire(id, restaurantEntryCacheTimeout.getSeconds());
             }
         }
 
@@ -168,7 +153,7 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
 
         try (Jedis jedis = cache.getResource()) {
 
-            if (jedis.get(id) != null) {
+            if (jedis.exists(id)) {
                 return true;
             }
         }
@@ -179,8 +164,7 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
 
         try (Jedis jedis = cache.getResource()) {
 
-            jedis.setex(restaurant.getId(), restaurantEntryCacheTimeout.getSeconds(),
-                    toJson(restaurant));
+            jedis.hset(restaurant.getId(), restaurantPrefix, toJson(restaurant));
         }
         return mongoDao.save(restaurant);
     }
