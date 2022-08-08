@@ -5,8 +5,12 @@ plugins {
 }
 
 group = 'com.eatnow'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '17'
+
+jar {
+	enabled = false
+}
 
 repositories {
 	mavenCentral()
