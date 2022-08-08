@@ -2,9 +2,10 @@ package com.eatnow.restaurant;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
-@SpringBootApplication
+@SpringBootApplication(exclude= {UserDetailsServiceAutoConfiguration.class})
 @EnableMongoRepositories(basePackages = "com.eatnow.restaurant.repositories.mongoDao")
 public class RestaurantApplication {
 
