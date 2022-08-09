@@ -1,0 +1,1468 @@
+[
+    {
+        "name": "Zam Zam Restaurant",
+        "address": "Puthuppally Road, Kanjikuzhi, Kottayam",
+        "location": {
+            "x": 9.5872127,
+            "y": 76.54342559999999,
+            "type": "Point",
+            "coordinates": [
+                9.5872127,
+                76.54342559999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$kh.FcFvaBGmr/LF.FAX9rewYgDiL/hX5msb.7t.Dnglu39Bc7nKDy",
+        "rating": 3.4,
+        "reviews": 140,
+        "open": true,
+        "_id": "ChIJk3BYWYErBjsRZVtC8eQWrjs"
+    },
+    {
+        "name": "Indian Coffee House",
+        "address": "JGPC+985, Medical College Road, Gandhi Nagar, Perumbaikad",
+        "location": {
+            "x": 9.635896299999999,
+            "y": 76.5208596,
+            "type": "Point",
+            "coordinates": [
+                9.635896299999999,
+                76.5208596
+            ]
+        },
+        "tags": [
+            "cafe",
+            "restaurant",
+            "point_of_interest",
+            "store",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$2Qmwln6gOW0GAeNW3WJhsO0dezxS1TpIThV.XMPv.i/h315.dXtwi",
+        "rating": 3.4,
+        "reviews": 832,
+        "open": true,
+        "_id": "ChIJGWrhacvUBzsR6fmxdzC_BUs"
+    },
+    {
+        "name": "Nithya Restaurant",
+        "address": "JGJG+759, Medical College Road, Gandhi Nagar, Kottayam",
+        "location": {
+            "x": 9.630668,
+            "y": 76.52548399999999,
+            "type": "Point",
+            "coordinates": [
+                9.630668,
+                76.52548399999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$3DPz4rPezFvVKvBTmoYdZux.cpYrqGORF7BggAB2A454zOK6ba0ni",
+        "rating": 3.1,
+        "reviews": 23,
+        "open": true,
+        "_id": "ChIJgT3RizUrBjsRbQmEOm6JSns"
+    },
+    {
+        "name": "KFC",
+        "address": "Ground Floor, Kottayam - Kumily Road, Kanjikuzhi, Kottayam",
+        "location": {
+            "x": 9.587883,
+            "y": 76.5453691,
+            "type": "Point",
+            "coordinates": [
+                9.587883,
+                76.5453691
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "meal_takeaway",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$9VFEaQ7T35AbTJ2y8xLyzeABlPuh3ZglZgpVY3D9EVMXCtBswdAmi",
+        "rating": 3.8,
+        "reviews": 4415,
+        "open": true,
+        "_id": "ChIJWXLBp4MrBjsRCdnKKfPt0LM"
+    },
+    {
+        "name": "Orchid Residency",
+        "address": "Boat Jetty Road, Near SBI Bank, Pulimoodu Junction, Kottayam",
+        "location": {
+            "x": 9.5890112,
+            "y": 76.5211041,
+            "type": "Point",
+            "coordinates": [
+                9.5890112,
+                76.5211041
+            ]
+        },
+        "tags": [
+            "cafe",
+            "lodging",
+            "restaurant",
+            "point_of_interest",
+            "store",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$mvP8YJO/Z20bDYYkxfcGGuwqPkA8LQBMyKuQffbDOR0us.OP1qFoW",
+        "rating": 3.3,
+        "reviews": 699,
+        "open": true,
+        "_id": "ChIJLdkTwqArBjsRNaXsqxweSmA"
+    },
+    {
+        "name": "Domino's Pizza",
+        "address": "Shop No-2, 104E, Suburban Square, Kottayam",
+        "location": {
+            "x": 9.5876526,
+            "y": 76.5455741,
+            "type": "Point",
+            "coordinates": [
+                9.5876526,
+                76.5455741
+            ]
+        },
+        "tags": [
+            "meal_delivery",
+            "meal_takeaway",
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$Ur2HgWYqlJB9RVlW34MSreBk56JXb7eoOAmJpo7ltibztYHOrs3k2",
+        "rating": 4.1,
+        "reviews": 3259,
+        "open": true,
+        "_id": "ChIJWTiR81DB5zsR79uM2Sp_I3k"
+    },
+    {
+        "name": "Third Place cafe",
+        "address": "near Manorama Junction, Jacksons building, Chelliyozhukkom Road, near Manorama Junction, Kottayam - Kumily Road, Kottayam",
+        "location": {
+            "x": 9.589182100000002,
+            "y": 76.5290475,
+            "type": "Point",
+            "coordinates": [
+                9.589182100000002,
+                76.5290475
+            ]
+        },
+        "tags": [
+            "bakery",
+            "grocery_or_supermarket",
+            "restaurant",
+            "point_of_interest",
+            "store",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$NuXyQ96DWMVeb2zIncbzJOdYBKSa8LJDAqxnhbniDmVWeEe9lnRFO",
+        "rating": 4.2,
+        "reviews": 1319,
+        "open": true,
+        "_id": "ChIJIQdPH6ArBjsR0pD0-O4X_oc"
+    },
+    {
+        "name": "Favourite Pizza",
+        "address": "655 B,Ozees Complex, Kozhencheryroad, Kanjikuzhi, Kottayam",
+        "location": {
+            "x": 9.5851118,
+            "y": 76.5442951,
+            "type": "Point",
+            "coordinates": [
+                9.5851118,
+                76.5442951
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$T7X0ocO0Cms7zB7lkOf75Oi/BpA4qVhB6XVePkbS0942PnwrrdTge",
+        "rating": 4.2,
+        "reviews": 1062,
+        "open": true,
+        "_id": "ChIJCWYKZmksBjsRt8Kncns8sBA"
+    },
+    {
+        "name": "Ummu's kitchen",
+        "address": "HGW5+8PF, Kottayam - Kumarakom Road, Kummanam, Kottayam",
+        "location": {
+            "x": 9.595814299999999,
+            "y": 76.50928329999999,
+            "type": "Point",
+            "coordinates": [
+                9.595814299999999,
+                76.50928329999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$CPHrYMzJaYqA2yrf2KHRpODh4OAb1UAB1OZtps8D14w/0fYXv0qv.",
+        "rating": 5.0,
+        "reviews": 1,
+        "open": true,
+        "_id": "ChIJzR3tsMErBjsRsAhb5MyPrzM"
+    },
+    {
+        "name": "Vadakkanparambil Homely Meals",
+        "address": "HGW6+HH3, Kummanam, Kottayam",
+        "location": {
+            "x": 9.596379999999998,
+            "y": 76.5114205,
+            "type": "Point",
+            "coordinates": [
+                9.596379999999998,
+                76.5114205
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$uH.UGOooPBRHvhQcu4FkzuzXg0yXFOd6HmWDZj7N8/s2o.7X2tX5u",
+        "rating": 4.0,
+        "reviews": 23,
+        "open": true,
+        "_id": "ChIJ5dRs19grBjsRh-a0XDVexew"
+    },
+    {
+        "name": "Halal Chicken",
+        "address": "HGW2+QX2, Ilankavu Road, Kummanam, Kottayam",
+        "location": {
+            "x": 9.596878199999999,
+            "y": 76.502399,
+            "type": "Point",
+            "coordinates": [
+                9.596878199999999,
+                76.502399
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$9SWrtyP3MdlXyKdAyQI.me9BKV0Hr9qAtfrD4Ke2LdMOrEgewNhMO",
+        "rating": 0.0,
+        "reviews": 0,
+        "open": true,
+        "_id": "ChIJa_pSU9UrBjsRA8pixVVDhIU"
+    },
+    {
+        "name": "Khaleef Mandi",
+        "address": "opposite Royal Enfield Showroom, Kottayam - Kumarakom Road, Chalukunnu, Kottayam",
+        "location": {
+            "x": 9.5948925,
+            "y": 76.5138456,
+            "type": "Point",
+            "coordinates": [
+                9.5948925,
+                76.5138456
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$iL1g67B4SWAFwPcnx0LB1uzziy7tx1DgADNXRFZKCbge04QWxXyt6",
+        "rating": 3.6,
+        "reviews": 410,
+        "open": true,
+        "_id": "ChIJMwGUP78rBjsR3uNVnx8E-wE"
+    },
+    {
+        "name": "Al Ameen Hotel",
+        "address": "HGV2+JVH, Alummood Bus Stop, alummood,thazhathangadi, Kottayam - Kumarakom Road, Kummanam, Kottayam",
+        "location": {
+            "x": 9.594071499999998,
+            "y": 76.5022304,
+            "type": "Point",
+            "coordinates": [
+                9.594071499999998,
+                76.5022304
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$ckP80mlstcIpQDLd4nECEOW7sLKu2GApDlBttUt5VtHx.hNusjP/G",
+        "rating": 4.5,
+        "reviews": 4,
+        "open": true,
+        "_id": "ChIJ4eJCZ6grBjsRc2Hu1i2ksfs"
+    },
+    {
+        "name": "Family Restaurant",
+        "address": "HGV2+MRH, Unnamed Road, Kummanam, Kottayam",
+        "location": {
+            "x": 9.5941928,
+            "y": 76.5020986,
+            "type": "Point",
+            "coordinates": [
+                9.5941928,
+                76.5020986
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$A1NaH5DOAorwoSZ5qJqmwOWr7EhduhTKyj7s6iBywZi5XVAlsw3M2",
+        "rating": 3.0,
+        "reviews": 2,
+        "open": true,
+        "_id": "ChIJhytkoycrBjsRlhrQ-k6V8z0"
+    },
+    {
+        "name": "Pandi Selvam",
+        "address": "JG36+FXX, Pallathusseril (Kollaparambil) Building, near Old Seminary, Chungam, Kottayam",
+        "location": {
+            "x": 9.603746399999999,
+            "y": 76.5124733,
+            "type": "Point",
+            "coordinates": [
+                9.603746399999999,
+                76.5124733
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$AtYVICojE.A7TtNASxUj5.tFauBh4ZIsyEP9./8CT.AQo56S4nT9S",
+        "rating": 0.0,
+        "reviews": 0,
+        "open": true,
+        "_id": "ChIJB4SrnG8rBjsRJDHdRvufJIM"
+    },
+    {
+        "name": "GARLIC FOOD HUB",
+        "address": "HGR6+9GP, near KURISUPALLY JUNCTION, Puthanangady Road, Kottayam",
+        "location": {
+            "x": 9.5909514,
+            "y": 76.5113157,
+            "type": "Point",
+            "coordinates": [
+                9.5909514,
+                76.5113157
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$5gekwM7CaOmLSfONCdKNlOFqRIsP7ZqGfoPFDVDUxGJnnKIwyHAxS",
+        "rating": 3.0,
+        "reviews": 2,
+        "open": true,
+        "_id": "ChIJmXW0hXQrBjsRtFQ5BhcWX5s"
+    },
+    {
+        "name": "Restaurant",
+        "address": "near Kurishupally, Puthenangady, Kottayam",
+        "location": {
+            "x": 9.590821199999999,
+            "y": 76.51111159999999,
+            "type": "Point",
+            "coordinates": [
+                9.590821199999999,
+                76.51111159999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$xWpCQJ4epodL9vk1qB5k0edJEHzh5PTixKr/YLVBS/hE5Ku0Hn1fu",
+        "rating": 3.3,
+        "reviews": 3,
+        "open": true,
+        "_id": "ChIJNwczuyUrBjsR_EUEzS17oSM"
+    },
+    {
+        "name": "Way to Fresh",
+        "address": "XXIII 98 A & XXIII 98 B KOSAMATTOM PUTHANANGADY P.O, Kottayam",
+        "location": {
+            "x": 9.5910574,
+            "y": 76.5117771,
+            "type": "Point",
+            "coordinates": [
+                9.5910574,
+                76.5117771
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$DMmPLDRf4KQXa.n4Iq6uLe0F4xI9F38KGUmFXay2lLaQovV5XN9Sy",
+        "rating": 4.5,
+        "reviews": 6,
+        "open": true,
+        "_id": "ChIJ21oOF1IrBjsR2dAhFA4sLUU"
+    },
+    {
+        "name": "Halal chicken. കോഴികട (ഹലാൽ)",
+        "address": "HGX2+738, Kummanam Juma Masjid Road, Kummanam, Chengalam South",
+        "location": {
+            "x": 9.5981589,
+            "y": 76.5001979,
+            "type": "Point",
+            "coordinates": [
+                9.5981589,
+                76.5001979
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$PEvAh0h94qiwel2hYSPz6OE6NNaYKHjLMEKXMceMiKdgHzkuIbxse",
+        "rating": 5.0,
+        "reviews": 1,
+        "open": true,
+        "_id": "ChIJ8U7atW4rBjsRaCAbcsUGbeo"
+    },
+    {
+        "name": "Lebanese Grills",
+        "address": "Lebanese Grills, opposite Kurishupally, nearby Hypermart, Kottayam",
+        "location": {
+            "x": 9.590545799999997,
+            "y": 76.5115064,
+            "type": "Point",
+            "coordinates": [
+                9.590545799999997,
+                76.5115064
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "point_of_interest",
+            "food",
+            "establishment"
+        ],
+        "password": "$2a$05$hWtSpI5M7ztTaS38avCRu.f2YmWYq88X1rrBA/4WokBGj2kRgWsf6",
+        "rating": 4.5,
+        "reviews": 36,
+        "open": true,
+        "_id": "ChIJTXqnnIorBjsRHhYSyyJZDXE"
+    },
+    {
+        "name": "Hotel Aida",
+        "address": "Aida Junction, State Highway 1, Kottayam",
+        "location": {
+            "x": 9.582773499999998,
+            "y": 76.5216469,
+            "type": "Point",
+            "coordinates": [
+                9.582773499999998,
+                76.5216469
+            ]
+        },
+        "tags": [
+            "lodging",
+            "bar",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$5FYeloDM6pf4iRyplzxZXuUSmdWMbACGCvxWN/PjNZM3.PiZi.aJC",
+        "rating": 4.1,
+        "reviews": 4828,
+        "open": true,
+        "_id": "ChIJpX0mqXMrBjsRU4lDtFbuLVA"
+    },
+    {
+        "name": "Shalimar Restaurant",
+        "address": "State Highway 1, Kodimatha, Kottayam",
+        "location": {
+            "x": 9.5807869,
+            "y": 76.52059779999999,
+            "type": "Point",
+            "coordinates": [
+                9.5807869,
+                76.52059779999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$eMuR.c.TKZNtKKGrC3rwoucUQp3vjjBdnhtu7Th9GtQECwdeqenMW",
+        "rating": 3.7,
+        "reviews": 2276,
+        "open": true,
+        "_id": "ChIJZ8rjUnMrBjsR-iOk2NECy88"
+    },
+    {
+        "name": "12 to 12 Bar-Be-Que",
+        "address": "Pukadiyil Building, Lal Bahadur Shastri Road, Nagampadam, Kottayam",
+        "location": {
+            "x": 9.5923382,
+            "y": 76.5268432,
+            "type": "Point",
+            "coordinates": [
+                9.5923382,
+                76.5268432
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$qHl996I0hUr.Mv6qmzPn0OzmSFooFbMZUW5AKIOh0x16YVIszA4gO",
+        "rating": 4.2,
+        "reviews": 7789,
+        "open": true,
+        "_id": "ChIJwU-WQHUrBjsRCgX-xhO2whs"
+    },
+    {
+        "name": "Cater Bakers",
+        "address": "CSI Square Building, Opposite YMCA, Shastri Road Junction, Shashtri Road, Kottayam",
+        "location": {
+            "x": 9.591914799999998,
+            "y": 76.5226589,
+            "type": "Point",
+            "coordinates": [
+                9.591914799999998,
+                76.5226589
+            ]
+        },
+        "tags": [
+            "bakery",
+            "cafe",
+            "meal_takeaway",
+            "restaurant",
+            "store",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$nNXnqFvEoaHDG39CND5hNOic4MB4UppdeybBxSXzG3iMYj/fYhk2i",
+        "rating": 3.3,
+        "reviews": 75,
+        "open": true,
+        "_id": "ChIJMQLQiworBjsRYd5bvi_hDcg"
+    },
+    {
+        "name": "Indian Coffee House",
+        "address": "HGRF+H39, YMCA Junction, YMCA Building, Second Floor, YMCA Road, Kottayam",
+        "location": {
+            "x": 9.5914106,
+            "y": 76.5227297,
+            "type": "Point",
+            "coordinates": [
+                9.5914106,
+                76.5227297
+            ]
+        },
+        "tags": [
+            "cafe",
+            "restaurant",
+            "store",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$Cu6jia3e2Tzmo6zyJISweuyDakgMRBqgYw4FC1juUBob.MmnigIv2",
+        "rating": 3.8,
+        "reviews": 1552,
+        "open": true,
+        "_id": "ChIJqxbYfAorBjsRSgKOZ4jVlSk"
+    },
+    {
+        "name": "ChicKing ,Kodimatha",
+        "address": "near Malayala Manorama printing unit, State Highway 1, Kodimatha, Kottayam",
+        "location": {
+            "x": 9.5703587,
+            "y": 76.519481,
+            "type": "Point",
+            "coordinates": [
+                9.5703587,
+                76.519481
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$W9duIC9jAIcpHrXRoJnPGucWOlev9WV3Tg8CoL6UNa4G.W26PXF4q",
+        "rating": 3.8,
+        "reviews": 2318,
+        "open": true,
+        "_id": "ChIJbQv0ybgrBjsRx_MaRL_UdSE"
+    },
+    {
+        "name": "Hotel New Anandamandiram",
+        "address": "Temple Road, Thirunakara, Kottayam",
+        "location": {
+            "x": 9.590319999999998,
+            "y": 76.52087999999999,
+            "type": "Point",
+            "coordinates": [
+                9.590319999999998,
+                76.52087999999999
+            ]
+        },
+        "tags": [
+            "bakery",
+            "restaurant",
+            "store",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$72pXYVxzkL7Zxw2QG/tvvuX/n4U7tJ1nKoZDWLCQw8e0sNjnFc7F2",
+        "rating": 3.7,
+        "reviews": 545,
+        "open": true,
+        "_id": "ChIJ93mFpKArBjsRsZo2dcjYb50"
+    },
+    {
+        "name": "Kana Restaurant",
+        "address": "Baker junction, Kottayam",
+        "location": {
+            "x": 9.593553499999999,
+            "y": 76.5228036,
+            "type": "Point",
+            "coordinates": [
+                9.593553499999999,
+                76.5228036
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$beEH14bNeTOtpxEB4juvIemynO34i.3TKWnCVDIz6NqEz0yg.TM.i",
+        "rating": 3.9,
+        "reviews": 207,
+        "open": true,
+        "_id": "ChIJEyGqqgsrBjsRcvU84aTIXUc"
+    },
+    {
+        "name": "Favourite Pizza",
+        "address": "kaniamkulam building, medical college by pass, chungam, Chalukunnu, Kottayam",
+        "location": {
+            "x": 9.596769199999999,
+            "y": 76.51701720000001,
+            "type": "Point",
+            "coordinates": [
+                9.596769199999999,
+                76.51701720000001
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$UVaHWRqmcnxfYydAhL9B4.16P5KHk8.G0HWhPPm6sBKkWjikjpioO",
+        "rating": 4.2,
+        "reviews": 641,
+        "open": true,
+        "_id": "ChIJYzNF3w4rBjsRHMbqcHfWtkM"
+    },
+    {
+        "name": "Aaryas Restaurant",
+        "address": "Temple Road, Opp BSNL office, Thirunakara, Kottayam",
+        "location": {
+            "x": 9.590244499999999,
+            "y": 76.52096569999999,
+            "type": "Point",
+            "coordinates": [
+                9.590244499999999,
+                76.52096569999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$YaxP0TMhzPd8RN7xNKfJ3uNbuW5oW6w3tBFWNP6Y3GWwHwSImmnZ6",
+        "rating": 3.8,
+        "reviews": 1063,
+        "open": true,
+        "_id": "ChIJW2dzP9VcVBAREsBjTKD8js4"
+    },
+    {
+        "name": "Arabian Restaurant & Caterers",
+        "address": "Puthookkadans Building, Near Municipal Office, State Highway 1, Kottayam",
+        "location": {
+            "x": 9.590691899999998,
+            "y": 76.52209049999999,
+            "type": "Point",
+            "coordinates": [
+                9.590691899999998,
+                76.52209049999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$WjA/DMII.65DlutrLQw7MuytqTrwDBalQHjIoDJ4y5QvdKw3396qu",
+        "rating": 3.4,
+        "reviews": 524,
+        "open": true,
+        "_id": "ChIJFc72FdVcVBARh6hPhF5TnaI"
+    },
+    {
+        "name": "Ceasar Palace Restaurant",
+        "address": "HGWF+QR8, M.C. Road, Nagampadam, Kottayam",
+        "location": {
+            "x": 9.5969225,
+            "y": 76.5245893,
+            "type": "Point",
+            "coordinates": [
+                9.5969225,
+                76.5245893
+            ]
+        },
+        "tags": [
+            "bar",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$TWWWeHY/fbw9wY5Ro0mWE.uHjXSgSiy6NgFgF5r9dI4wnbkkGw6Se",
+        "rating": 3.9,
+        "reviews": 716,
+        "open": true,
+        "_id": "ChIJc-tfngsrBjsRF8UUXRmnyeI"
+    },
+    {
+        "name": "Arcadia",
+        "address": "HGWH+63F, Nagampadam Bus Station Road, Nagampadam, Kottayam",
+        "location": {
+            "x": 9.5955525,
+            "y": 76.5276718,
+            "type": "Point",
+            "coordinates": [
+                9.5955525,
+                76.5276718
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$/YHiB5I9fA5ntRrTEXHsKuibxaD6YUHoIdEBu2usAWQJsuzUGLeYS",
+        "rating": 3.6,
+        "reviews": 237,
+        "open": true,
+        "_id": "ChIJofzdjXQrBjsRz8UffbS0vKk"
+    },
+    {
+        "name": "Police canteen",
+        "address": "HGH9+5JG, Kodimatha, Kottayam",
+        "location": {
+            "x": 9.5779272,
+            "y": 76.519069,
+            "type": "Point",
+            "coordinates": [
+                9.5779272,
+                76.519069
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$M0iPyxlJr096KvLeA0e1y.a.UQ8RAtMoxP13p6w91etTBAfOiySlO",
+        "rating": 4.3,
+        "reviews": 241,
+        "open": true,
+        "_id": "ChIJX80Jb7srBjsRjeabp0RcW0Q"
+    },
+    {
+        "name": "Viswas Restaurant",
+        "address": "near Railway Station, Railway Station Road, Nagampadam, Kottayam",
+        "location": {
+            "x": 9.594802099999999,
+            "y": 76.5310034,
+            "type": "Point",
+            "coordinates": [
+                9.594802099999999,
+                76.5310034
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$ZgmbtDNFrW8JkZnCab/9rezX3vgreiZMLkVf2B0nX3GxSKzuHFlh6",
+        "rating": 3.4,
+        "reviews": 20,
+        "open": true,
+        "_id": "ChIJC0UpBNRcVBAR_hkCQKy-idw"
+    },
+    {
+        "name": "Hotel Aiswarya",
+        "address": "Collectorate Junction, opposite HP Pump, Kottayam - Kumily Road, Collectorate, Kottayam",
+        "location": {
+            "x": 9.5895618,
+            "y": 76.53238879999999,
+            "type": "Point",
+            "coordinates": [
+                9.5895618,
+                76.53238879999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$.1cPjD.GXthdJ/sOt167bujlItkQfLB2aQBkj.Hr6ebxlGnNruHwq",
+        "rating": 2.9,
+        "reviews": 9,
+        "open": true,
+        "_id": "ChIJHdDHw50rBjsR9wW348QIK9I"
+    },
+    {
+        "name": "wmc hotel",
+        "address": "HGFC+H35, Old MC Road, Kodimatha, Kottayam",
+        "location": {
+            "x": 9.573881299999998,
+            "y": 76.52023659999999,
+            "type": "Point",
+            "coordinates": [
+                9.573881299999998,
+                76.52023659999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$b8DmSK95AMq5zWvvS57AueSPoMU.vTLuAex1Fvi4plXd263/StXM.",
+        "rating": 4.5,
+        "reviews": 2,
+        "open": true,
+        "_id": "ChIJizawrb4rBjsROL1PXqhv2GY"
+    },
+    {
+        "name": "Chackochan's Coffee House",
+        "address": "HGQQ+G4Q, Kanjikuzhi, Kottayam",
+        "location": {
+            "x": 9.588834300000002,
+            "y": 76.5378515,
+            "type": "Point",
+            "coordinates": [
+                9.588834300000002,
+                76.5378515
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "cafe",
+            "store",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$V9I/EIZSAn5eljU0DHj84OJlkFt29UB.CmOC3nB2RG7vRvneojJ/a",
+        "rating": 4.0,
+        "reviews": 4,
+        "open": true,
+        "_id": "ChIJT_ql14IrBjsRsOcQe-KDi4o"
+    },
+    {
+        "name": "Wheels Restaurant",
+        "address": "Kottayam - Kumily Road, Kanjikuzhi, Kottayam",
+        "location": {
+            "x": 9.588818,
+            "y": 76.53817529999999,
+            "type": "Point",
+            "coordinates": [
+                9.588818,
+                76.53817529999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$lxqH0JstNHKVoaK3iQZvN.eLR.MUvhc8nbe9SK/n/7hEkQyJ1EOnS",
+        "rating": 4.0,
+        "reviews": 1257,
+        "open": true,
+        "_id": "ChIJz6ta2IIrBjsRvQUIYc3xEMw"
+    },
+    {
+        "name": "Matsyfed Fishmart Kanjikuhy",
+        "address": "Kanjikuzhy Public Market, Kottayam",
+        "location": {
+            "x": 9.5884039,
+            "y": 76.5416803,
+            "type": "Point",
+            "coordinates": [
+                9.5884039,
+                76.5416803
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$6ghgpBMSxdQ22uZKGvAPM.pPJ/Yk2AlZgYglYqh8m2OGL/rM9NOzK",
+        "rating": 4.0,
+        "reviews": 19,
+        "open": true,
+        "_id": "ChIJ7VioBIUrBjsRhxPeT86r6oU"
+    },
+    {
+        "name": "Ginger takeaway restaurant",
+        "address": "HGR7+93V, Temple Road, Puthenangady, Kottayam",
+        "location": {
+            "x": 9.590999600000002,
+            "y": 76.5126658,
+            "type": "Point",
+            "coordinates": [
+                9.590999600000002,
+                76.5126658
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$FVdqEXBgcI0HI76d6DxGheEBUM9zEY1zJBYqnkPYzH0CtMB8rfIHi",
+        "rating": 4.5,
+        "reviews": 2,
+        "open": true,
+        "_id": "ChIJYUIcElcrBjsRpqivUWgF29w"
+    },
+    {
+        "name": "Chappathi Book",
+        "address": "HGR7+93G, kurishu Palli Road, Puthenangady, Kottayam",
+        "location": {
+            "x": 9.590945099999999,
+            "y": 76.5127128,
+            "type": "Point",
+            "coordinates": [
+                9.590945099999999,
+                76.5127128
+            ]
+        },
+        "tags": [
+            "meal_takeaway",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$9SVDCWHh7mcYIYkg/3IZtODRZmR2hFuBZaNVtC3Y0FQbo2JhYrvIy",
+        "rating": 4.7,
+        "reviews": 44,
+        "open": true,
+        "_id": "ChIJQf-h9AcrBjsRLn7wZ7APYh4"
+    },
+    {
+        "name": "Baker's Palace",
+        "address": "Kottayam Medical College Bypass Road, Chungam, Kottayam",
+        "location": {
+            "x": 9.597425899999998,
+            "y": 76.5168934,
+            "type": "Point",
+            "coordinates": [
+                9.597425899999998,
+                76.5168934
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$PhP4636jl6lWYM.Vxw3Lt.6ZqeXZV7iQ0zk2S16ekisvWdZtohygm",
+        "rating": 4.2,
+        "reviews": 19,
+        "open": true,
+        "_id": "ChIJ6VU8a2IrBjsRq3act4t6VBY"
+    },
+    {
+        "name": "Elkana family restaurant",
+        "address": "Chungam, Kottayam",
+        "location": {
+            "x": 9.599084000000001,
+            "y": 76.5170893,
+            "type": "Point",
+            "coordinates": [
+                9.599084000000001,
+                76.5170893
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$B9W4ADNLhEtIZgq/9VQIVuSRxXZIH2/XwpGaJkSIFHaBJRmdmIqW.",
+        "rating": 5.0,
+        "reviews": 1,
+        "open": true,
+        "_id": "ChIJt_8mCXArBjsRyK_sig5fWJY"
+    },
+    {
+        "name": "ശേഖരേട്ടന്റെ കട",
+        "address": "HGX8+9WF, Chungam, Kottayam",
+        "location": {
+            "x": 9.5986576,
+            "y": 76.5173226,
+            "type": "Point",
+            "coordinates": [
+                9.5986576,
+                76.5173226
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$CPkWsLy7haFEcgst2LZuY.F5oIBT/NYv.Pe0h4QVcr6GrSsr/73p6",
+        "rating": 0.0,
+        "reviews": 0,
+        "open": true,
+        "_id": "ChIJY5wNimkrBjsRpGTqxfBjTFE"
+    },
+    {
+        "name": "Taj Restaurant",
+        "address": "JG28+7QP, Chungam, Kottayam",
+        "location": {
+            "x": 9.6007198,
+            "y": 76.51695029999999,
+            "type": "Point",
+            "coordinates": [
+                9.6007198,
+                76.51695029999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$7Kl1E93WgAXP14vwUc7t/ugximT/8lLvi2SPp8atSTYfxJUVgb48.",
+        "rating": 3.4,
+        "reviews": 5,
+        "open": true,
+        "_id": "ChIJP4art-orBjsRL65wGY_lUfI"
+    },
+    {
+        "name": "Deshabhmani Canteen",
+        "address": "HGX9+42M, Kottayam Medical College Bypass Road, Chungam, Kottayam",
+        "location": {
+            "x": 9.597845800000002,
+            "y": 76.51755519999999,
+            "type": "Point",
+            "coordinates": [
+                9.597845800000002,
+                76.51755519999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$d/uaLakCacvmN3.Tg49xlOxp9dWK/q3cTddmkeT.IGLUmqtUJDAha",
+        "rating": 2.8,
+        "reviews": 4,
+        "open": true,
+        "_id": "ChIJFQFK5A4rBjsRSqUEilyP3sY"
+    },
+    {
+        "name": "Hotel Taj",
+        "address": "HGX8+VX6, Kottayam Medical College Bypass Road, Chungam, Kottayam",
+        "location": {
+            "x": 9.599672,
+            "y": 76.5174016,
+            "type": "Point",
+            "coordinates": [
+                9.599672,
+                76.5174016
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$FeSD1RnDFaNk0/Nls2qpx.4JagAciS4KN1a3kLHbJ8L6rkEge/5r6",
+        "rating": 5.0,
+        "reviews": 1,
+        "open": true,
+        "_id": "ChIJZYCeTg4rBjsRAAAA0JPftkA"
+    },
+    {
+        "name": "Chick blast",
+        "address": "Kottayam - Kumarakom Road, Chalukunnu, Kottayam",
+        "location": {
+            "x": 9.5952916,
+            "y": 76.5173144,
+            "type": "Point",
+            "coordinates": [
+                9.5952916,
+                76.5173144
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$EjHYE0UyxLfPj8bNzcuceOzWsdKpuAOujP2HCx.EI1CWXxAzk8lc6",
+        "rating": 3.4,
+        "reviews": 99,
+        "open": true,
+        "_id": "ChIJBy4mpZYrBjsRYGb8aspQntc"
+    },
+    {
+        "name": "Chappati square",
+        "address": "HGQ5+64Q, Thiruvathukkal Road, Karapuzha, Veloor",
+        "location": {
+            "x": 9.58808,
+            "y": 76.507863,
+            "type": "Point",
+            "coordinates": [
+                9.58808,
+                76.507863
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$x0v9pai1R/03J/UnEgd5muZVVVECbnebsy.TFO2pW55ZlKSaowAES",
+        "rating": 2.7,
+        "reviews": 3,
+        "open": true,
+        "_id": "ChIJNWxLwoUrBjsR2wYc1C4UxFw"
+    },
+    {
+        "name": "The Bar-B-Q inn",
+        "address": "HGV8+8RC, Kottayam",
+        "location": {
+            "x": 9.5933057,
+            "y": 76.51702879999999,
+            "type": "Point",
+            "coordinates": [
+                9.5933057,
+                76.51702879999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$RlZTtLalR5toq8rdmfNL/uRJW/qiC.rW.pSOE3uUikKqcsx2LOise",
+        "rating": 0.0,
+        "reviews": 0,
+        "open": true,
+        "_id": "ChIJxTTsRb0rBjsRC7S3d0YwhZ8"
+    },
+    {
+        "name": "Food Valley Restaurant",
+        "address": "Varissery, Kottayam Medical College Bypass Road, Mariathuruth, Kottayam",
+        "location": {
+            "x": 9.6057204,
+            "y": 76.5140412,
+            "type": "Point",
+            "coordinates": [
+                9.6057204,
+                76.5140412
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$Jl7tHYb/Y45.AVAZ0eTZquzNp/mAxCOd0m/ldq6M7XA6M5AAU84DG",
+        "rating": 4.3,
+        "reviews": 3,
+        "open": true,
+        "_id": "ChIJf_vZFDgrBjsRTwltMPJos7w"
+    },
+    {
+        "name": "Daily Dose Restaurant",
+        "address": "JG47+8H9, Mariyathuruthu, Kumaranalloor, Kottayam",
+        "location": {
+            "x": 9.6057343,
+            "y": 76.51402709999999,
+            "type": "Point",
+            "coordinates": [
+                9.6057343,
+                76.51402709999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$OSmJaInnIHC1H6jqpl/6oeweyYtF9PF/C1imbMIS7OBeYON1zavce",
+        "rating": 0.0,
+        "reviews": 0,
+        "open": true,
+        "_id": "ChIJO9_TAUMrBjsRpAq-n8RF_S8"
+    },
+    {
+        "name": "Open Kitchen",
+        "address": "near St Thomas Church, Open Kitchen, Arackal Arcade, near St Thomas Church, Kottayam Medical College Bypass Road, Kottayam",
+        "location": {
+            "x": 9.6031833,
+            "y": 76.51661399999999,
+            "type": "Point",
+            "coordinates": [
+                9.6031833,
+                76.51661399999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$VKqecx88iz7xG77iEM9ctuHUNiwEndIQIWcr.ghVPkmv3jbXeBzuS",
+        "rating": 3.7,
+        "reviews": 6,
+        "open": true,
+        "_id": "ChIJFyNX-W0rBjsRdhxZVx-8EVY"
+    },
+    {
+        "name": "Kathi Roll , Kottayam Varisseri",
+        "address": "Varisseri, Mariyathuruthu Co-opertive Bank, Kottayam Medical College Bypass Road, Kottayam",
+        "location": {
+            "x": 9.606802199999999,
+            "y": 76.5124551,
+            "type": "Point",
+            "coordinates": [
+                9.606802199999999,
+                76.5124551
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$c8Vf08A1HGUFga0HF3s3HObcMy3bRWiJ3zgMVYjjr47zf9FmZo8pO",
+        "rating": 4.3,
+        "reviews": 107,
+        "open": true,
+        "_id": "ChIJy-0m1zYrBjsRiamN2dPUmfM"
+    },
+    {
+        "name": "Chungam restaurant",
+        "address": "JG38+2VW, Kumaranalloor, Kottayam",
+        "location": {
+            "x": 9.6026135,
+            "y": 76.51720209999999,
+            "type": "Point",
+            "coordinates": [
+                9.6026135,
+                76.51720209999999
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$/XyTszgfYphCWN8vntc8W.9P3MqMNTMNaGGoW9javPW7HU85Pv2im",
+        "rating": 3.0,
+        "reviews": 2,
+        "open": true,
+        "_id": "ChIJj4KCS_ArBjsR_6tOLJCivkE"
+    },
+    {
+        "name": "Udayam Restaurant",
+        "address": "near Varissery Junction, Kottayam Medical College Bypass Road, Varissery",
+        "location": {
+            "x": 9.607339099999999,
+            "y": 76.5121053,
+            "type": "Point",
+            "coordinates": [
+                9.607339099999999,
+                76.5121053
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$ZJohJzq5Ad.0/InESi5s/O0cLzAk47Y2f.aZV9X9KwWrYsKKO3mGG",
+        "rating": 3.3,
+        "reviews": 8,
+        "open": true,
+        "_id": "ChIJIVL_acFcVBARRUc7GN6LsT8"
+    },
+    {
+        "name": "Dakshina coolbar",
+        "address": "Bus Stop, Chungom, Chungom - SH Mount Road, Kumaranalloor, Kottayam",
+        "location": {
+            "x": 9.602774199999999,
+            "y": 76.5173683,
+            "type": "Point",
+            "coordinates": [
+                9.602774199999999,
+                76.5173683
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$YdcofyT4VME8zuO39yPX2eMul0YZRAtnQmj6xlHGIAuORm3/p15j2",
+        "rating": 5.0,
+        "reviews": 1,
+        "open": true,
+        "_id": "ChIJh63U12QrBjsRUF36rBQdtoU"
+    },
+    {
+        "name": "Chilli takeaway restaurant",
+        "address": "Near mini civil station, junction, Union Club, Kottayam",
+        "location": {
+            "x": 9.5901202,
+            "y": 76.51556690000001,
+            "type": "Point",
+            "coordinates": [
+                9.5901202,
+                76.51556690000001
+            ]
+        },
+        "tags": [
+            "meal_takeaway",
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$CzcYD6Sqp.h0b4SmEtLMCOhiUbn8MYX7cnz3Vt.PFdunkreJtspG2",
+        "rating": 4.2,
+        "reviews": 6,
+        "open": true,
+        "_id": "ChIJRw40wsgrBjsRqZFux0lHXoU"
+    },
+    {
+        "name": "Hotel RJBS",
+        "address": "JG39+23R, Near St. Thomas Church, SH Mount Road, Chungam, Kottayam",
+        "location": {
+            "x": 9.6026099,
+            "y": 76.5176407,
+            "type": "Point",
+            "coordinates": [
+                9.6026099,
+                76.5176407
+            ]
+        },
+        "tags": [
+            "restaurant",
+            "food",
+            "point_of_interest",
+            "establishment"
+        ],
+        "password": "$2a$05$vDweCrP6eE4c/4h2Ne11x.cfVmeiaiQe7QgoZmlKiuCJwnUf3KGPC",
+        "rating": 4.0,
+        "reviews": 1,
+        "open": true,
+        "_id": "ChIJl96EEMVcVBARYb_Z9QkZN9E"
+    }
+]
