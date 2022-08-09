@@ -1,0 +1,144 @@
+services:
+  eatnow-restaurant:
+    container_name: eatnow-restaurant
+    build:
+      context: restaurant
+    ports:
+      - 8085:8085
+    networks: 
+      - eatnow-network
+    depends_on:
+      - eatnow-restaurant-mongo
+      - eatnow-restaurant-redis
+
+  eatnow-restaurant-mongo:
+    container_name: eatnow-restaurant-mongo
+    image: mongo:5
+    volumes:
+      - ./init-db/restaurant/scripts:/docker-entrypoint-initdb.d
+      - ./init-db/restaurant/data:/tmp/data
+    ports:
+      - "27018:27017"
+    networks: 
+      - eatnow-network
+
+  eatnow-restaurant-redis:
+    container_name: eatnow-restaurant-redis
+    image: redis:7.0.4
+    ports:
+      - "6379:6379"
+    networks: 
+      - eatnow-network
+  
+  eatnow-cart:
+    container_name: eatnow-cart
+    build:
+      context: cart
+    ports:
+      - 8082:8082
+    networks: 
+      - eatnow-network
+    depends_on:
+      - eatnow-cart-mongo
+      - eatnow-cart-redis
+
+  eatnow-cart-mongo:
+    container_name: eatnow-cart-mongo
+    image: mongo:5
+    volumes:
+      - ./init-db/cart/scripts:/docker-entrypoint-initdb.d
+    ports:
+      - "27019:27017"
+    networks: 
+      - eatnow-network
+
+  eatnow-cart-redis:
+    container_name: eatnow-cart-redis
+    image: redis:7.0.4
+    ports:
+      - "6381:6379"
+    networks: 
+      - eatnow-network
+  
+  eatnow-user:
+    container_name: eatnow-user
+    build:
+      context: user
+    ports:
+      - 8084:8084
+    networks: 
+      - eatnow-network
+    depends_on:
+      - eatnow-user-postgres
+      - eatnow-user-redis
+
+  eatnow-user-postgres:
+    container_name: eatnow-user-postgres
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=user-db
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5433:5432'
+    volumes: 
+      - ./init-db/user/scripts:/docker-entrypoint-initdb.d/
+    networks: 
+      - eatnow-network
+  
+  eatnow-user-redis:
+    container_name: eatnow-user-redis
+    image: redis:7.0.4
+    ports:
+      - "6382:6379"
+    networks: 
+      - eatnow-network
+
+  eatnow-order:
+    container_name: eatnow-order
+    build:
+      context: order
+    ports:
+      - 8083:8083
+    networks: 
+      - eatnow-network
+    depends_on:
+      - eatnow-order-postgres
+      - eatnow-order-redis
+  
+  eatnow-order-postgres:
+    container_name: eatnow-order-postgres
+    image: postgres:10.5
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=order-db
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5434:5432'
+    volumes: 
+      - ./init-db/order/scripts:/docker-entrypoint-initdb.d/
+    networks: 
+      - eatnow-network
+  
+  eatnow-order-redis:
+    container_name: eatnow-order-redis
+    image: redis:7.0.4
+    ports:
+      - "6383:6379"
+    networks: 
+      - eatnow-network
+
+networks:
+  eatnow-network: {}
+
+  
