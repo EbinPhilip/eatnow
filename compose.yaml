@@ -3,8 +3,12 @@ services:
     container_name: eatnow-restaurant
     build:
       context: restaurant
+      args:
+        - EATNOW_RESTAURANT_SERVER_PORT=${EATNOW_RESTAURANT_SERVER_PORT}
+    env_file:
+        - .env
     ports:
-      - 8085:8085
+      - 8085:${EATNOW_RESTAURANT_SERVER_PORT}
     networks: 
       - eatnow-network
     depends_on:
@@ -29,15 +33,17 @@ services:
       - "6379:6379"
     networks: 
       - eatnow-network
-  
+
   eatnow-cart:
     container_name: eatnow-cart
     build:
       context: cart
     ports:
-      - 8082:8082
+      - 8082:${EATNOW_CART_SERVER_PORT}
     networks: 
       - eatnow-network
+    env_file:
+      - .env
     depends_on:
       - eatnow-cart-mongo
       - eatnow-cart-redis
@@ -65,9 +71,11 @@ services:
     build:
       context: user
     ports:
-      - 8084:8084
+      - 8084:${EATNOW_USER_SERVER_PORT}
     networks: 
       - eatnow-network
+    env_file:
+      - .env
     depends_on:
       - eatnow-user-postgres
       - eatnow-user-redis
@@ -77,9 +85,9 @@ services:
     image: postgres:10.5
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=user-db
+      - POSTGRES_USER=${EATNOW_USER_DB_USERNAME}
+      - POSTGRES_PASSWORD=${EATNOW_USER_DB_PASSWORD}
+      - POSTGRES_DB=${EATNOW_USER_DB}
     logging:
       options:
         max-size: 10m
@@ -107,6 +115,8 @@ services:
       - 8083:8083
     networks: 
       - eatnow-network
+    env_file:
+      - .env
     depends_on:
       - eatnow-order-postgres
       - eatnow-order-redis
@@ -116,9 +126,9 @@ services:
     image: postgres:10.5
     restart: always
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=order-db
+      - POSTGRES_USER=${EATNOW_ORDER_DB_USERNAME}
+      - POSTGRES_PASSWORD=${EATNOW_ORDER_DB_PASSWORD}
+      - POSTGRES_DB=${EATNOW_ORDER_DB}
     logging:
       options:
         max-size: 10m
@@ -137,7 +147,6 @@ services:
       - "6383:6379"
     networks: 
       - eatnow-network
-
 networks:
   eatnow-network: {}
 
