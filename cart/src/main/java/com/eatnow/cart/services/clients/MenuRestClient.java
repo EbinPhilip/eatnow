@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.eatnow.cart.dtos.MenuDto;
 
-@FeignClient(value = "menu-client", url = "localhost:8081")
+@FeignClient(value = "menu-client", url = "${menu-service-host}" +
+        ":" + "${menu-service-port}")
 public interface MenuRestClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/menu/{restaurantId}")
