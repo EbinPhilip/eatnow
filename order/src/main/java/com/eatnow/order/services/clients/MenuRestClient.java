@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.eatnow.order.dtos.ItemDto;
 
-@FeignClient(value = "menu-client", url = "localhost:8081")
+@FeignClient(value = "menu-client", url = "${menu-service-host}" +
+        ":" + "${menu-service-port}")
 public interface MenuRestClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "/internal/serviceable-items")
