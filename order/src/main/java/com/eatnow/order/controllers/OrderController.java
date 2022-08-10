@@ -58,7 +58,6 @@ public class OrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
-    @PostAuthorize("returnObject.getBody().getUserId() == authentication.principal.username")
     @PostMapping(ORDER_PAYMENT_ENDPOINT)
     public ResponseEntity<PaymentDto> payAndConfirmOrder(
             @RequestParam(orderIdString) @NotNull String orderId,
