@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: eatnow-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /restaurant
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-restaurant
+                port:
+                  number: 8080
+          - path: /cart
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-cart
+                port:
+                  number: 8080
+          - path: /users
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-user
+                port:
+                  number: 8080
+          - path: /orders
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-order
+                port:
+                  number: 8080

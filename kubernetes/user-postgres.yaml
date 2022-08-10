@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eatnow-user-postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatnow-user-postgres
+spec:
+  selector:
+    app: eatnow-user-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatnow-user-postgres
+spec:
+  selector:
+    matchLabels:
+      app: eatnow-user-postgres
+  template:
+    metadata:
+      labels:
+        app: eatnow-user-postgres
+    spec:
+      containers:
+        - name: eatnow-user-postgres
+          image: postgres:10.5
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: eatnow-config-map
+                  key: EATNOW_USER_DB_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: eatnow-config-map
+                  key: EATNOW_USER_DB_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: eatnow-config-map
+                  key: EATNOW_USER_DB
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+            - name: init-db-scripts
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: eatnow-user-postgres-pvc
+        - name: init-db-scripts
+          hostPath:
+            # directory location on host
+            path: /init-db/user/scripts
+            # this field is optional
+            type: Directory

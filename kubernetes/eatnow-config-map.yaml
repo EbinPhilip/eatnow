@@ -1,0 +1,46 @@
+apiVersion: v1
+data:
+    EATNOW_JWT_SECRET : "NTNv7j0TuYARvmNMmWXo6fKvM4o6nv/aUi9ryX38ZH+L1bkrnD1ObOQ8JAUmHCBq7Iy7otZcyAagBLHVKvvYaIpmMuxmARQ97jUVG16Jkpkp1wXOPsrF9zwew6TpczyHkHgX5EuLg2MeBuiT/qJACs1J0apruOOJCg/gOtkjB4c="
+    EATNOW_JWT_ISSUER : "eatnow"
+
+    EATNOW_RESTAURANT_SERVER_PORT : "8080"
+    EATNOW_RESTAURANT_DB_NAME : "restaurant-db"
+    EATNOW_RESTAURANT_DB_PORT : "27017"
+    EATNOW_RESTAURANT_DB_HOST : "eatnow-restaurant-mongo"
+    EATNOW_RESTAURANT_REDIS_HOST : "eatnow-restaurant-redis"
+    EATNOW_RESTAURANT_REDIS_PORT : "6379"
+
+    EATNOW_CART_SERVER_PORT : "8080"
+    EATNOW_CART_DB_NAME : "cart-db"
+    EATNOW_CART_DB_PORT : "27017"
+    EATNOW_CART_DB_HOST : "eatnow-cart-mongo"
+    EATNOW_CART_REDIS_HOST : "eatnow-cart-redis"
+    EATNOW_CART_REDIS_PORT : "6379"
+    EATNOW_CART_MENU_SERVICE_HOST : "eatnow-restaurant"
+    EATNOW_CART_MENU_SERVICE_PORT : "8080"
+
+    EATNOW_USER_SERVER_PORT : "8080"
+    EATNOW_USER_DB : "user-db"
+    EATNOW_USER_DB_URL : "jdbc:postgresql://eatnow-user-postgres:5432/user-db"
+    EATNOW_USER_DB_USERNAME : "postgres"
+    EATNOW_USER_DB_PASSWORD : "postgres"
+    EATNOW_USER_REDIS_HOST : "eatnow-user-redis"
+    EATNOW_USER_REDIS_PORT : "6379"
+
+    EATNOW_ORDER_SERVER_PORT : "8080"
+    EATNOW_ORDER_DB : "order-db"
+    EATNOW_ORDER_DB_URL : "jdbc:postgresql://eatnow-order-postgres:5432/order-db"
+    EATNOW_ORDER_DB_USERNAME : "postgres"
+    EATNOW_ORDER_DB_PASSWORD : "postgres"
+    EATNOW_ORDER_REDIS_HOST : "eatnow-order-redis"
+    EATNOW_ORDER_REDIS_PORT : "6379"
+    EATNOW_ORDER_MENU_SERVICE_HOST : "eatnow-restaurant"
+    EATNOW_ORDER_MENU_SERVICE_PORT : "8080"
+    EATNOW_ORDER_USER_SERVICE_HOST : "eatnow-user"
+    EATNOW_ORDER_USER_SERVICE_PORT : "8080"
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2022-08-09T18:20:11Z"
+  name: eatnow-config-map
+  namespace: default
