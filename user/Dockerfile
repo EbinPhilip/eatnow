@@ -11,7 +11,7 @@ RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar -xf ../*.ja
 
 COPY src/main/resources/application.properties build/libs/dependency/BOOT-INF/classes/
 
-FROM eclipse-temurin:17-alpine
+FROM eclipse-temurin:17-jre-alpine
 ARG DEPENDENCY=/workspace/app/build/libs/dependency
 COPY --from=build ${DEPENDENCY}/BOOT-INF/lib/ /app/lib/
 COPY --from=build ${DEPENDENCY}/META-INF/ /app/META-INF/
