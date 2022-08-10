@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatnow-restaurant-redis
+spec:
+  selector:
+    app: eatnow-restaurant-redis
+  ports:
+    - port: 6379
+      targetPort: 6379
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatnow-restaurant-redis
+spec:
+  selector:
+    matchLabels:
+      app: eatnow-restaurant-redis
+  template:
+    metadata:
+      labels:
+        app: eatnow-restaurant-redis
+    spec:
+      containers:
+        - name: eatnow-restaurant-redis
+          image: redis:7.0.4
+          ports:
+            - containerPort: 6379

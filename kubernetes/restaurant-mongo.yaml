@@ -1,0 +1,63 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eatnow-restaurant-mongo-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatnow-restaurant-mongo
+spec:
+  selector:
+    app: eatnow-restaurant-mongo
+  ports:
+    - port: 27017
+      targetPort: 27017
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatnow-restaurant-mongo
+spec:
+  selector:
+    matchLabels:
+      app: eatnow-restaurant-mongo
+  template:
+    metadata:
+      labels:
+        app: eatnow-restaurant-mongo
+    spec:
+      containers:
+        - name: eatnow-restaurant-mongo
+          image: mongo:5
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+            - name: init-db-scripts
+              mountPath: /docker-entrypoint-initdb.d
+            - name: init-db-data
+              mountPath: /tmp/data
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: eatnow-restaurant-mongo-pvc
+        - name: init-db-scripts
+          hostPath:
+            # directory location on host
+            path: /init-db/restaurant/scripts
+            # this field is optional
+            type: Directory
+        - name: init-db-data
+          hostPath:
+            # directory location on host
+            path: /init-db/restaurant/data
+            # this field is optional
+            type: Directory

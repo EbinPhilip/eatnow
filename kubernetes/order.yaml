@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatnow-order
+spec:
+  selector:
+    app: eatnow-order
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatnow-order
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eatnow-order
+  template:
+    metadata:
+      labels:
+        app: eatnow-order
+    spec:
+      containers:
+        - name: eatnow-order
+          image: ebinphilip/eatnow-order
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: eatnow-config-map
+          imagePullPolicy: Always
+---

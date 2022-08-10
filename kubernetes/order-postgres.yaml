@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: eatnow-order-postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatnow-order-postgres
+spec:
+  selector:
+    app: eatnow-order-postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatnow-order-postgres
+spec:
+  selector:
+    matchLabels:
+      app: eatnow-order-postgres
+  template:
+    metadata:
+      labels:
+        app: eatnow-order-postgres
+    spec:
+      containers:
+        - name: eatnow-order-postgres
+          image: postgres:10.5
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: eatnow-config-map
+                  key: EATNOW_ORDER_DB_USERNAME
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: eatnow-config-map
+                  key: EATNOW_ORDER_DB_PASSWORD
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: eatnow-config-map
+                  key: EATNOW_ORDER_DB
+          volumeMounts:
+            - name: storage
+              mountPath: /data/db
+            - name: init-db-scripts
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: eatnow-order-postgres-pvc
+        - name: init-db-scripts
+          hostPath:
+            # directory location on host
+            path: /init-db/order/scripts
+            # this field is optional
+            type: Directory

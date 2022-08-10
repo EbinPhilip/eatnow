@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: eatnow-cart
+spec:
+  selector:
+    app: eatnow-cart
+  ports:
+    - port: 8080
+      targetPort: 8080
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eatnow-cart
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eatnow-cart
+  template:
+    metadata:
+      labels:
+        app: eatnow-cart
+    spec:
+      containers:
+        - name: eatnow-cart
+          image: ebinphilip/eatnow-cart
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: eatnow-config-map
+          imagePullPolicy: Always
+---
