@@ -112,7 +112,7 @@ services:
     build:
       context: order
     ports:
-      - 8083:8083
+      - 8083:${EATNOW_ORDER_SERVER_PORT}
     networks: 
       - eatnow-network
     env_file:
@@ -145,6 +145,48 @@ services:
     image: redis:7.0.4
     ports:
       - "6383:6379"
+    networks: 
+      - eatnow-network
+
+  eatnow-search:
+    container_name: eatnow-search
+    build:
+      context: search
+    ports:
+      - 8086:${EATNOW_SEARCH_SERVER_PORT}
+    networks: 
+      - eatnow-network
+    env_file:
+      - .env
+    depends_on:
+      - eatnow-elasticsearch
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 120s
+
+  eatnow-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+    container_name: eatnow-elasticsearch
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    cap_add:
+      - IPC_LOCK
+    volumes:
+      - ./init-db/search/persist:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+      - 9300:9300
     networks: 
       - eatnow-network
   
