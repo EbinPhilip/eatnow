@@ -34,3 +34,10 @@ spec:
                 name: eatnow-order
                 port:
                   number: 8080
+          - path: /search
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-search
+                port:
+                  number: 8080

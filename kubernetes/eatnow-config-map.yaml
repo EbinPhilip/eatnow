@@ -39,6 +39,11 @@ data:
     EATNOW_ORDER_USER_SERVICE_HOST : "eatnow-user"
     EATNOW_ORDER_USER_SERVICE_PORT : "8080"
 
+    EATNOW_SEARCH_SERVER_PORT : "8080"
+    EATNOW_SEARCH_ELASTICSEARCH_URI : "http://eatnow-elasticsearch:9200"
+    EATNOW_SEARCH_USER_SERVICE_HOST : "eatnow-user"
+    EATNOW_SEARCH_USER_SERVICE_PORT : "8080"
+
 kind: ConfigMap
 metadata:
   creationTimestamp: "2022-08-09T18:20:11Z"
