@@ -22,39 +22,89 @@ public class SearchController {
     @Autowired
     SearchService searchService;
 
-    @GetMapping(SEARCH_RESTAURANTS_ENDPOINT)
-    public ResponseEntity<RestaurantSearchResponse> searchRestaurants(
-            @RequestParam("query") String query,
-            @RequestParam("latitude") Double latitude,
-            @RequestParam("longitude") Double longitude) {
+    private RestaurantSearchResponse getRestaurantSearchResponse(
+            Page<RestaurantDto> restaurantPage) {
 
-        Page<RestaurantDto> restaurantPage = searchService.searchRestaurants(
-                    query, latitude, longitude, 0, 20);
-
-        RestaurantSearchResponse response = RestaurantSearchResponse.builder()
+        return RestaurantSearchResponse.builder()
                 .matches(restaurantPage.getTotalElements())
                 .pages(restaurantPage.getTotalPages())
                 .pageSize(restaurantPage.getSize())
                 .restaurants(restaurantPage.getContent())
                 .build();
-        return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping(SEARCH_ITEMS_ENDPOINT)
-    public ResponseEntity<ItemSearchResponse> searchItems(
-            @RequestParam("query") String query,
-            @RequestParam("latitude") Double latitude,
-            @RequestParam("longitude") Double longitude) {
+    private ItemSearchResponse getItemSearchResponse(
+            Page<ItemDto> itemPage) {
 
-        Page<ItemDto> itemPage = searchService.searchItems(
-                query, latitude, longitude, 0, 20);
-
-        ItemSearchResponse response = ItemSearchResponse.builder()
+        return ItemSearchResponse.builder()
                 .matches(itemPage.getTotalElements())
                 .pages(itemPage.getTotalPages())
                 .pageSize(itemPage.getSize())
                 .items(itemPage.toList())
                 .build();
+    }
+
+    @GetMapping(value = SEARCH_RESTAURANTS_ENDPOINT, params = {
+            "query", "latitude", "longitude" })
+    public ResponseEntity<RestaurantSearchResponse> searchRestaurants(
+            @RequestParam("query") String query,
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude,
+            @RequestParam(value = "page-number", defaultValue = "0") Integer page,
+            @RequestParam(value = "page-size", defaultValue = "20") Integer size) {
+
+        Page<RestaurantDto> restaurantPage = searchService.searchRestaurantsNearby(
+                query, latitude, longitude, page, size);
+
+        RestaurantSearchResponse response = getRestaurantSearchResponse(restaurantPage);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping(value = SEARCH_RESTAURANTS_ENDPOINT, params = {
+            "query", "user-id", "address-index" })
+    public ResponseEntity<RestaurantSearchResponse> searchRestaurants(
+            @RequestParam("query") String query,
+            @RequestParam("user-id") String userId,
+            @RequestParam("address-index") Integer addressIndex,
+            @RequestParam(value = "page-number", defaultValue = "0") Integer page,
+            @RequestParam(value = "page-size", defaultValue = "20") Integer size) {
+
+        Page<RestaurantDto> restaurantPage = searchService.searchRestaurantsNearUserAddress(
+                query, userId, addressIndex, page, size);
+
+        RestaurantSearchResponse response = getRestaurantSearchResponse(restaurantPage);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping(value = SEARCH_ITEMS_ENDPOINT, params = {
+            "query", "latitude", "longitude" })
+    public ResponseEntity<ItemSearchResponse> searchItems(
+            @RequestParam("query") String query,
+            @RequestParam("latitude") Double latitude,
+            @RequestParam("longitude") Double longitude,
+            @RequestParam(value = "page-number", defaultValue = "0") Integer page,
+            @RequestParam(value = "page-size", defaultValue = "20") Integer size) {
+
+        Page<ItemDto> itemPage = searchService.searchItemsNearby(
+                query, latitude, longitude, page, size);
+
+        ItemSearchResponse response = getItemSearchResponse(itemPage);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping(value = SEARCH_ITEMS_ENDPOINT, params = {
+            "query", "user-id", "address-index" })
+    public ResponseEntity<ItemSearchResponse> searchItems(
+            @RequestParam("query") String query,
+            @RequestParam("user-id") String userId,
+            @RequestParam("address-index") Integer addressIndex,
+            @RequestParam(value = "page-number", defaultValue = "0") Integer page,
+            @RequestParam(value = "page-size", defaultValue = "20") Integer size) {
+
+        Page<ItemDto> itemPage = searchService.searchItemsNearUserAddress(
+                query, userId, addressIndex, page, size);
+
+        ItemSearchResponse response = getItemSearchResponse(itemPage);
         return ResponseEntity.ok().body(response);
     }
 }
