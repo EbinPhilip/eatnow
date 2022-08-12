@@ -10,7 +10,7 @@ import lombok.NonNull;
 @AllArgsConstructor
 @Data
 @Builder
-public class UserAddressDto {
+public class UserAddress {
     private String userId;
 
     private Integer index;

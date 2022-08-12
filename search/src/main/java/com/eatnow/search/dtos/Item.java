@@ -3,8 +3,6 @@ package com.eatnow.search.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -15,25 +13,30 @@ import lombok.NonNull;
 import lombok.Builder.Default;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class RestaurantDto {
-    private String id;
+public class Item {
 
     @NonNull
-    @NotBlank
     private String name;
 
+    private int itemIndex;
+
     @NonNull
-    @NotBlank
-    private String address;
+    String restaurantId;
+
+    @NonNull
+    String restaurantName;
+
+    @NonNull
+    private Double price;
+
+    @Default
+    @JsonInclude(JsonInclude.Include.NON_EMPTY)
+    private String description = "";
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Default
     private List<String> tags = new ArrayList<>();
-
-    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
-    @Default
-    private Double rating = 0.0d;
 }

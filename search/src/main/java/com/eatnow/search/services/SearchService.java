@@ -8,11 +8,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import com.eatnow.search.dtos.ItemDto;
-import com.eatnow.search.dtos.RestaurantDto;
-import com.eatnow.search.dtos.UserAddressDto;
-import com.eatnow.search.entities.Item;
-import com.eatnow.search.entities.Restaurant;
+import com.eatnow.search.dtos.Item;
+import com.eatnow.search.dtos.Restaurant;
+import com.eatnow.search.dtos.UserAddress;
+import com.eatnow.search.entities.ItemEntity;
+import com.eatnow.search.entities.RestaurantEntity;
 import com.eatnow.search.repositories.ItemRepository;
 import com.eatnow.search.repositories.RestaurantRepository;
 
@@ -30,16 +30,24 @@ public class SearchService {
     @Autowired
     private UserAddressService userAddressService;
 
-    public Page<RestaurantDto> searchRestaurantsNearby(String query,
+    public Page<Restaurant> searchRestaurantsNearby(String query,
             double latitude, double longitude, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Restaurant> restaurantPage = restaurantRepository.findBySearchQueryNear(
-                query, maxDistanceInKm, latitude, longitude, pageable);
+        Page<RestaurantEntity> restaurantPage;
+        if (query.isBlank()) {
+
+            restaurantPage = restaurantRepository.findAllNear(
+                    maxDistanceInKm, latitude, longitude, pageable);
+        } else {
+
+            restaurantPage = restaurantRepository.findBySearchQueryNear(
+                    query, maxDistanceInKm, latitude, longitude, pageable);
+        }
 
         return restaurantPage.map(
                 (i) -> {
-                    return RestaurantDto.builder()
+                    return Restaurant.builder()
                             .id(i.getId())
                             .name(i.getName())
                             .address(i.getAddress())
@@ -49,25 +57,25 @@ public class SearchService {
                 });
     }
 
-    public Page<RestaurantDto> searchRestaurantsNearUserAddress(String query,
+    public Page<Restaurant> searchRestaurantsNearUserAddress(String query,
             String userId, int addressIndex, int page, int size) {
 
-        UserAddressDto address = userAddressService
-                        .getAddressByUserIdAndIndex(userId, addressIndex);
+        UserAddress address = userAddressService
+                .getAddressByUserIdAndIndex(userId, addressIndex);
         return searchRestaurantsNearby(query, address.getLatitude(),
-                        address.getLongitude(), page, size);
+                address.getLongitude(), page, size);
     }
 
-    public Page<ItemDto> searchItemsNearby(String query,
+    public Page<Item> searchItemsNearby(String query,
             double latitude, double longitude, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
-        Page<Item> itemPage = itemRepository.findBySearchQueryNear(
+        Page<ItemEntity> itemPage = itemRepository.findBySearchQueryNear(
                 query, maxDistanceInKm, latitude, longitude, pageable);
 
         return itemPage.map(
                 (i) -> {
-                    return ItemDto.builder()
+                    return Item.builder()
                             .name(i.getName())
                             .itemIndex(i.getItemIndex())
                             .restaurantId(i.getRestaurantId())
@@ -79,10 +87,10 @@ public class SearchService {
                 });
     }
 
-    public Page<ItemDto> searchItemsNearUserAddress(String query,
+    public Page<Item> searchItemsNearUserAddress(String query,
             String userId, int addressIndex, int page, int size) {
 
-        UserAddressDto address = userAddressService
+        UserAddress address = userAddressService
                 .getAddressByUserIdAndIndex(userId, addressIndex);
         return searchItemsNearby(query, address.getLatitude(),
                 address.getLongitude(), page, size);

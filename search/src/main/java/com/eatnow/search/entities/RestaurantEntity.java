@@ -11,38 +11,29 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 import lombok.Builder.Default;
 
-@Document(indexName = "item")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Item {
+@Document(indexName = "restaurant")
+public class RestaurantEntity {
     @Id
-    String id;
+    private String id;
 
     @NonNull
     private String name;
 
-    private int itemIndex;
-
     @NonNull
-    String restaurantId;
-
-    @NonNull
-    String restaurantName;
-
+    private String address;
+    
     @NonNull
     private GeoPoint location;
 
-    @NonNull
-    private Double price;
-
-    @NonNull
-    @Default
-    private String description = "";
-
-    @NonNull
     private String tags;
 
-    boolean available;
+    @Default
+    private boolean isOpen = true;
+
+    @Default
+    private double rating = 0;
 }

@@ -13,30 +13,23 @@ import lombok.NonNull;
 import lombok.Builder.Default;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class ItemDto {
+public class Restaurant {
+    private String id;
 
     @NonNull
     private String name;
 
-    private int itemIndex;
-
     @NonNull
-    String restaurantId;
-
-    @NonNull
-    String restaurantName;
-
-    @NonNull
-    private Double price;
-
-    @Default
-    @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    private String description = "";
+    private String address;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @Default
     private List<String> tags = new ArrayList<>();
+
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    @Default
+    private Double rating = 0.0d;
 }

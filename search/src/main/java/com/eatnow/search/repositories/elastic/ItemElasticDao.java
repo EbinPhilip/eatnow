@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import com.eatnow.search.entities.Item;
+import com.eatnow.search.entities.ItemEntity;
 
-public interface ItemElasticDao extends ElasticsearchRepository<Item,String>  {
+public interface ItemElasticDao extends ElasticsearchRepository<ItemEntity,String>  {
 
     @Query(
         "{" +
@@ -56,6 +56,6 @@ public interface ItemElasticDao extends ElasticsearchRepository<Item,String>  {
                 
             "}" +
         "}" )
-    public Page<Item> findBySearchQueryNear(String query, double distanceInKm,
+    public Page<ItemEntity> findBySearchQueryNear(String query, double distanceInKm,
             double lat, double lon, Pageable pageable);
 }
