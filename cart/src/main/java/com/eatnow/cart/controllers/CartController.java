@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.eatnow.cart.dtos.CartDto;
+import com.eatnow.cart.dtos.Cart;
 import com.eatnow.cart.services.CartService;
 
 @RestController
@@ -27,7 +27,7 @@ public class CartController {
         @PreAuthorize("hasRole('ROLE_USER') and" +
                         "#userId == authentication.principal.username")
         @GetMapping(CART_API)
-        public ResponseEntity<CartDto> getCart(
+        public ResponseEntity<Cart> getCart(
                         @PathVariable("userId") @NotNull String userId) {
 
                 return ResponseEntity.ok().body(
@@ -37,7 +37,7 @@ public class CartController {
         @PreAuthorize("hasRole('ROLE_USER') and" +
                         "#userId == authentication.principal.username")
         @PostMapping(CART_API)
-        public ResponseEntity<CartDto> postToCart(
+        public ResponseEntity<Cart> postToCart(
                         @PathVariable("userId") @NotNull String userId,
                         @RequestParam("restaurant-id") @NotNull String restaurantId,
                         @RequestParam("item-index") @NotNull Integer itemIndex,
@@ -60,7 +60,7 @@ public class CartController {
         @PreAuthorize("hasRole('ROLE_USER') and" +
                         "#userId == authentication.principal.username")
         @PutMapping(CART_API + "/{itemIndex}")
-        public ResponseEntity<CartDto> updateCart(
+        public ResponseEntity<Cart> updateCart(
                         @PathVariable("userId") @NotNull String userId,
                         @PathVariable("itemIndex") @NotNull Integer itemIndex,
                         @RequestParam("quantity") @NotNull Integer quantity) {
@@ -72,7 +72,7 @@ public class CartController {
         @PreAuthorize("hasRole('ROLE_USER') and" +
                         "#userId == authentication.principal.username")
         @DeleteMapping(CART_API + "/{itemIndex}")
-        public ResponseEntity<CartDto> deleteFromCart(
+        public ResponseEntity<Cart> deleteFromCart(
                         @PathVariable("userId") @NotNull String userId,
                         @PathVariable("itemIndex") @NotNull Integer itemIndex) {
 

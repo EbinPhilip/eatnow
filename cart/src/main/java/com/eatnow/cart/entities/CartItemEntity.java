@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class CartItem {
+public class CartItemEntity {
     private int itemIndex;
 
     private double price;

@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
-public class Cart {
+public class CartEntity {
     @NonNull
     @Id
     private String userId;
@@ -21,13 +21,13 @@ public class Cart {
     @NonNull
     private String restaurantId;
 
-    LinkedHashMap<Integer, CartItem> items = new LinkedHashMap<>();
+    LinkedHashMap<Integer, CartItemEntity> items = new LinkedHashMap<>();
 
     private double total = 0.0;
 
-    public Cart add(CartItem item)
+    public CartEntity add(CartItemEntity item)
     {
-        CartItem existing = items.get(item.getItemIndex());
+        CartItemEntity existing = items.get(item.getItemIndex());
         
         if (existing == null)
         {
@@ -41,9 +41,9 @@ public class Cart {
         return this;
     }
 
-    public Cart delete(int itemIndex)
+    public CartEntity delete(int itemIndex)
     {
-        CartItem existing = Optional.ofNullable(
+        CartItemEntity existing = Optional.ofNullable(
             items.get(itemIndex))
             .orElseThrow(RuntimeException::new);
         
@@ -53,9 +53,9 @@ public class Cart {
         return this;
     }
 
-    public Cart update(int itemIndex, int quantity)
+    public CartEntity update(int itemIndex, int quantity)
     {
-        CartItem existing = Optional.ofNullable(
+        CartItemEntity existing = Optional.ofNullable(
             items.get(itemIndex))
             .orElseThrow(RuntimeException::new);
         
