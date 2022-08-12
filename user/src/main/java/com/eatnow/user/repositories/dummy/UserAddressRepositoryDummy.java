@@ -8,19 +8,19 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.user.entities.UserAddress;
+import com.eatnow.user.entities.UserAddressEntity;
 import com.eatnow.user.repositories.UserAddressRepository;
 
 @Repository
 public class UserAddressRepositoryDummy implements UserAddressRepository {
 
-    private Map<Long, UserAddress> addresses;
+    private Map<Long, UserAddressEntity> addresses;
 
     public UserAddressRepositoryDummy()
     {
         addresses = new HashMap<>();
         
-        UserAddress a1 = UserAddress.builder()
+        UserAddressEntity a1 = UserAddressEntity.builder()
             .id(1)
             .userId("u1")
             .index(1)
@@ -28,7 +28,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
             .latitude(22.3)
             .longitude(33.4)
             .build();
-        UserAddress a2 = UserAddress.builder()
+        UserAddressEntity a2 = UserAddressEntity.builder()
             .id(2)
             .userId("u1")
             .index(2)
@@ -36,7 +36,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
             .latitude(22.3)
             .longitude(33.4)
             .build();
-        UserAddress a3 = UserAddress.builder()
+        UserAddressEntity a3 = UserAddressEntity.builder()
             .id(3)
             .userId("u2")
             .index(1)
@@ -44,7 +44,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
             .latitude(22.3)
             .longitude(33.4)
             .build();
-        UserAddress a4 = UserAddress.builder()
+        UserAddressEntity a4 = UserAddressEntity.builder()
             .id(4)
             .userId("u2")
             .index(2)
@@ -60,9 +60,9 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
     }
 
     @Override
-    public List<UserAddress> findByUserId(String userId)
+    public List<UserAddressEntity> findByUserId(String userId)
     {
-        List<UserAddress> addressList = new ArrayList<>();
+        List<UserAddressEntity> addressList = new ArrayList<>();
         addressList.addAll(
             addresses.values().stream().filter(
             (i)->(
@@ -75,7 +75,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
     }
 
     @Override
-    public UserAddress findByUserIdAndIndex(String userId, int index)
+    public UserAddressEntity findByUserIdAndIndex(String userId, int index)
     {
         return addresses.values().stream().filter(
             (i)->(
@@ -98,14 +98,14 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
     }
 
     @Override
-    public UserAddress create(UserAddress address)
+    public UserAddressEntity create(UserAddressEntity address)
     {
         address.setId(addresses.keySet().stream().count() + 1);
         return save(address);
     }
 
     @Override
-    public UserAddress update(UserAddress address)
+    public UserAddressEntity update(UserAddressEntity address)
     {
         return save(address);
     }
@@ -113,7 +113,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
     @Override
     public boolean delete(String userId, int index)
     {
-        UserAddress old = addresses.values().stream().filter(
+        UserAddressEntity old = addresses.values().stream().filter(
             (i) -> (
                 i.getUserId().equals(userId) &&
                 i.getIndex().equals(index)
@@ -124,7 +124,7 @@ public class UserAddressRepositoryDummy implements UserAddressRepository {
         return true;
     }
 
-    private UserAddress save(UserAddress address)
+    private UserAddressEntity save(UserAddressEntity address)
     {
         addresses.put(address.getId(), address);
         return address;

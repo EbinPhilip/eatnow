@@ -7,9 +7,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.eatnow.user.entities.User;
+import com.eatnow.user.entities.UserEntity;
 import com.eatnow.user.repositories.UserRepository;
 import com.eatnow.user.repositories.jpaDao.UserJpaDao;
 import com.eatnow.user.utils.RedisCache;
@@ -42,27 +44,29 @@ public class UserRepositoryJpa implements UserRepository {
         cache = new RedisCache(redisHost, redisPort);
     }
 
-    public User findById(String id) {
+    public UserEntity findById(String id) {
 
         return findByIdCached(id);
     }
 
-    private User findByIdCached(String id) {
+    private UserEntity findByIdCached(String id) {
 
-        User user = null;
+        UserEntity user = null;
 
-        try(Jedis jedis = cache.getResource()) {
-    
+        try (Jedis jedis = cache.getResource()) {
+
             String userJson = jedis.hget(id, userField);
             if (userJson == null) {
 
-                user = dao.findById(id)
-                    .orElseThrow(RuntimeException::new);
+                user = dao.findById(id).orElseThrow(
+                        () -> (new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                String.format("User with user-id:%s not found", id))));
                 userJson = toJson(user);
                 jedis.hset(id, userField, userJson);
             } else {
 
-                user = fromJson(userJson);    
+                user = fromJson(userJson);
             }
             jedis.expire(id, userCacheTimeout.getSeconds());
         }
@@ -70,18 +74,18 @@ public class UserRepositoryJpa implements UserRepository {
         return user;
     }
 
-    private User fromJson(String userJson) {
+    private UserEntity fromJson(String userJson) {
 
         try {
             return new ObjectMapper()
-                    .readValue(userJson, User.class);
+                    .readValue(userJson, UserEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    private String toJson(User user) {
+    private String toJson(UserEntity user) {
 
         try {
             return new ObjectMapper()
@@ -104,11 +108,13 @@ public class UserRepositoryJpa implements UserRepository {
         return dao.existsById(id);
     }
 
-    public User create(User user) {
+    public UserEntity create(UserEntity user) {
 
         if (existsById(user.getId())) {
 
-            throw new RuntimeException();
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    String.format("User with id:%s already exists", user.getId()));
         }
 
         try (Jedis jedis = cache.getResource()) {
@@ -120,7 +126,7 @@ public class UserRepositoryJpa implements UserRepository {
         return dao.save(user);
     }
 
-    public User update(User user) {
+    public UserEntity update(UserEntity user) {
 
         try (Jedis jedis = cache.getResource()) {
 

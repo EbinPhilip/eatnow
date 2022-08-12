@@ -2,19 +2,19 @@ package com.eatnow.user.repositories;
 
 import java.util.List;
 
-import com.eatnow.user.entities.UserAddress;
+import com.eatnow.user.entities.UserAddressEntity;
 
 public interface UserAddressRepository {
 
-    public List<UserAddress> findByUserId(String userId);
+    public List<UserAddressEntity> findByUserId(String userId);
 
-    public UserAddress findByUserIdAndIndex(String userId, int index);
+    public UserAddressEntity findByUserIdAndIndex(String userId, int index);
 
     public boolean existsByUserIdAndIndex(String userId, int index);
 
-    public UserAddress create(UserAddress address);
+    public UserAddressEntity create(UserAddressEntity address);
 
-    public UserAddress update(UserAddress address);
+    public UserAddressEntity update(UserAddressEntity address);
 
     public boolean delete(String userId, int index);
 }

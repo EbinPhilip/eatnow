@@ -8,9 +8,11 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.eatnow.user.entities.UserAddress;
+import com.eatnow.user.entities.UserAddressEntity;
 import com.eatnow.user.repositories.UserAddressRepository;
 import com.eatnow.user.repositories.jpaDao.UserAddressJpaDao;
 import com.eatnow.user.utils.RedisCache;
@@ -43,29 +45,32 @@ public class UserAddressRepositoryJpa implements UserAddressRepository {
         cache = new RedisCache(redisHost, redisPort);
     }
 
-    public List<UserAddress> findByUserId(String userId) {
+    public List<UserAddressEntity> findByUserId(String userId) {
 
         return dao.findByUserId(userId);
     }
 
-    public UserAddress findByUserIdAndIndex(String userId, int index) {
-        
+    public UserAddressEntity findByUserIdAndIndex(String userId, int index) {
+
         return findByUserIdAndIndexCached(userId, index);
     }
 
-    private UserAddress findByUserIdAndIndexCached(String userId, int index) {
+    private UserAddressEntity findByUserIdAndIndexCached(String userId, int index) {
 
-        UserAddress address = null;
+        UserAddressEntity address = null;
 
         try (Jedis jedis = cache.getResource()) {
 
-            String addressJson = jedis.hget(userId, addressField+String.valueOf(index));
+            String addressJson = jedis.hget(userId, addressField + String.valueOf(index));
             if (addressJson == null) {
 
-                address = dao.findByUserIdAndIndex(userId, index)
-                        .orElseThrow(RuntimeException::new);
+                address = dao.findByUserIdAndIndex(userId, index).orElseThrow(
+                        () -> (new ResponseStatusException(
+                                HttpStatus.NOT_FOUND,
+                                String.format("Address with user-id:%s and address-index:%s not found",
+                                        userId, index))));
                 addressJson = toJson(address);
-                jedis.hset(userId, addressField+String.valueOf(index), addressJson);
+                jedis.hset(userId, addressField + String.valueOf(index), addressJson);
             } else {
 
                 address = fromJson(addressJson);
@@ -76,18 +81,18 @@ public class UserAddressRepositoryJpa implements UserAddressRepository {
         return address;
     }
 
-    private UserAddress fromJson(String userJson) {
+    private UserAddressEntity fromJson(String userJson) {
 
         try {
             return new ObjectMapper()
-                    .readValue(userJson, UserAddress.class);
+                    .readValue(userJson, UserAddressEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    private String toJson(UserAddress user) {
+    private String toJson(UserAddressEntity user) {
 
         try {
             return new ObjectMapper()
@@ -102,7 +107,7 @@ public class UserAddressRepositoryJpa implements UserAddressRepository {
 
         try (Jedis jedis = cache.getResource()) {
 
-            if (jedis.hexists(userId, addressField+String.valueOf(index))) {
+            if (jedis.hexists(userId, addressField + String.valueOf(index))) {
 
                 jedis.expire(userId, userCacheTimeout.getSeconds());
                 return true;
@@ -111,35 +116,35 @@ public class UserAddressRepositoryJpa implements UserAddressRepository {
         return dao.existsByUserIdAndIndex(userId, index);
     }
 
-    private UserAddress save(UserAddress address) {
+    private UserAddressEntity save(UserAddressEntity address) {
 
         address = dao.save(address);
 
-        try(Jedis jedis = cache.getResource()) {
+        try (Jedis jedis = cache.getResource()) {
 
             jedis.hset(address.getUserId(),
-                    addressField+String.valueOf(address.getIndex()), toJson(address));
+                    addressField + String.valueOf(address.getIndex()), toJson(address));
             jedis.expire(address.getUserId(), userCacheTimeout.getSeconds());
         }
 
         return address;
     }
 
-    public UserAddress create(UserAddress address) {
+    public UserAddressEntity create(UserAddressEntity address) {
 
         return save(address);
     }
 
-    public UserAddress update(UserAddress address) {
+    public UserAddressEntity update(UserAddressEntity address) {
 
         return save(address);
     }
 
     public boolean delete(String userId, int index) {
 
-        try(Jedis jedis = cache.getResource()) {
+        try (Jedis jedis = cache.getResource()) {
 
-            jedis.hdel(userId, addressField+String.valueOf(index));
+            jedis.hdel(userId, addressField + String.valueOf(index));
         }
 
         return (dao.deleteByUserIdAndIndex(userId, index) == 1);
