@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.annotations.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
-import com.eatnow.search.entities.Restaurant;
+import com.eatnow.search.entities.RestaurantEntity;
 
-public interface RestaurantElasticDao extends ElasticsearchRepository<Restaurant,String> {
+public interface RestaurantElasticDao extends ElasticsearchRepository<RestaurantEntity,String> {
 
     @Query(
         "{" +
@@ -51,6 +51,25 @@ public interface RestaurantElasticDao extends ElasticsearchRepository<Restaurant
                 
             "}" +
         "}" )
-    public Page<Restaurant> findBySearchQueryNear(String query, double distanceInKm,
+    public Page<RestaurantEntity> findBySearchQueryNear(String query, double distanceInKm,
+            double lat, double lon, Pageable pageable);
+
+    @Query(
+        "{" +
+            "\"bool\": {" +
+
+                "\"filter\": {" +
+                    "\"geo_distance\": {" +
+                        "\"distance\": \"?0 km\"," +
+                        "\"location\": {" +
+                            "\"lat\" : ?1," +
+                            "\"lon\" : ?2" +
+                        "}" +
+                    "}" +
+                "}" +
+                
+            "}" +
+        "}" )
+    public Page<RestaurantEntity> findAllNear(double distanceInKm,
             double lat, double lon, Pageable pageable);
 }

@@ -2,7 +2,7 @@ package com.eatnow.search.exchanges;
 
 import java.util.List;
 
-import com.eatnow.search.dtos.ItemDto;
+import com.eatnow.search.dtos.Item;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +23,6 @@ public class ItemSearchResponse {
     private int pageSize;
 
     @NonNull
-    private List<ItemDto> items;
+    private List<Item> items;
 }
 

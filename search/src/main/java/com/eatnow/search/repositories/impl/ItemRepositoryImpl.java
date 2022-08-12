@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.search.entities.Item;
+import com.eatnow.search.entities.ItemEntity;
 import com.eatnow.search.repositories.ItemRepository;
 import com.eatnow.search.repositories.elastic.ItemElasticDao;
 
@@ -16,7 +16,7 @@ public class ItemRepositoryImpl implements ItemRepository {
     ItemElasticDao itemDao;
 
     @Override
-    public Page<Item> findBySearchQueryNear(String query, double distance,
+    public Page<ItemEntity> findBySearchQueryNear(String query, double distance,
             double lat, double lon, Pageable pageable) {
 
         return itemDao.findBySearchQueryNear(query, distance, lat, lon, pageable);
