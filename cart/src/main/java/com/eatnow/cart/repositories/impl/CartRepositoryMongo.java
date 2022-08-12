@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.cart.entities.Cart;
+import com.eatnow.cart.entities.CartEntity;
 import com.eatnow.cart.repositories.CartRepository;
 import com.eatnow.cart.repositories.mongoDao.CartMongoDao;
 import com.eatnow.cart.utils.RedisCache;
@@ -27,14 +27,14 @@ public class CartRepositoryMongo implements CartRepository {
     @Autowired
     private RedisCache cache;
 
-    public Cart findById(String userId) {
+    public CartEntity findById(String userId) {
 
         return findByIdCached(userId);
     }
 
-    private Cart findByIdCached(String userId) {
+    private CartEntity findByIdCached(String userId) {
 
-        Cart cart = null;
+        CartEntity cart = null;
 
         try(Jedis jedis = cache.getResource()) {
 
@@ -56,18 +56,18 @@ public class CartRepositoryMongo implements CartRepository {
         return cart;
     }
 
-    private Cart fromJson(String cartJson) {
+    private CartEntity fromJson(String cartJson) {
 
         try {
             return new ObjectMapper()
-                    .readValue(cartJson, Cart.class);
+                    .readValue(cartJson, CartEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    private String toJson(Cart cart) {
+    private String toJson(CartEntity cart) {
 
         try {
             return new ObjectMapper()
@@ -89,7 +89,7 @@ public class CartRepositoryMongo implements CartRepository {
         return dao.existsById(userId);
     }
 
-    public Cart save(Cart cart) {
+    public CartEntity save(CartEntity cart) {
 
         try (Jedis jedis = cache.getResource()) {
             jedis.setex(cart.getUserId(), cartCacheTimeout.getSeconds(), toJson(cart));

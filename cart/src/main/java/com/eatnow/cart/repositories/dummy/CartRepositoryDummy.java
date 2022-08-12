@@ -4,14 +4,14 @@ import java.util.HashMap;
 
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.cart.entities.Cart;
+import com.eatnow.cart.entities.CartEntity;
 import com.eatnow.cart.repositories.CartRepository;
 
 @Repository
 public class CartRepositoryDummy implements CartRepository {
-    private HashMap<String, Cart> carts = new HashMap<>();
+    private HashMap<String, CartEntity> carts = new HashMap<>();
 
-    public Cart findById(String userId) {
+    public CartEntity findById(String userId) {
         return carts.get(userId);
     }
 
@@ -19,7 +19,7 @@ public class CartRepositoryDummy implements CartRepository {
         return carts.containsKey(userId);
     }
 
-    public Cart save(Cart cart) {
+    public CartEntity save(CartEntity cart) {
         carts.put(cart.getUserId(), cart);
         return cart;
     }

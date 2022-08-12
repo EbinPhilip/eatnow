@@ -1,13 +1,13 @@
 package com.eatnow.cart.repositories;
 
-import com.eatnow.cart.entities.Cart;
+import com.eatnow.cart.entities.CartEntity;
 
 public interface CartRepository {
-    public Cart findById(String userId);
+    public CartEntity findById(String userId);
 
     public boolean existsById(String userId);
 
-    public Cart save(Cart cart);
+    public CartEntity save(CartEntity cart);
 
     public boolean delete(String userId);
 }

@@ -13,7 +13,7 @@ import lombok.Builder.Default;
 @Builder
 @Data
 @AllArgsConstructor
-public class CartDto {
+public class Cart {
 
     @Data
     @AllArgsConstructor
@@ -33,7 +33,7 @@ public class CartDto {
 
     @NonNull
     @Default
-    List<CartDto.CartItem> items = new ArrayList<>();
+    List<Cart.CartItem> items = new ArrayList<>();
 
     @NonNull
     private Double total;
