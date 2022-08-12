@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-import com.eatnow.user.dtos.UserDto;
-import com.eatnow.user.entities.User;
+import com.eatnow.user.dtos.User;
+import com.eatnow.user.entities.UserEntity;
 import com.eatnow.user.repositories.UserRepository;
 
 @Service
@@ -15,32 +15,32 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    public UserDto getUserById(String userId) {
+    public User getUserById(String userId) {
 
-        User user = repository.findById(userId);
+        UserEntity user = repository.findById(userId);
         return userToDto(user);
     }
 
     @Transactional
-    public UserDto createUser(UserDto dto) {
+    public User createUser(User dto) {
 
-        User user = dtoToUser(dto);
+        UserEntity user = dtoToUser(dto);
         repository.create(user);
         return userToDto(user);
     }
 
     @Transactional
-    public UserDto updateUser(String userId, UserDto dto) {
+    public User updateUser(String userId, User dto) {
 
         dto.setId(userId);
-        User user = dtoToUser(dto);
+        UserEntity user = dtoToUser(dto);
         repository.update(user);
         return userToDto(user);
     }
 
-    private User dtoToUser(UserDto dto) {
+    private UserEntity dtoToUser(User dto) {
 
-        User user = User.builder()
+        UserEntity user = UserEntity.builder()
             .id(dto.getId())
             .name(dto.getName())
             .phone(dto.getPhone())
@@ -49,9 +49,9 @@ public class UserService {
         return user;
     }
 
-    private UserDto userToDto(User user) {
+    private User userToDto(UserEntity user) {
 
-        UserDto dto = UserDto.builder()
+        User dto = User.builder()
             .id(user.getId())
             .name(user.getName())
             .email(user.getEmail())

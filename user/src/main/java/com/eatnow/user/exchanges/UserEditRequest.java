@@ -1,21 +1,16 @@
-package com.eatnow.user.dtos;
+package com.eatnow.user.exchanges;
 
 import javax.validation.constraints.NotBlank;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
-public class UserDto {
-    @NonNull
-    @NotBlank(message = "User ID cannot be blank")
-    private String id;
+public class UserEditRequest {
 
     @NonNull
     @NotBlank(message = "Name cannot be blank")

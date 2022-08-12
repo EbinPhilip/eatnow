@@ -16,7 +16,7 @@ import lombok.NonNull;
 @NoArgsConstructor
 @Data
 @Builder
-public class User {
+public class UserEntity {
     @Id
     @NonNull
     private String id;
