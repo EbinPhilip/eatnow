@@ -130,7 +130,6 @@ public class UserController {
     @Operation(summary = "Add new address", description = "Add a new address for the user specified by user-id.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "address added")})
-    @SecurityRequirements()
     public ResponseEntity<UserAddress> postUserAddress(@PathVariable @NotNull String userId,
             @Valid @RequestBody UserAddressRequest addressRequest) {
 
