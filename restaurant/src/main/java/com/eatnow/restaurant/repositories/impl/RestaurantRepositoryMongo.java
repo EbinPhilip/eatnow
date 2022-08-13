@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.restaurant.entities.RestaurantEntity;
 import com.eatnow.restaurant.repositories.RestaurantRepository;
@@ -45,7 +47,9 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
     private RestaurantEntity findByIdFromDb(String id) {
 
         return mongoDao.findById(id)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "restaurant not found")));
     }
 
     private RestaurantEntity findByIdFromCache(String id) {

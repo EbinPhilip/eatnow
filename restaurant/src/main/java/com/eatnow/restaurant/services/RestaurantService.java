@@ -2,7 +2,6 @@ package com.eatnow.restaurant.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,43 +19,36 @@ public class RestaurantService {
 
     private static double max_distance = 20.0;
 
-    public Restaurant getRestaurantbyId(String id)
-    {
-        RestaurantEntity restaurant = 
-            Optional.ofNullable(restaurantRepository.findById(id))
-            .orElseThrow(RuntimeException::new);
+    public Restaurant getRestaurantbyId(String id) {
+
+        RestaurantEntity restaurant = restaurantRepository.findById(id);
+
         return restaurantToDto(restaurant);
     }
 
-    public List<Restaurant> getRestaurantsNearby(double latitude, double longitude)
-    {
+    public List<Restaurant> getRestaurantsNearby(double latitude, double longitude) {
+
         Location location = new Location(latitude, longitude);
-        Map<String,RestaurantEntity> restaurants = 
-            restaurantRepository.findOpenRestaurantsNearby(location, max_distance);
-        
-        List<Restaurant> restaurantList =
-            restaurants.values().stream().map(
+        Map<String, RestaurantEntity> restaurants = restaurantRepository.findOpenRestaurantsNearby(location,
+                max_distance);
+
+        List<Restaurant> restaurantList = restaurants.values().stream().map(
                 (i) -> {
                     return restaurantToDto(i);
-                }
-            ).collect(Collectors.toList());
+                }).collect(Collectors.toList());
         return restaurantList;
     }
 
     public boolean isRestaurantOpen(String restaurantId) {
 
-        RestaurantEntity restaurant = 
-            Optional.ofNullable(restaurantRepository.findById(restaurantId))
-            .orElseThrow(RuntimeException::new);
+        RestaurantEntity restaurant = restaurantRepository.findById(restaurantId);
 
         return restaurant.isOpen();
     }
 
     public boolean setRestaurantOpen(String restaurantId, boolean openStatus) {
 
-        RestaurantEntity restaurant = 
-            Optional.ofNullable(restaurantRepository.findById(restaurantId))
-            .orElseThrow(RuntimeException::new);
+        RestaurantEntity restaurant = restaurantRepository.findById(restaurantId);
 
         restaurant.setOpen(openStatus);
         restaurantRepository.update(restaurant);
@@ -64,11 +56,11 @@ public class RestaurantService {
         return restaurant.isOpen();
     }
 
-    public Restaurant updateRestaurant(Restaurant dto)
-    {
+    public Restaurant updateRestaurant(Restaurant dto) {
+
         RestaurantEntity old = restaurantRepository.findById(dto.getId());
         RestaurantEntity restaurant = dtoToRestaurant(dto, old);
-        
+
         restaurant = restaurantRepository.update(restaurant);
         return restaurantToDto(restaurant);
     }
@@ -78,31 +70,31 @@ public class RestaurantService {
         return true;
     }
 
-    private RestaurantEntity dtoToRestaurant(Restaurant dto, RestaurantEntity old)
-    {
+    private RestaurantEntity dtoToRestaurant(Restaurant dto, RestaurantEntity old) {
+
         RestaurantEntity restaurant = RestaurantEntity.builder()
-            .id(dto.getId())
-            .name(dto.getName())
-            .address(dto.getAddress())
-            .location(old.getLocation())
-            .tags(dto.getTags())
-            .rating(old.getRating())
-            .reviews(old.getReviews())
-            .isOpen(dto.isOpen())
-            .build();
+                .id(dto.getId())
+                .name(dto.getName())
+                .address(dto.getAddress())
+                .location(old.getLocation())
+                .tags(dto.getTags())
+                .rating(old.getRating())
+                .reviews(old.getReviews())
+                .isOpen(dto.isOpen())
+                .build();
         return restaurant;
     }
 
-    private Restaurant restaurantToDto(RestaurantEntity restaurant)
-    {
+    private Restaurant restaurantToDto(RestaurantEntity restaurant) {
+
         Restaurant dto = Restaurant.builder()
-            .id(restaurant.getId())
-            .name(restaurant.getName())
-            .address(restaurant.getAddress())
-            .tags(restaurant.getTags())
-            .rating(restaurant.getRating())
-            .isOpen(restaurant.isOpen())
-            .build();
+                .id(restaurant.getId())
+                .name(restaurant.getName())
+                .address(restaurant.getAddress())
+                .tags(restaurant.getTags())
+                .rating(restaurant.getRating())
+                .isOpen(restaurant.isOpen())
+                .build();
         return dto;
     }
 }

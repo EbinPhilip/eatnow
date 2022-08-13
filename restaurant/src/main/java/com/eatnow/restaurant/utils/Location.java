@@ -4,6 +4,8 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -49,7 +51,7 @@ public class Location {
     {
         if (latitude<-90.0 || latitude>90)
         {
-            throw new RuntimeException("Valid latitude values: -90 to 90");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valid latitude values: -90 to 90");
         }
         this.latitude = latitude;
     }
@@ -64,7 +66,7 @@ public class Location {
     {
         if (longitude<-180.0 || longitude>180)
         {
-            throw new RuntimeException("Valid longitude values: -180 to 180");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Valid longitude values: -180 to 180");
         }
         this.longitude = longitude;
     }

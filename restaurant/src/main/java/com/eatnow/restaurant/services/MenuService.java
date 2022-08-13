@@ -5,7 +5,9 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.restaurant.dtos.Item;
 import com.eatnow.restaurant.dtos.Menu;
@@ -27,22 +29,24 @@ public class MenuService {
         MenuEntity menu = menuRepository.findByRestaurantId(restaurantId);
         List<Item> items = menu.getItems()
                 .stream()
-                .map((i)->{
+                .map((i) -> {
                     return itemToDto(i);
                 }).collect(Collectors.toList());
-        
+
         return Menu.builder()
-                    .restaurantId(restaurantId)
-                    .restaurantName(menu.getRestaurantName())
-                    .items(items)
-                    .build();
+                .restaurantId(restaurantId)
+                .restaurantName(menu.getRestaurantName())
+                .items(items)
+                .build();
     }
 
     public List<Item> checkServiceabilityAndFetchItems(String restaurantId,
             Location location, Set<Integer> itemIndices) {
 
         if (!restaurantService.isRestaurantServiceable(restaurantId, location)) {
-            throw new RuntimeException();
+
+            throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED,
+                    "Restaurant not serviceable");
         }
 
         return menuRepository.findByRestaurantIdAndIndices(restaurantId, itemIndices)
