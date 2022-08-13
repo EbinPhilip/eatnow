@@ -3,7 +3,9 @@ package com.eatnow.cart.services;
 import java.time.Duration;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.cart.dtos.ItemDto;
 import com.eatnow.cart.dtos.MenuDto;
@@ -16,7 +18,7 @@ import redis.clients.jedis.Jedis;
 @Service
 public class MenuService {
 
-    private static final String menuCachePrefix = "_menu:";
+    private static final String menuCachePrefix = "#menu:";
     private static final Duration cacheTimeout = Duration.ofMinutes(10);
 
     @Autowired
@@ -48,7 +50,8 @@ public class MenuService {
                 .stream()
                 .filter((i)->(i.getItemIndex() == itemIndex))
                 .findFirst()
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(()->(new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "requested item could not be found")));
     }
 
     private MenuDto fromMenuJson(String menuJson) {

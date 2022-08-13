@@ -4,7 +4,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import  com.eatnow.cart.dtos.Cart;
 import  com.eatnow.cart.dtos.ItemDto;
@@ -51,7 +53,8 @@ public class CartService {
     public Cart updateCart(String userId, int itemIndex, int quantity) {
         CartEntity cart = Optional.ofNullable(
                 cartRepository.findById(userId))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(()->(new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "cart is empty")));
 
         cart.update(itemIndex, quantity);
         cart = cartRepository.save(cart);
@@ -62,7 +65,8 @@ public class CartService {
     public Cart deleteFromCart(String userId, int itemIndex) {
         CartEntity cart = Optional.ofNullable(
                 cartRepository.findById(userId))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(()->(new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "cart is empty")));
 
         cart.delete(itemIndex);
         cart = cartRepository.save(cart);
