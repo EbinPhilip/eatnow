@@ -9,29 +9,34 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.restaurant.dtos.Restaurant;
+import com.eatnow.restaurant.exchanges.RestaurantEditRequest;
 import com.eatnow.restaurant.services.RestaurantService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
+@Tag(name = "Restaurant APIs")
 public class RestaurantController {
     public static final String RESTAURANTS_ENDPOINT = "/restaurant";
     public static final String RESTAURANTS_LOGIN_ENDPOINT = RESTAURANTS_ENDPOINT + "/login";
-    public static final String RESTAURANT_API = RESTAURANTS_ENDPOINT + "/{restaurantId}";
+    public static final String RESTAURANT_API = RESTAURANTS_ENDPOINT + "/{restaurant-id}";
     public static final String RESTAURANT_OPEN_API = RESTAURANT_API + "/is-open";
 
     @Autowired
@@ -44,6 +49,11 @@ public class RestaurantController {
     private String issuer;
 
     @GetMapping(RESTAURANTS_LOGIN_ENDPOINT)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "restaurant not found", content = @Content)})
+    @SecurityRequirements()
+    @Operation(summary = "Login to get restaurant token", description = "Login with an existing restaurant-id to get restaurant token. No password required.")
     public ResponseEntity<String> login(
             @RequestParam(name = "restaurant-id") String restaurantId) {
 
@@ -61,6 +71,11 @@ public class RestaurantController {
     }
 
     @GetMapping(RESTAURANTS_ENDPOINT)
+    @SecurityRequirements()
+    @Operation(summary = "Fetch restaurants nearby", description = "Fetch restaurants near the location specified by latitude and longitude")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "400", description = "Request is ill formed or location is invalid", content = @Content)})
     public ResponseEntity<List<Restaurant>> getNearbyRestaurants(
             @RequestParam(name = "latitude") Double latitude,
             @RequestParam(name = "longitude") Double longitude) {
@@ -70,8 +85,13 @@ public class RestaurantController {
     }
 
     @GetMapping(RESTAURANT_API)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "restaurant not found", content = @Content)})
+    @SecurityRequirements()
+    @Operation(summary = "Fetch restaurant details", description = "Fetch details of restaurant specified by restaurant-id.")
     public ResponseEntity<Restaurant> getRestaurant(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
+            @PathVariable(name = "restaurant-id") @NotNull String restaurantId) {
 
         return ResponseEntity.ok().body(
                 restaurantService.getRestaurantbyId(restaurantId));
@@ -79,9 +99,13 @@ public class RestaurantController {
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
             "#restaurantId == authentication.principal.username")
-    @PostMapping(RESTAURANT_OPEN_API)
+    @PutMapping(RESTAURANT_OPEN_API)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "restaurant not found", content = @Content)})
+    @Operation(summary = "Set restaurant status: open/closed", description = "Set the is-open status of restaurant specified by restaurant-id.")
     public ResponseEntity<Boolean> setRestaurantOpen(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
+            @PathVariable(name = "restaurant-id") @NotNull String restaurantId,
             @RequestParam(name = "open") boolean openStatus) {
 
         return ResponseEntity.ok().body(
@@ -89,8 +113,13 @@ public class RestaurantController {
     }
 
     @GetMapping(RESTAURANT_OPEN_API)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "restaurant not found", content = @Content)})
+    @Operation(summary = "Get restaurant status: open/closed", description = "Get the is-open status of restaurant specified by restaurant-id.")
+    @SecurityRequirements()
     public ResponseEntity<Boolean> getRestaurantOpen(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
+            @PathVariable(name = "restaurant-id") @NotNull String restaurantId) {
 
         return ResponseEntity.ok().body(
                 restaurantService.isRestaurantOpen(restaurantId));
@@ -99,14 +128,19 @@ public class RestaurantController {
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
             "#restaurantId == authentication.principal.username")
     @PutMapping(RESTAURANT_API)
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "404", description = "restaurant not found", content = @Content)})
+    @Operation(summary = "Update restaurant", description = "Update details of the restaurant specified by restaurant-id.")
     public ResponseEntity<Restaurant> putRestaurant(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @Valid @RequestBody Restaurant restaurant) {
+            @PathVariable(name = "restaurant-id") @NotNull String restaurantId,
+            @Valid @RequestBody RestaurantEditRequest restaurantRequest) {
 
-        if (!restaurantId.equals(restaurant.getId())) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
-                    "Restaurant id cannot be changed");
-        }
+        Restaurant restaurant = Restaurant.builder()
+                .id(restaurantId)
+                .name(restaurantRequest.getName())
+                .tags(restaurantRequest.getTags())
+                .build();
         return ResponseEntity.ok().body(
                 restaurantService.updateRestaurant(restaurant));
     }
