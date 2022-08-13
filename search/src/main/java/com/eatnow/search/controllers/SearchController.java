@@ -16,13 +16,14 @@ import com.eatnow.search.services.SearchService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Tag(name = "Search", description = "The search API")
+@Tag(name = "Search APIs")
 public class SearchController {
 
     public static final String SEARCH_RESTAURANTS_NEARBY_ENDPOINT = "/search/nearby/restaurants/";
@@ -81,7 +82,7 @@ public class SearchController {
     @SecurityRequirement(name = "user token")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200"),
-        @ApiResponse(responseCode = "404", description = "address not found")})
+        @ApiResponse(responseCode = "404", description = "address not found", content = @Content)})
     public ResponseEntity<RestaurantSearchResponse> searchRestaurants(
             @Parameter(description = "The search string. If blank, returns all nearby" +
                     "restaurants") @RequestParam(value = "query", defaultValue = "") String query,
@@ -123,7 +124,7 @@ public class SearchController {
     @SecurityRequirement(name = "user token")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200"),
-        @ApiResponse(responseCode = "404", description = "address not found")})
+        @ApiResponse(responseCode = "404", description = "address not found", content = @Content)})
     public ResponseEntity<ItemSearchResponse> searchItems(
             @Parameter(description = "The search string") @RequestParam("query") String query,
             @RequestParam("user-id") String userId,

@@ -13,7 +13,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 @SpringBootApplication
 @EnableElasticsearchRepositories(basePackages = "com.eatnow.search.repositories.elastic")
 @EnableFeignClients
-@OpenAPIDefinition(info = @Info(title = "Search API", version = "1.0", description = "APIs for text searching"))
+@OpenAPIDefinition(info = @Info(title = "Search", version = "1.0", description = "APIs for text searching"))
 @SecurityScheme(name = "user token", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 public class SearchApplication {
 
