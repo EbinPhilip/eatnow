@@ -75,12 +75,12 @@ public class RestaurantService {
         RestaurantEntity restaurant = RestaurantEntity.builder()
                 .id(dto.getId())
                 .name(dto.getName())
-                .address(dto.getAddress())
+                .address(old.getAddress())
                 .location(old.getLocation())
                 .tags(dto.getTags())
                 .rating(old.getRating())
                 .reviews(old.getReviews())
-                .isOpen(dto.isOpen())
+                .isOpen(old.isOpen())
                 .build();
         return restaurant;
     }
