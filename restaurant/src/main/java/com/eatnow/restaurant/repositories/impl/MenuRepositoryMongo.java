@@ -9,7 +9,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.restaurant.entities.ItemEntity;
 import com.eatnow.restaurant.entities.MenuEntity;
@@ -40,7 +42,9 @@ public class MenuRepositoryMongo implements MenuRepository {
     private MenuEntity findByRestaurantIdFromDb(String restaurantId) {
 
         return dao.findByRestaurantId(restaurantId)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "restaurant not found")));
     }
 
     private MenuEntity findByRestaurantIdFromCache(String restaurantId) {
@@ -103,6 +107,16 @@ public class MenuRepositoryMongo implements MenuRepository {
                 .stream()
                 .filter(
                         (i) -> (indices.contains(i.getItemIndex())))
+                .map(
+                        (i) -> {
+                            if (i.isAvailable()) {
+                                return i;
+                            } else {
+                                throw new ResponseStatusException(
+                                        HttpStatus.PRECONDITION_FAILED,
+                                        "Item is not available currently");
+                            }
+                        })
                 .collect(Collectors.toList());
     }
 
@@ -165,7 +179,9 @@ public class MenuRepositoryMongo implements MenuRepository {
 
         MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
         int index = Optional.ofNullable(findListPositionOfItem(menu, item.getItemIndex()))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "item not found")));
 
         menu.getItems().set(index, item);
         saveMenu(menu);
@@ -177,7 +193,9 @@ public class MenuRepositoryMongo implements MenuRepository {
 
         MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
         int index = Optional.ofNullable(findListPositionOfItem(menu, itemIndex))
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "item not found")));
 
         menu.getItems().remove(index);
         saveMenu(menu);
