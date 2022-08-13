@@ -3,23 +3,23 @@ package com.eatnow.restaurant.repositories;
 import java.util.List;
 import java.util.Set;
 
-import com.eatnow.restaurant.entities.Item;
-import com.eatnow.restaurant.entities.Menu;
+import com.eatnow.restaurant.entities.ItemEntity;
+import com.eatnow.restaurant.entities.MenuEntity;
 
 public interface MenuRepository {
 
-    public Menu findByRestaurantId(String id);
+    public MenuEntity findByRestaurantId(String id);
 
-    public Item findByRestaurantIdAndIndex(String restaurantId, int itemIndex);
+    public ItemEntity findByRestaurantIdAndIndex(String restaurantId, int itemIndex);
 
-    public List<Item> findByRestaurantIdAndIndices(String restaurantId,
+    public List<ItemEntity> findByRestaurantIdAndIndices(String restaurantId,
             Set<Integer> indices);
 
     public boolean existsByRestaurantId(String id);
 
-    public Item createItem(String restaurantId, Item item);
+    public ItemEntity createItem(String restaurantId, ItemEntity item);
 
-    public Item updateItem(String restaurantId, Item item);
+    public ItemEntity updateItem(String restaurantId, ItemEntity item);
 
     public boolean deleteItem(String restaurantId, int itemIndex);
 

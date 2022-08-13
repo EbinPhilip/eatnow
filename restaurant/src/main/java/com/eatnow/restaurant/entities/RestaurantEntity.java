@@ -21,7 +21,7 @@ import lombok.Builder.Default;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Restaurant {
+public class RestaurantEntity {
     @Id
     private String id;
 

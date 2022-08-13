@@ -18,7 +18,7 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RestaurantDto {
+public class Restaurant {
     private String id;
 
     @NonNull

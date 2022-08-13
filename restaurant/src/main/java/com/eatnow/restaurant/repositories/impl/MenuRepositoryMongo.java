@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.restaurant.entities.Item;
-import com.eatnow.restaurant.entities.Menu;
+import com.eatnow.restaurant.entities.ItemEntity;
+import com.eatnow.restaurant.entities.MenuEntity;
 import com.eatnow.restaurant.repositories.MenuRepository;
 import com.eatnow.restaurant.repositories.mongoDao.MenuMongoDao;
 import com.eatnow.restaurant.utils.RedisCache;
@@ -32,20 +32,20 @@ public class MenuRepositoryMongo implements MenuRepository {
     @Autowired
     private RedisCache cache;
 
-    public Menu findByRestaurantId(String id) {
+    public MenuEntity findByRestaurantId(String id) {
 
         return findByRestaurantIdFromCache(id);
     }
 
-    private Menu findByRestaurantIdFromDb(String restaurantId) {
+    private MenuEntity findByRestaurantIdFromDb(String restaurantId) {
 
         return dao.findByRestaurantId(restaurantId)
                 .orElseThrow(RuntimeException::new);
     }
 
-    private Menu findByRestaurantIdFromCache(String restaurantId) {
+    private MenuEntity findByRestaurantIdFromCache(String restaurantId) {
 
-        Menu menu = null;
+        MenuEntity menu = null;
 
         try (Jedis jedis = cache.getResource()) {
 
@@ -64,18 +64,18 @@ public class MenuRepositoryMongo implements MenuRepository {
         return menu;
     }
 
-    private Menu fromJson(String menuJson) {
+    private MenuEntity fromJson(String menuJson) {
 
         try {
             return new ObjectMapper()
-                    .readValue(menuJson, Menu.class);
+                    .readValue(menuJson, MenuEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    private String toJson(Menu menu) {
+    private String toJson(MenuEntity menu) {
 
         try {
             return new ObjectMapper()
@@ -86,19 +86,19 @@ public class MenuRepositoryMongo implements MenuRepository {
         }
     }
 
-    public Item findByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
+    public ItemEntity findByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
 
-        Menu menu = findByRestaurantIdFromCache(restaurantId);
+        MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
         return menu.getItems().stream()
                 .filter((i) -> (i.getItemIndex() == itemIndex))
                 .findFirst()
                 .get();
     }
 
-    public List<Item> findByRestaurantIdAndIndices(String restaurantId,
+    public List<ItemEntity> findByRestaurantIdAndIndices(String restaurantId,
             Set<Integer> indices) {
 
-        Menu menu = findByRestaurantIdFromCache(restaurantId);
+        MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
         return menu.getItems()
                 .stream()
                 .filter(
@@ -117,7 +117,7 @@ public class MenuRepositoryMongo implements MenuRepository {
         return dao.existsByRestaurantId(id);
     }
 
-    private Menu saveMenu(Menu menu) {
+    private MenuEntity saveMenu(MenuEntity menu) {
 
         try (Jedis jedis = cache.getResource()) {
             jedis.hset(menu.getRestaurantId(), menuPrefix, toJson(menu));
@@ -126,13 +126,13 @@ public class MenuRepositoryMongo implements MenuRepository {
         return dao.save(menu);
     }
 
-    public Item createItem(String restaurantId, Item item) {
+    public ItemEntity createItem(String restaurantId, ItemEntity item) {
 
-        Menu menu = findByRestaurantIdFromCache(restaurantId);
+        MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
 
-        int index = Collections.max(menu.getItems(), new Comparator<Item>() {
+        int index = Collections.max(menu.getItems(), new Comparator<ItemEntity>() {
             @Override
-            public int compare(Item i1, Item i2) {
+            public int compare(ItemEntity i1, ItemEntity i2) {
                 return Integer.valueOf(i1.getItemIndex())
                         .compareTo(i2.getItemIndex());
             }
@@ -146,10 +146,10 @@ public class MenuRepositoryMongo implements MenuRepository {
         return item;
     }
 
-    private Integer findListPositionOfItem(Menu menu, int itemIndex) {
+    private Integer findListPositionOfItem(MenuEntity menu, int itemIndex) {
 
         int index = 0;
-        for (Item elem : menu.getItems()) {
+        for (ItemEntity elem : menu.getItems()) {
 
             if (elem.getItemIndex() == itemIndex) {
 
@@ -161,9 +161,9 @@ public class MenuRepositoryMongo implements MenuRepository {
         return null;
     }
 
-    public Item updateItem(String restaurantId, Item item) {
+    public ItemEntity updateItem(String restaurantId, ItemEntity item) {
 
-        Menu menu = findByRestaurantIdFromCache(restaurantId);
+        MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
         int index = Optional.ofNullable(findListPositionOfItem(menu, item.getItemIndex()))
                 .orElseThrow(RuntimeException::new);
 
@@ -175,7 +175,7 @@ public class MenuRepositoryMongo implements MenuRepository {
 
     public boolean deleteItem(String restaurantId, int itemIndex) {
 
-        Menu menu = findByRestaurantIdFromCache(restaurantId);
+        MenuEntity menu = findByRestaurantIdFromCache(restaurantId);
         int index = Optional.ofNullable(findListPositionOfItem(menu, itemIndex))
                 .orElseThrow(RuntimeException::new);
 

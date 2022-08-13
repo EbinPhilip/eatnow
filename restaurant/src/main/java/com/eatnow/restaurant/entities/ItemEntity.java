@@ -14,7 +14,7 @@ import lombok.Builder.Default;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Item {
+public class ItemEntity {
 
     private int itemIndex;
 

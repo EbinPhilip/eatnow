@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.eatnow.restaurant.dtos.RestaurantDto;
-import com.eatnow.restaurant.entities.Restaurant;
+import com.eatnow.restaurant.dtos.Restaurant;
+import com.eatnow.restaurant.entities.RestaurantEntity;
 import com.eatnow.restaurant.repositories.RestaurantRepository;
 import com.eatnow.restaurant.utils.Location;
 
@@ -20,21 +20,21 @@ public class RestaurantService {
 
     private static double max_distance = 20.0;
 
-    public RestaurantDto getRestaurantbyId(String id)
+    public Restaurant getRestaurantbyId(String id)
     {
-        Restaurant restaurant = 
+        RestaurantEntity restaurant = 
             Optional.ofNullable(restaurantRepository.findById(id))
             .orElseThrow(RuntimeException::new);
         return restaurantToDto(restaurant);
     }
 
-    public List<RestaurantDto> getRestaurantsNearby(double latitude, double longitude)
+    public List<Restaurant> getRestaurantsNearby(double latitude, double longitude)
     {
         Location location = new Location(latitude, longitude);
-        Map<String,Restaurant> restaurants = 
+        Map<String,RestaurantEntity> restaurants = 
             restaurantRepository.findOpenRestaurantsNearby(location, max_distance);
         
-        List<RestaurantDto> restaurantList =
+        List<Restaurant> restaurantList =
             restaurants.values().stream().map(
                 (i) -> {
                     return restaurantToDto(i);
@@ -45,7 +45,7 @@ public class RestaurantService {
 
     public boolean isRestaurantOpen(String restaurantId) {
 
-        Restaurant restaurant = 
+        RestaurantEntity restaurant = 
             Optional.ofNullable(restaurantRepository.findById(restaurantId))
             .orElseThrow(RuntimeException::new);
 
@@ -54,7 +54,7 @@ public class RestaurantService {
 
     public boolean setRestaurantOpen(String restaurantId, boolean openStatus) {
 
-        Restaurant restaurant = 
+        RestaurantEntity restaurant = 
             Optional.ofNullable(restaurantRepository.findById(restaurantId))
             .orElseThrow(RuntimeException::new);
 
@@ -64,10 +64,10 @@ public class RestaurantService {
         return restaurant.isOpen();
     }
 
-    public RestaurantDto updateRestaurant(RestaurantDto dto)
+    public Restaurant updateRestaurant(Restaurant dto)
     {
-        Restaurant old = restaurantRepository.findById(dto.getId());
-        Restaurant restaurant = dtoToRestaurant(dto, old);
+        RestaurantEntity old = restaurantRepository.findById(dto.getId());
+        RestaurantEntity restaurant = dtoToRestaurant(dto, old);
         
         restaurant = restaurantRepository.update(restaurant);
         return restaurantToDto(restaurant);
@@ -78,9 +78,9 @@ public class RestaurantService {
         return true;
     }
 
-    private Restaurant dtoToRestaurant(RestaurantDto dto, Restaurant old)
+    private RestaurantEntity dtoToRestaurant(Restaurant dto, RestaurantEntity old)
     {
-        Restaurant restaurant = Restaurant.builder()
+        RestaurantEntity restaurant = RestaurantEntity.builder()
             .id(dto.getId())
             .name(dto.getName())
             .address(dto.getAddress())
@@ -93,9 +93,9 @@ public class RestaurantService {
         return restaurant;
     }
 
-    private RestaurantDto restaurantToDto(Restaurant restaurant)
+    private Restaurant restaurantToDto(RestaurantEntity restaurant)
     {
-        RestaurantDto dto = RestaurantDto.builder()
+        Restaurant dto = Restaurant.builder()
             .id(restaurant.getId())
             .name(restaurant.getName())
             .address(restaurant.getAddress())

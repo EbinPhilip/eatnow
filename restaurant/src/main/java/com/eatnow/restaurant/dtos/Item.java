@@ -15,7 +15,7 @@ import lombok.Builder.Default;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ItemDto {
+public class Item {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String restaurantId;
 

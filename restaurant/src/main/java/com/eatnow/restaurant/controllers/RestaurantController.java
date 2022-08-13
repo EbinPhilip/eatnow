@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.eatnow.restaurant.dtos.ItemDto;
-import com.eatnow.restaurant.dtos.MenuDto;
-import com.eatnow.restaurant.dtos.RestaurantDto;
+import com.eatnow.restaurant.dtos.Item;
+import com.eatnow.restaurant.dtos.Menu;
+import com.eatnow.restaurant.dtos.Restaurant;
 import com.eatnow.restaurant.services.MenuService;
 import com.eatnow.restaurant.services.RestaurantService;
 import com.eatnow.restaurant.utils.Location;
@@ -62,7 +62,7 @@ public class RestaurantController {
     public ResponseEntity<String> login(
             @RequestParam(name = "restaurant-id") String restaurantId) {
 
-        RestaurantDto restaurant = restaurantService.getRestaurantbyId(restaurantId);
+        Restaurant restaurant = restaurantService.getRestaurantbyId(restaurantId);
         String key = Jwts
                 .builder()
                 .setIssuer(issuer)
@@ -76,7 +76,7 @@ public class RestaurantController {
     }
 
     @GetMapping(RESTAURANTS_ENDPOINT)
-    public ResponseEntity<List<RestaurantDto>> getNearbyRestaurants(
+    public ResponseEntity<List<Restaurant>> getNearbyRestaurants(
             @RequestParam(name = "latitude") Double latitude,
             @RequestParam(name = "longitude") Double longitude) {
 
@@ -85,7 +85,7 @@ public class RestaurantController {
     }
 
     @GetMapping(RESTAURANT_API)
-    public ResponseEntity<RestaurantDto> getRestaurant(
+    public ResponseEntity<Restaurant> getRestaurant(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
 
         return ResponseEntity.ok().body(
@@ -114,9 +114,9 @@ public class RestaurantController {
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
             "#restaurantId == authentication.principal.username")
     @PutMapping(RESTAURANT_API)
-    public ResponseEntity<RestaurantDto> putRestaurant(
+    public ResponseEntity<Restaurant> putRestaurant(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @Valid @RequestBody RestaurantDto restaurant) {
+            @Valid @RequestBody Restaurant restaurant) {
 
         if (!restaurantId.equals(restaurant.getId())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
@@ -127,7 +127,7 @@ public class RestaurantController {
     }
 
     @GetMapping(MENU_ENDPOINT)
-    public ResponseEntity<MenuDto> getMenu(
+    public ResponseEntity<Menu> getMenu(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
 
         return ResponseEntity.ok().body(
@@ -137,16 +137,16 @@ public class RestaurantController {
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
             "#restaurantId == authentication.principal.username")
     @PostMapping(MENU_ENDPOINT)
-    public ResponseEntity<ItemDto> postItem(
+    public ResponseEntity<Item> postItem(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @Valid @RequestBody ItemDto item) {
+            @Valid @RequestBody Item item) {
 
         return ResponseEntity.ok().body(
                 menuService.createItem(restaurantId, item));
     }
 
     @GetMapping(ITEM_ENDPOINT)
-    public ResponseEntity<ItemDto> getItem(
+    public ResponseEntity<Item> getItem(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId,
             @PathVariable(name = "itemIndex") @NotNull Integer itemIndex) {
 
@@ -157,10 +157,10 @@ public class RestaurantController {
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
             "#restaurantId == authentication.principal.username")
     @PutMapping(ITEM_ENDPOINT)
-    public ResponseEntity<ItemDto> putItem(
+    public ResponseEntity<Item> putItem(
             @PathVariable(name = "restaurantId") @NotNull String restaurantId,
             @PathVariable(name = "itemIndex") @NotNull Integer itemIndex,
-            @Valid @RequestBody ItemDto item) {
+            @Valid @RequestBody Item item) {
 
         return ResponseEntity.ok().body(
                 menuService.updateItem(restaurantId, itemIndex, item));
@@ -204,13 +204,13 @@ public class RestaurantController {
     }
 
     @GetMapping(INTERNAL_FETCH_ITEMS_ENDPOINT)
-    public ResponseEntity<List<ItemDto>> getServiceableItems(
+    public ResponseEntity<List<Item>> getServiceableItems(
             @RequestParam(name = "restaurant-id") String restaurantId,
             @RequestParam(name = "latitude") double latitude,
             @RequestParam(name = "longitude") double longitude,
             @RequestParam(name = "indices") Set<Integer> itemIndices) {
 
-        return new ResponseEntity<List<ItemDto>>(menuService
+        return new ResponseEntity<List<Item>>(menuService
                 .checkServiceabilityAndFetchItems(restaurantId,
                         new Location(latitude, longitude),
                         itemIndices),
