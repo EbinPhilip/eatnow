@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Menu {
+public class MenuEntity {
     @Id
     String id;
 
@@ -18,5 +18,5 @@ public class Menu {
 
     String restaurantName;
 
-    List<Item> items = new ArrayList<>();
+    List<ItemEntity> items = new ArrayList<>();
 }

@@ -11,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuDto {
+public class Menu {
     
     private String restaurantId;
 
     private String restaurantName;
 
-    private List<ItemDto> items;
+    private List<Item> items;
 }

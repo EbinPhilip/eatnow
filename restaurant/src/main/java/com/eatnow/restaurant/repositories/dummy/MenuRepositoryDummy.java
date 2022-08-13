@@ -8,46 +8,46 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.restaurant.entities.Item;
-import com.eatnow.restaurant.entities.Menu;
+import com.eatnow.restaurant.entities.ItemEntity;
+import com.eatnow.restaurant.entities.MenuEntity;
 import com.eatnow.restaurant.repositories.MenuRepository;
 
 @Repository
 public class MenuRepositoryDummy implements MenuRepository {
 
-    private HashMap<String, Menu> menus;
+    private HashMap<String, MenuEntity> menus;
 
     public MenuRepositoryDummy() {
         menus = new HashMap<>();
 
-        Item i1 = Item.builder()
+        ItemEntity i1 = ItemEntity.builder()
                 .itemIndex(1)
                 .name("i1")
                 .price(100.0)
                 .build();
-        Item i2 = Item.builder()
+        ItemEntity i2 = ItemEntity.builder()
                 .itemIndex(2)
                 .name("i2")
                 .price(100.0)
                 .build();
-        Item i3 = Item.builder()
+        ItemEntity i3 = ItemEntity.builder()
                 .itemIndex(1)
                 .name("i3")
                 .price(100.0)
                 .build();
-        Item i4 = Item.builder()
+        ItemEntity i4 = ItemEntity.builder()
                 .itemIndex(2)
                 .name("i4")
                 .price(100.0)
                 .build();
 
-        Menu r1 = new Menu();
+        MenuEntity r1 = new MenuEntity();
         r1.setRestaurantId("r1");
         r1.setRestaurantName("r1");
         r1.getItems().add(i1);
         r1.getItems().add(i2);
 
-        Menu r2 = new Menu();
+        MenuEntity r2 = new MenuEntity();
         r2.setRestaurantId("r2");
         r2.setRestaurantName("r2");
         r2.getItems().add(i3);
@@ -57,16 +57,16 @@ public class MenuRepositoryDummy implements MenuRepository {
         menus.put(r2.getRestaurantId(), r2);
     }
 
-    public Menu findByRestaurantId(String restaurantId) {
+    public MenuEntity findByRestaurantId(String restaurantId) {
 
         return Optional.ofNullable(menus.get(restaurantId))
                         .orElseThrow(RuntimeException::new);
     }
 
-    public Item findByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
+    public ItemEntity findByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
 
-        List<Item> items = findByRestaurantId(restaurantId).getItems();
-        Item item = items.stream().filter(
+        List<ItemEntity> items = findByRestaurantId(restaurantId).getItems();
+        ItemEntity item = items.stream().filter(
                 (i) -> (i.getItemIndex() == itemIndex))
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
@@ -74,10 +74,10 @@ public class MenuRepositoryDummy implements MenuRepository {
         return item;
     }
 
-    public List<Item> findByRestaurantIdAndIndices(String restaurantId,
+    public List<ItemEntity> findByRestaurantIdAndIndices(String restaurantId,
             Set<Integer> indices) {
         
-        List<Item> items = findByRestaurantId(restaurantId).getItems();
+        List<ItemEntity> items = findByRestaurantId(restaurantId).getItems();
         return items.stream().filter(
                 (i) -> (indices.contains(i.getItemIndex())))
                 .collect(Collectors.toList());
@@ -87,9 +87,9 @@ public class MenuRepositoryDummy implements MenuRepository {
         return menus.containsKey(id);
     }
 
-    public Item createItem(String restaurantId, Item item) {
+    public ItemEntity createItem(String restaurantId, ItemEntity item) {
 
-        Menu menu = findByRestaurantId(restaurantId);
+        MenuEntity menu = findByRestaurantId(restaurantId);
         int index = (int)menu.getItems().stream().count() + 1;
         item.setItemIndex(index);
 
@@ -98,15 +98,15 @@ public class MenuRepositoryDummy implements MenuRepository {
         return item;
     }
 
-    public Item updateItem(String restaurantId, Item item) {
+    public ItemEntity updateItem(String restaurantId, ItemEntity item) {
 
-        Menu menu = findByRestaurantId(restaurantId);
+        MenuEntity menu = findByRestaurantId(restaurantId);
         menu.getItems().stream()
                         .filter((i)->(i.getItemIndex() == item.getItemIndex()))
                         .findFirst()
                         .orElseThrow(RuntimeException::new);
         
-        List<Item> items = menu.getItems()
+        List<ItemEntity> items = menu.getItems()
                         .stream()
                         .filter((i)->(i.getItemIndex() != item.getItemIndex()))
                         .collect(Collectors.toList());
@@ -120,8 +120,8 @@ public class MenuRepositoryDummy implements MenuRepository {
 
     public boolean deleteItem(String restaurantId, int itemIndex) {
 
-        Menu menu = findByRestaurantId(restaurantId);
-        List<Item> items = menu.getItems()
+        MenuEntity menu = findByRestaurantId(restaurantId);
+        List<ItemEntity> items = menu.getItems()
                         .stream()
                         .filter((i)->(i.getItemIndex() != itemIndex))
                         .collect(Collectors.toList());

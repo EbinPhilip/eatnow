@@ -6,10 +6,10 @@ import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.eatnow.restaurant.entities.Restaurant;
+import com.eatnow.restaurant.entities.RestaurantEntity;
 
 
-public interface RestaurantMongoDao extends MongoRepository<Restaurant, String> {
+public interface RestaurantMongoDao extends MongoRepository<RestaurantEntity, String> {
     
-    List<Restaurant> findByLocationNear(Point location, Distance distance);
+    List<RestaurantEntity> findByLocationNear(Point location, Distance distance);
 }

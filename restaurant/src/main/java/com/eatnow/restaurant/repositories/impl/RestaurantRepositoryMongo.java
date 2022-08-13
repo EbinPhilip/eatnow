@@ -12,7 +12,7 @@ import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Metrics;
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.restaurant.entities.Restaurant;
+import com.eatnow.restaurant.entities.RestaurantEntity;
 import com.eatnow.restaurant.repositories.RestaurantRepository;
 import com.eatnow.restaurant.repositories.mongoDao.RestaurantMongoDao;
 import com.eatnow.restaurant.utils.Location;
@@ -37,20 +37,20 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
     @Autowired
     private RedisCache cache;
 
-    public Restaurant findById(String id) {
+    public RestaurantEntity findById(String id) {
 
         return findByIdFromCache(id);
     }
 
-    private Restaurant findByIdFromDb(String id) {
+    private RestaurantEntity findByIdFromDb(String id) {
 
         return mongoDao.findById(id)
                 .orElseThrow(RuntimeException::new);
     }
 
-    private Restaurant findByIdFromCache(String id) {
+    private RestaurantEntity findByIdFromCache(String id) {
 
-        Restaurant restaurant = null;
+        RestaurantEntity restaurant = null;
 
         try (Jedis jedis = cache.getResource()) {
 
@@ -69,25 +69,25 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
         return restaurant;
     }
 
-    public List<Restaurant> findById(List<String> ids) {
+    public List<RestaurantEntity> findById(List<String> ids) {
 
-        List<Restaurant> restaurants = new ArrayList<>();
+        List<RestaurantEntity> restaurants = new ArrayList<>();
         mongoDao.findAllById(ids).forEach(restaurants::add);
         return restaurants;
     }
 
-    private Restaurant fromJson(String restaurantJson) {
+    private RestaurantEntity fromJson(String restaurantJson) {
 
         try {
             return new ObjectMapper()
-                    .readValue(restaurantJson, Restaurant.class);
+                    .readValue(restaurantJson, RestaurantEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    private String toJson(Restaurant restaurant) {
+    private String toJson(RestaurantEntity restaurant) {
 
         try {
             return new ObjectMapper()
@@ -98,24 +98,24 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
         }
     }
 
-    public Map<String, Restaurant> findOpenRestaurantsNearby(Location location, double distance) {
+    public Map<String, RestaurantEntity> findOpenRestaurantsNearby(Location location, double distance) {
 
         return findNearbyRestaurantsFromCache(location, distance)
                 .stream()
                 .collect(Collectors.toMap((i) -> (i.getId()), (i) -> i));
     }
 
-    private List<Restaurant> findNearbyRestaurantsFromDb(Location location, double distance) {
+    private List<RestaurantEntity> findNearbyRestaurantsFromDb(Location location, double distance) {
 
         return mongoDao.findByLocationNear(location.getPoint(),
                 new Distance(distance, Metrics.KILOMETERS));
     }
 
-    private List<Restaurant> findNearbyRestaurantsFromCache(Location location, double distance) {
+    private List<RestaurantEntity> findNearbyRestaurantsFromCache(Location location, double distance) {
 
         String key = location.getGeoHash().toBase32() + distancePrefix
                 + String.valueOf((int) distance);
-        List<Restaurant> restaurants = new ArrayList<>();
+        List<RestaurantEntity> restaurants = new ArrayList<>();
 
         try (Jedis jedis = cache.getResource()) {
 
@@ -136,7 +136,7 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
 
                 try {
                     restaurants = new ObjectMapper().readValue(restaurantsListJson,
-                            new TypeReference<List<Restaurant>>() {
+                            new TypeReference<List<RestaurantEntity>>() {
                             });
                     jedis.expire(key, restaurantsNearbyCacheTimeout.getSeconds());
                 } catch (Exception e) {
@@ -160,7 +160,7 @@ public class RestaurantRepositoryMongo implements RestaurantRepository {
         return mongoDao.existsById(id);
     }
 
-    public Restaurant update(Restaurant restaurant) {
+    public RestaurantEntity update(RestaurantEntity restaurant) {
 
         try (Jedis jedis = cache.getResource()) {
 

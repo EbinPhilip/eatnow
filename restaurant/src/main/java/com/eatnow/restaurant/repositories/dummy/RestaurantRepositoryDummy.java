@@ -9,18 +9,18 @@ import java.util.stream.Collectors;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.restaurant.entities.Restaurant;
+import com.eatnow.restaurant.entities.RestaurantEntity;
 import com.eatnow.restaurant.repositories.RestaurantRepository;
 import com.eatnow.restaurant.utils.Location;
 
 @Repository
 public class RestaurantRepositoryDummy implements RestaurantRepository {
-    private HashMap<String, Restaurant> restaurants;
+    private HashMap<String, RestaurantEntity> restaurants;
 
     public RestaurantRepositoryDummy() {
         restaurants = new HashMap<>();
 
-        Restaurant r1 = Restaurant.builder()
+        RestaurantEntity r1 = RestaurantEntity.builder()
                 .id("r1")
                 .name("r1")
                 .address("")
@@ -29,7 +29,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .rating(4.4)
                 .reviews(10)
                 .build();
-        Restaurant r2 = Restaurant.builder()
+        RestaurantEntity r2 = RestaurantEntity.builder()
                 .id("r2")
                 .name("r2")
                 .address("")
@@ -37,7 +37,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .rating(2.4)
                 .reviews(50)
                 .build();
-        Restaurant r3 = Restaurant.builder()
+        RestaurantEntity r3 = RestaurantEntity.builder()
                 .id("r3")
                 .name("r3")
                 .address("")
@@ -46,7 +46,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
                 .rating(3.4)
                 .reviews(10)
                 .build();
-        Restaurant r4 = Restaurant.builder()
+        RestaurantEntity r4 = RestaurantEntity.builder()
                 .id("r4")
                 .name("r4")
                 .address("")
@@ -60,19 +60,19 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
     }
 
     @Override
-    public Restaurant findById(String id) {
+    public RestaurantEntity findById(String id) {
         return restaurants.get(id);
     }
 
     @Override
-    public List<Restaurant> findById(List<String> id) {
+    public List<RestaurantEntity> findById(List<String> id) {
         return restaurants.values().stream()
                 .filter((i) -> (id.contains(i.getId())))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Map<String, Restaurant> findOpenRestaurantsNearby(Location location, double distance) {
+    public Map<String, RestaurantEntity> findOpenRestaurantsNearby(Location location, double distance) {
         return restaurants.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
@@ -83,7 +83,7 @@ public class RestaurantRepositoryDummy implements RestaurantRepository {
     }
 
     @Override
-    public Restaurant update(Restaurant restaurant) {
+    public RestaurantEntity update(RestaurantEntity restaurant) {
         restaurants.put(restaurant.getId(), restaurant);
         return restaurant;
     }
