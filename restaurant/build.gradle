@@ -19,14 +19,6 @@ jar {
 }
 
 repositories {
-
-   flatDir {
-      dirs 'lib'
-   }
-}
-
-
-repositories {
 	mavenCentral()
 }
 
@@ -44,10 +36,10 @@ dependencies {
 	implementation 'redis.clients:jedis:4.2.3'
 	// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-openfeign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:3.1.3'
-	// https://mvnrepository.com/artifact/ch.hsr/geohash
-	implementation 'ch.hsr:geohash:1.4.0'
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	// https://mvnrepository.com/artifact/ch.hsr/geohash
+	implementation 'ch.hsr:geohash:1.4.0'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
