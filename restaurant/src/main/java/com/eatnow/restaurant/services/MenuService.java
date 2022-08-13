@@ -61,7 +61,6 @@ public class MenuService {
 
         ItemEntity item = menuRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
         Item dto = itemToDto(item);
-        dto.setRestaurantId(restaurantId);
         dto.setAvailable(item.isAvailable());
         return dto;
     }

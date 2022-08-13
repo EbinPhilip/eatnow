@@ -16,17 +16,12 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @Builder
 public class Item {
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String restaurantId;
 
     @Default
     private Integer itemIndex = null;
 
     @NonNull
     private String name;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String restaurantName;
 
     @NonNull
     private Double price;
@@ -37,6 +32,5 @@ public class Item {
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<String> tags;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     Boolean available;
 }

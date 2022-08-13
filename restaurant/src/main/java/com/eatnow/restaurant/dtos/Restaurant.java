@@ -3,8 +3,6 @@ package com.eatnow.restaurant.dtos;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.AllArgsConstructor;
@@ -22,11 +20,9 @@ public class Restaurant {
     private String id;
 
     @NonNull
-    @NotBlank
     private String name;
 
     @NonNull
-    @NotBlank
     private String address;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
