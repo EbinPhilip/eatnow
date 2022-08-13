@@ -14,7 +14,10 @@ import com.eatnow.restaurant.dtos.Item;
 import com.eatnow.restaurant.services.MenuService;
 import com.eatnow.restaurant.utils.Location;
 
+import io.swagger.v3.oas.annotations.Hidden;
+
 @RestController
+@Hidden
 public class InternalController {
 
     public static final String INTERNAL_FETCH_ITEMS_ENDPOINT = "/internal/serviceable-items";
