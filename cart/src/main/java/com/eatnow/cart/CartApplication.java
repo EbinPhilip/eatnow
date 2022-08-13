@@ -14,7 +14,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
 
 @EnableFeignClients
 @EnableMongoRepositories(basePackages = "com.eatnow.cart.repositories.mongoDao")
-@OpenAPIDefinition(info = @Info(title = "Cart API", version = "1.0", description = "APIs for cart management"), security = {
+@OpenAPIDefinition(info = @Info(title = "Cart", version = "1.0", description = "APIs for cart management"), security = {
 	@SecurityRequirement(name = "user token") })
 @SecurityScheme(name = "user token", type = SecuritySchemeType.HTTP, bearerFormat = "JWT", scheme = "bearer")
 @SpringBootApplication(exclude= {UserDetailsServiceAutoConfiguration.class})

@@ -17,12 +17,13 @@ import com.eatnow.cart.dtos.Cart;
 import com.eatnow.cart.services.CartService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@Tag(name = "Cart", description = "The cart API")
+@Tag(name = "Cart APIs")
 public class CartController {
         public static final String CART_ENDPOINT = "/cart";
         public static final String CART_API = CART_ENDPOINT + "/{user-id}";
@@ -47,7 +48,7 @@ public class CartController {
         @Operation(summary = "Add to cart", description = "Adds item specified by restaurant-id, item-index and qunatity, to the user's cart.")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "201", description = "Added to cart"),
-                @ApiResponse(responseCode = "404", description = "restaurant or item not found")})
+                @ApiResponse(responseCode = "404", description = "restaurant or item not found", content = @Content)})
         public ResponseEntity<Cart> postToCart(
                         @PathVariable("user-id") @NotNull String userId,
                         @RequestParam("restaurant-id") @NotNull String restaurantId,
@@ -64,7 +65,7 @@ public class CartController {
         @Operation(summary = "Clear cart", description = "Removes all items present in the shopping cart of the user specified by user-id.")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "200"),
-                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty")})
+                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content)})
         public ResponseEntity<Boolean> clearCart(
                         @PathVariable("user-id") @NotNull String userId) {
 
@@ -78,8 +79,8 @@ public class CartController {
         @Operation(summary = "Update item quantity", description = "Updates the quantity of the specified item in the user's cart.")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "200"),
-                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty"),
-                @ApiResponse(responseCode = "404", description = "Item is not present in the cart")})
+                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content),
+                @ApiResponse(responseCode = "404", description = "Item is not present in the cart", content = @Content)})
         public ResponseEntity<Cart> updateCart(
                         @PathVariable("user-id") @NotNull String userId,
                         @PathVariable("item-index") @NotNull Integer itemIndex,
@@ -95,8 +96,8 @@ public class CartController {
         @Operation(summary = "Remove item", description = "Removes the specified item from the user's cart.")
         @ApiResponses(value = {
                 @ApiResponse(responseCode = "200"),
-                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty"),
-                @ApiResponse(responseCode = "404", description = "Item is not present in the cart")})
+                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content),
+                @ApiResponse(responseCode = "404", description = "Item is not present in the cart", content = @Content)})
         public ResponseEntity<Cart> deleteFromCart(
                         @PathVariable("user-id") @NotNull String userId,
                         @PathVariable("item-index") @NotNull Integer itemIndex) {
