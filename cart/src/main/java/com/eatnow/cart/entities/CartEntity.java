@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,7 +47,8 @@ public class CartEntity {
     {
         CartItemEntity existing = Optional.ofNullable(
             items.get(itemIndex))
-            .orElseThrow(RuntimeException::new);
+            .orElseThrow(()->(new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "item not present in cart")));
         
         total = total - (existing.getPrice() * existing.getQuantity());
         
@@ -57,7 +60,8 @@ public class CartEntity {
     {
         CartItemEntity existing = Optional.ofNullable(
             items.get(itemIndex))
-            .orElseThrow(RuntimeException::new);
+            .orElseThrow(()->(new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "item not present in cart")));
         
         double difference = (quantity - existing.getQuantity()) * existing.getPrice();
         existing.setQuantity(quantity);
