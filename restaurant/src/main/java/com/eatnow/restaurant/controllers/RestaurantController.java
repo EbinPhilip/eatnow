@@ -2,7 +2,6 @@ package com.eatnow.restaurant.controllers;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Set;
 
 import javax.crypto.spec.SecretKeySpec;
 import javax.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,12 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.eatnow.restaurant.dtos.Item;
-import com.eatnow.restaurant.dtos.Menu;
 import com.eatnow.restaurant.dtos.Restaurant;
-import com.eatnow.restaurant.services.MenuService;
 import com.eatnow.restaurant.services.RestaurantService;
-import com.eatnow.restaurant.utils.Location;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,17 +34,8 @@ public class RestaurantController {
     public static final String RESTAURANT_API = RESTAURANTS_ENDPOINT + "/{restaurantId}";
     public static final String RESTAURANT_OPEN_API = RESTAURANT_API + "/is-open";
 
-    public static final String MENU_ENDPOINT = "/menu/{restaurantId}";
-    public static final String ITEM_ENDPOINT = MENU_ENDPOINT + "/{itemIndex}";
-    public static final String ITEM_AVAILABLE_ENDPOINT = MENU_ENDPOINT + "/{itemIndex}/is-available";
-
-    public static final String INTERNAL_FETCH_ITEMS_ENDPOINT = "/internal/serviceable-items";
-
     @Autowired
     private RestaurantService restaurantService;
-
-    @Autowired
-    private MenuService menuService;
 
     @Value("${jwt.secret}")
     private String secret;
@@ -126,95 +111,4 @@ public class RestaurantController {
                 restaurantService.updateRestaurant(restaurant));
     }
 
-    @GetMapping(MENU_ENDPOINT)
-    public ResponseEntity<Menu> getMenu(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId) {
-
-        return ResponseEntity.ok().body(
-                menuService.getMenuByRestaurantId(restaurantId));
-    }
-
-    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
-            "#restaurantId == authentication.principal.username")
-    @PostMapping(MENU_ENDPOINT)
-    public ResponseEntity<Item> postItem(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @Valid @RequestBody Item item) {
-
-        return ResponseEntity.ok().body(
-                menuService.createItem(restaurantId, item));
-    }
-
-    @GetMapping(ITEM_ENDPOINT)
-    public ResponseEntity<Item> getItem(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @PathVariable(name = "itemIndex") @NotNull Integer itemIndex) {
-
-        return ResponseEntity.ok().body(
-                menuService.getItemByRestaurantIdAndIndex(restaurantId, itemIndex));
-    }
-
-    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
-            "#restaurantId == authentication.principal.username")
-    @PutMapping(ITEM_ENDPOINT)
-    public ResponseEntity<Item> putItem(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @PathVariable(name = "itemIndex") @NotNull Integer itemIndex,
-            @Valid @RequestBody Item item) {
-
-        return ResponseEntity.ok().body(
-                menuService.updateItem(restaurantId, itemIndex, item));
-    }
-
-    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
-            "#restaurantId == authentication.principal.username")
-    @DeleteMapping(ITEM_ENDPOINT)
-    public ResponseEntity<Boolean> deleteItem(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @PathVariable(name = "itemIndex") @NotNull Integer itemIndex) {
-
-        return new ResponseEntity<Boolean>(
-                menuService.deleteItem(restaurantId, itemIndex),
-                HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
-            "#restaurantId == authentication.principal.username")
-    @GetMapping(ITEM_AVAILABLE_ENDPOINT)
-    public ResponseEntity<Boolean> getItemAvailability(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @PathVariable(name = "itemIndex") @NotNull Integer itemIndex) {
-
-        return new ResponseEntity<Boolean>(
-                menuService.getItemAvailability(restaurantId, itemIndex),
-                HttpStatus.OK);
-    }
-
-    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
-            "#restaurantId == authentication.principal.username")
-    @PostMapping(ITEM_AVAILABLE_ENDPOINT)
-    public ResponseEntity<Boolean> setItemAvailability(
-            @PathVariable(name = "restaurantId") @NotNull String restaurantId,
-            @PathVariable(name = "itemIndex") @NotNull Integer itemIndex,
-            @RequestParam(name = "available") @NotNull Boolean available) {
-
-        return new ResponseEntity<Boolean>(
-                menuService.setItemAvailability(restaurantId, itemIndex, available),
-                HttpStatus.OK);
-    }
-
-    @GetMapping(INTERNAL_FETCH_ITEMS_ENDPOINT)
-    public ResponseEntity<List<Item>> getServiceableItems(
-            @RequestParam(name = "restaurant-id") String restaurantId,
-            @RequestParam(name = "latitude") double latitude,
-            @RequestParam(name = "longitude") double longitude,
-            @RequestParam(name = "indices") Set<Integer> itemIndices) {
-
-        return new ResponseEntity<List<Item>>(menuService
-                .checkServiceabilityAndFetchItems(restaurantId,
-                        new Location(latitude, longitude),
-                        itemIndices),
-                HttpStatus.OK);
-
-    }
 }
