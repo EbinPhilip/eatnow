@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Optional;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor
+@Document("cart")
 public class CartEntity {
     @NonNull
     @Id
