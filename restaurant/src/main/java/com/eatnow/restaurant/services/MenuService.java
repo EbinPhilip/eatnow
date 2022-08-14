@@ -5,21 +5,28 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.elasticsearch.core.geo.GeoPoint;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.restaurant.dtos.Item;
 import com.eatnow.restaurant.dtos.Menu;
+import com.eatnow.restaurant.dtos.Restaurant;
+import com.eatnow.restaurant.entities.ItemElasticEntity;
 import com.eatnow.restaurant.entities.ItemEntity;
 import com.eatnow.restaurant.entities.MenuEntity;
 import com.eatnow.restaurant.repositories.MenuRepository;
+import com.eatnow.restaurant.repositories.elasticsearch.ItemElasticRepository;
 import com.eatnow.restaurant.utils.Location;
 
 @Service
 public class MenuService {
     @Autowired
     private MenuRepository menuRepository;
+
+    @Autowired
+    private ItemElasticRepository itemElasticRepository;
 
     @Autowired
     private RestaurantService restaurantService;
@@ -68,7 +75,23 @@ public class MenuService {
     public Item createItem(String restaurantId, Item dto) {
 
         ItemEntity item = dtoToItem(dto);
-        menuRepository.createItem(restaurantId, item);
+        item = menuRepository.createItem(restaurantId, item);
+
+        Restaurant restaurant = restaurantService.getRestaurantbyId(restaurantId);
+        Location location = restaurantService.getRestaurantLocation(restaurantId);
+        ItemElasticEntity entity = ItemElasticEntity.builder()
+                .name(item.getName())
+                .itemIndex(item.getItemIndex())
+                .restaurantId(restaurantId)
+                .restaurantName(restaurant.getName())
+                .location(new GeoPoint(location.getLatitude(), location.getLongitude()))
+                .price(item.getPrice())
+                .description(item.getDescription())
+                .tags(String.join(" ", item.getTags()))
+                .available(item.isAvailable())
+                .build();
+        itemElasticRepository.save(entity);
+
         return itemToDto(item);
     }
 
@@ -77,19 +100,40 @@ public class MenuService {
         dto.setItemIndex(itemIndex);
         ItemEntity item = dtoToItem(dto);
         item = menuRepository.updateItem(restaurantId, item);
+
+        Restaurant restaurant = restaurantService.getRestaurantbyId(restaurantId);
+        ItemElasticEntity currentEntity = itemElasticRepository
+                .findByRestaurantIdAndItemIndex(restaurantId, item.getItemIndex())
+                .orElseThrow(()->(new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "item not found")));
+        ItemElasticEntity entity = ItemElasticEntity.builder()
+                .id(currentEntity.getId())
+                .name(item.getName())
+                .itemIndex(item.getItemIndex())
+                .restaurantId(restaurantId)
+                .restaurantName(restaurant.getName())
+                .location(currentEntity.getLocation())
+                .price(item.getPrice())
+                .description(item.getDescription())
+                .tags(String.join(" ", item.getTags()))
+                .available(item.isAvailable())
+                .build();
+        itemElasticRepository.save(entity);
+
         return itemToDto(item);
     }
 
     public boolean deleteItem(String restaurantId, int itemIndex) {
 
+        itemElasticRepository.deleteByRestaurantIdAndItemIndex(restaurantId, itemIndex);
         return menuRepository.deleteItem(restaurantId, itemIndex);
     }
 
     public boolean setItemAvailability(String restaurantId, int itemIndex, boolean isAvailable) {
 
-        ItemEntity item = menuRepository.findByRestaurantIdAndIndex(restaurantId, itemIndex);
+        Item item = getItemByRestaurantIdAndIndex(restaurantId, itemIndex);
         item.setAvailable(isAvailable);
-        return menuRepository.updateItem(restaurantId, item).isAvailable();
+        return updateItem(restaurantId, itemIndex, item).getAvailable();
     }
 
     public boolean getItemAvailability(String restaurantId, int itemIndex) {
