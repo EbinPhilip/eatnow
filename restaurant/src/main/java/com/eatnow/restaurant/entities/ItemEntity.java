@@ -16,7 +16,7 @@ import lombok.Builder.Default;
 @Builder
 public class ItemEntity {
 
-    private int itemIndex;
+    private Integer itemIndex;
 
     @NonNull
     private String name;
