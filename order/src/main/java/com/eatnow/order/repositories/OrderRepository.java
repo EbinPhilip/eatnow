@@ -3,22 +3,22 @@ package com.eatnow.order.repositories;
 import java.util.List;
 import java.util.UUID;
 
-import com.eatnow.order.entities.Order;
+import com.eatnow.order.entities.OrderEntity;
 
 public interface OrderRepository {
 
-    public Order findById(UUID orderId);
+    public OrderEntity findById(UUID orderId);
 
-    public List<Order> findByUserId(String userId);
-    public List<Order> findByUserIdPaged(String userId, int pageSize, int pageNumber);
+    public List<OrderEntity> findByUserId(String userId);
+    public List<OrderEntity> findByUserIdPaged(String userId, int pageSize, int pageNumber);
 
-    public List<Order> findByRestaurantId(String restaurantId);
-    public List<Order> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber);
-    public List<Order> findByRestaurantIdAndStatus(String restaurantId, Order.Status status);
+    public List<OrderEntity> findByRestaurantId(String restaurantId);
+    public List<OrderEntity> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber);
+    public List<OrderEntity> findByRestaurantIdAndStatus(String restaurantId, OrderEntity.Status status);
 
     public boolean existsById(UUID orderId);
 
-    public Order create(Order order);
+    public OrderEntity create(OrderEntity order);
 
-    public Order update(Order order);
+    public OrderEntity update(OrderEntity order);
 }

@@ -5,27 +5,27 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.eatnow.order.dtos.PaymentDto;
+import com.eatnow.order.dtos.Payment;
 import com.eatnow.order.services.PaymentService;
 
 @Service
 public class PaymentServiceDummy implements PaymentService {
 
-    public PaymentDto pay(String orderId, double amount, String details) {
+    public Payment pay(String orderId, double amount, String details) {
 
         UUID transactionId = UUID.randomUUID();
-        PaymentDto dto = PaymentDto.builder()
+        Payment dto = Payment.builder()
                 .transactionId(transactionId.toString())
                 .orderId(orderId)
                 .total(amount)
                 .paymentDetails(details)
-                .status(PaymentDto.PaymentStatus.SUCCESS.toString())
+                .status(Payment.PaymentStatus.SUCCESS.toString())
                 .timeStamp(LocalDateTime.now())
                 .build();
         return dto;
     }
 
-    public PaymentDto get(String transactionId) {
+    public Payment get(String transactionId) {
         return null;
     }
 

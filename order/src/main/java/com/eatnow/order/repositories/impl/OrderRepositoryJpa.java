@@ -15,7 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.PageRequest;
 
-import com.eatnow.order.entities.Order;
+import com.eatnow.order.entities.OrderEntity;
 import com.eatnow.order.repositories.OrderRepository;
 import com.eatnow.order.repositories.jpaDao.OrderJpaDao;
 import com.eatnow.order.utils.RedisCache;
@@ -47,14 +47,14 @@ public class OrderRepositoryJpa implements OrderRepository {
         cache = new RedisCache(redisHost, redisPort);
     }
 
-    public Order findById(UUID orderId) {
+    public OrderEntity findById(UUID orderId) {
 
         return findByIdCached(orderId);
     }
 
-    private Order findByIdCached(UUID orderId) {
+    private OrderEntity findByIdCached(UUID orderId) {
 
-        Order order = null;
+        OrderEntity order = null;
 
         try(Jedis jedis = cache.getResource()) {
 
@@ -72,19 +72,19 @@ public class OrderRepositoryJpa implements OrderRepository {
         return order;
     }
 
-    private Order fromJson(String orderJson) {
+    private OrderEntity fromJson(String orderJson) {
 
         try {
             return new ObjectMapper()
                     .findAndRegisterModules()
-                    .readValue(orderJson, Order.class);
+                    .readValue(orderJson, OrderEntity.class);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException();
         }
     }
 
-    private String toJson(Order order) {
+    private String toJson(OrderEntity order) {
 
         try {
             return new ObjectMapper()
@@ -96,38 +96,38 @@ public class OrderRepositoryJpa implements OrderRepository {
         }
     }
 
-    public List<Order> findByUserId(String userId) {
+    public List<OrderEntity> findByUserId(String userId) {
 
         Pageable page = PageRequest.of(0, 10);
         return dao.findByUserId(userId, page);
     }
 
-    public List<Order> findByUserIdPaged(String userId, int pageSize, int pageNumber) {
+    public List<OrderEntity> findByUserIdPaged(String userId, int pageSize, int pageNumber) {
 
         Pageable page = PageRequest.of(pageNumber, pageSize);
         return dao.findByUserId(userId, page);
     }
 
-    public List<Order> findByRestaurantId(String restaurantId) {
+    public List<OrderEntity> findByRestaurantId(String restaurantId) {
 
         LocalDateTime stamp = LocalDateTime.now().minusDays(1);
         return dao.findByRestaurantIdAndTimeStampGreaterThan(restaurantId, stamp);
     }
 
-    public List<Order> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber) {
+    public List<OrderEntity> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber) {
 
         Pageable page = PageRequest.of(pageNumber, pageSize);
         return dao.findByRestaurantId(restaurantId, page);
     }
 
-    public List<Order> findByRestaurantIdAndStatus(String restaurantId, Order.Status status) {
+    public List<OrderEntity> findByRestaurantIdAndStatus(String restaurantId, OrderEntity.Status status) {
 
-        if (status == Order.Status.NEW || status == Order.Status.ACCEPTED) {
+        if (status == OrderEntity.Status.NEW || status == OrderEntity.Status.ACCEPTED) {
 
             try (Jedis jedis = cache.getResource()) {
 
                 Set<String> orderIds = null;
-                if (status == Order.Status.NEW) {
+                if (status == OrderEntity.Status.NEW) {
                     orderIds = jedis.smembers(restaurantId + newStatus);
                 } else {
                     orderIds = jedis.smembers(restaurantId + acceptedStatus);
@@ -164,7 +164,7 @@ public class OrderRepositoryJpa implements OrderRepository {
         return dao.existsById(orderId);
     }
 
-    public Order create(Order order) {
+    public OrderEntity create(OrderEntity order) {
 
         try (Jedis jedis = cache.getResource()) {
 
@@ -174,16 +174,16 @@ public class OrderRepositoryJpa implements OrderRepository {
         return dao.save(order);
     }
 
-    public Order update(Order order) {
+    public OrderEntity update(OrderEntity order) {
 
-        if (order.getStatus() == Order.Status.NEW) {
+        if (order.getStatus() == OrderEntity.Status.NEW) {
     
             try (Jedis jedis = cache.getResource()) {
 
                 jedis.set(order.getId().toString(), toJson(order));
                 jedis.sadd(order.getRestaurantId() + newStatus, order.getId().toString());
             }
-        } else if (order.getStatus() == Order.Status.ACCEPTED) {
+        } else if (order.getStatus() == OrderEntity.Status.ACCEPTED) {
     
             try (Jedis jedis = cache.getResource()) {
 
@@ -191,8 +191,8 @@ public class OrderRepositoryJpa implements OrderRepository {
                 jedis.srem(order.getRestaurantId() + newStatus, order.getId().toString());
                 jedis.sadd(order.getRestaurantId() + acceptedStatus, order.getId().toString());
             }
-        } else if (order.getStatus() == Order.Status.COMPLETED
-                || order.getStatus() == Order.Status.CANCELLED) {
+        } else if (order.getStatus() == OrderEntity.Status.COMPLETED
+                || order.getStatus() == OrderEntity.Status.CANCELLED) {
     
             try (Jedis jedis = cache.getResource()) {
 

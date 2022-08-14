@@ -12,10 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.eatnow.order.dtos.ItemDto;
-import com.eatnow.order.dtos.OrderDto;
-import com.eatnow.order.dtos.PaymentDto;
+import com.eatnow.order.dtos.Order;
+import com.eatnow.order.dtos.Payment;
 import com.eatnow.order.dtos.UserAddressDto;
-import com.eatnow.order.entities.Order;
+import com.eatnow.order.entities.OrderEntity;
 import com.eatnow.order.entities.OrderItem;
 import com.eatnow.order.repositories.OrderRepository;
 
@@ -34,7 +34,7 @@ public class OrderService {
     private PaymentService paymentService;
 
     @Transactional
-    public OrderDto createOrder(OrderDto dto) {
+    public Order createOrder(Order dto) {
 
         UUID orderId = UUID.randomUUID();
 
@@ -66,7 +66,7 @@ public class OrderService {
             total = total + orderItem.getPrice() * orderItem.getQuantity();
         }
 
-        Order order = Order.builder()
+        OrderEntity order = OrderEntity.builder()
                 .id(orderId)
                 .userId(dto.getUserId())
                 .restaurantId(dto.getRestaurantId())
@@ -83,40 +83,40 @@ public class OrderService {
     }
 
     @Transactional
-    public PaymentDto confirmOrderAndPay(String orderId) {
+    public Payment confirmOrderAndPay(String orderId) {
 
-        Order order = orderRepository.findById(UUID.fromString(orderId));
-        if (order.getStatus() != Order.Status.UNPAID) {
+        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        if (order.getStatus() != OrderEntity.Status.UNPAID) {
             throw new RuntimeException();
         }
 
-        PaymentDto payment = paymentService.pay(orderId, order.getTotal(), "");
-        if (payment.getStatus().equals(PaymentDto.PaymentStatus.SUCCESS.toString())) {
-            order.setStatus(Order.Status.NEW);
+        Payment payment = paymentService.pay(orderId, order.getTotal(), "");
+        if (payment.getStatus().equals(Payment.PaymentStatus.SUCCESS.toString())) {
+            order.setStatus(OrderEntity.Status.NEW);
             order.setTransactionId(UUID.fromString(payment.getTransactionId()));
             orderRepository.update(order);
         } else {
-            order.setStatus(Order.Status.CANCELLED);
+            order.setStatus(OrderEntity.Status.CANCELLED);
         }
 
         return payment;
     }
 
-    public OrderDto getOrder(String orderId) {
+    public Order getOrder(String orderId) {
 
-        Order order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
         return dtoFromOrder(order);
     }
 
-    public List<OrderDto> getOrdersbyRestaurantId(String restaurantId, String status) {
+    public List<Order> getOrdersbyRestaurantId(String restaurantId, String status) {
 
-        List<Order> ordersList;
+        List<OrderEntity> ordersList;
 
         if (status == null || status.isEmpty()) {
             ordersList = orderRepository.findByRestaurantId(restaurantId);
         } else {
             ordersList = orderRepository.findByRestaurantIdAndStatus(restaurantId,
-                    Order.Status.valueOf(status));
+                    OrderEntity.Status.valueOf(status));
         }
 
         return ordersList.stream().map(
@@ -126,7 +126,7 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<OrderDto> getOrdersbyUserId(String userId) {
+    public List<Order> getOrdersbyUserId(String userId) {
 
         return orderRepository.findByUserId(userId)
                 .stream().map(
@@ -137,38 +137,38 @@ public class OrderService {
     }
 
     @Transactional
-    public OrderDto acceptOrder(String orderId) {
+    public Order acceptOrder(String orderId) {
 
-        Order order = orderRepository.findById(UUID.fromString(orderId));
-        if (order.getStatus() != Order.Status.NEW) {
+        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        if (order.getStatus() != OrderEntity.Status.NEW) {
             throw new RuntimeException();
         }
-        order.setStatus(Order.Status.ACCEPTED);
+        order.setStatus(OrderEntity.Status.ACCEPTED);
         order = orderRepository.update(order);
 
         return dtoFromOrder(order);
     }
 
     @Transactional
-    public OrderDto completeOrder(String orderId) {
+    public Order completeOrder(String orderId) {
 
-        Order order = orderRepository.findById(UUID.fromString(orderId));
-        if (order.getStatus() != Order.Status.ACCEPTED) {
+        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        if (order.getStatus() != OrderEntity.Status.ACCEPTED) {
             throw new RuntimeException();
         }
-        order.setStatus(Order.Status.COMPLETED);
+        order.setStatus(OrderEntity.Status.COMPLETED);
         order = orderRepository.update(order);
 
         return dtoFromOrder(order);
     }
 
     @Transactional
-    public OrderDto cancelOrder(String orderId) {
+    public Order cancelOrder(String orderId) {
 
-        Order order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
 
         if (paymentService.revert(order.getTransactionId().toString())) {
-            order.setStatus(Order.Status.CANCELLED);
+            order.setStatus(OrderEntity.Status.CANCELLED);
             order = orderRepository.update(order);
         } else {
             throw new RuntimeException();
@@ -178,9 +178,9 @@ public class OrderService {
     }
 
 
-    private OrderDto dtoFromOrder(Order order) {
+    private Order dtoFromOrder(OrderEntity order) {
 
-        OrderDto dto = OrderDto.builder()
+        Order dto = Order.builder()
                 .orderId(order.getId().toString())
                 .userId(order.getUserId())
                 .address(order.getAddress())
@@ -188,7 +188,7 @@ public class OrderService {
                 .items(
                         order.getItems().stream().map(
                                 (i) -> {
-                                    return new OrderDto.Item(i.getItemIndex(),
+                                    return new Order.Item(i.getItemIndex(),
                                             i.getPrice(), i.getQuantity());
                                 }).collect(Collectors.toList()))
                 .total(order.getTotal())

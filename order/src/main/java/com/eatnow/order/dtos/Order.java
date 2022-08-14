@@ -17,7 +17,7 @@ import lombok.Builder.Default;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderDto {
+public class Order {
     
     @Data
     @AllArgsConstructor
@@ -50,7 +50,7 @@ public class OrderDto {
 
     @NonNull
     @Default
-    List<OrderDto.Item> items = new ArrayList<>();
+    List<Order.Item> items = new ArrayList<>();
 
     private Double total;
 
