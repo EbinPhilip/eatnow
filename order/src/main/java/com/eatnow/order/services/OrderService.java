@@ -9,7 +9,9 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.order.dtos.ItemDto;
 import com.eatnow.order.dtos.Order;
@@ -32,6 +34,9 @@ public class OrderService {
 
     @Autowired
     private PaymentService paymentService;
+
+    @Autowired
+    private CartService cartService;
 
     @Transactional
     public Order createOrder(Order dto) {
@@ -78,6 +83,8 @@ public class OrderService {
                 .timeStamp(LocalDateTime.now())
                 .build();
 
+        cartService.clearCart(order.getUserId());
+
         order = orderRepository.create(order);
         return dtoFromOrder(order);
     }
@@ -87,7 +94,7 @@ public class OrderService {
 
         OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
         if (order.getStatus() != OrderEntity.Status.UNPAID) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot pay for this order.");
         }
 
         Payment payment = paymentService.pay(orderId, order.getTotal(), "");
