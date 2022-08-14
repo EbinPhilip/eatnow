@@ -25,84 +25,81 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @Tag(name = "Cart APIs")
 public class CartController {
-        public static final String CART_ENDPOINT = "/cart";
-        public static final String CART_API = CART_ENDPOINT + "/{user-id}";
+    public static final String CART_ENDPOINT = "/cart";
+    public static final String CART_API = CART_ENDPOINT + "/{user-id}";
 
-        @Autowired
-        private CartService cartService;
+    @Autowired
+    private CartService cartService;
 
-        @PreAuthorize("hasRole('ROLE_USER') and" +
-                        "#userId == authentication.principal.username")
-        @GetMapping(CART_API)
-        @Operation(summary = "Fetch cart", description = "Fetches the shopping cart of the user specified by user-id.")
-        public ResponseEntity<Cart> getCart(
-                        @PathVariable("user-id") @NotNull String userId) {
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
+    @GetMapping(CART_API)
+    @Operation(summary = "Fetch cart", description = "Fetches the shopping cart of the user specified by user-id.")
+    public ResponseEntity<Cart> getCart(
+            @PathVariable("user-id") @NotNull String userId) {
 
-                return ResponseEntity.ok().body(
-                                cartService.getCart(userId));
-        }
+        return ResponseEntity.ok().body(
+                cartService.getCart(userId));
+    }
 
-        @PreAuthorize("hasRole('ROLE_USER') and" +
-                        "#userId == authentication.principal.username")
-        @PostMapping(CART_API)
-        @Operation(summary = "Add to cart", description = "Adds item specified by restaurant-id, item-index and qunatity, to the user's cart.")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "201", description = "Added to cart"),
-                @ApiResponse(responseCode = "404", description = "restaurant or item not found", content = @Content)})
-        public ResponseEntity<Cart> postToCart(
-                        @PathVariable("user-id") @NotNull String userId,
-                        @RequestParam("restaurant-id") @NotNull String restaurantId,
-                        @RequestParam("item-index") @NotNull Integer itemIndex,
-                        @RequestParam("quantity") @NotNull Integer quantity) {
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
+    @PostMapping(CART_API)
+    @Operation(summary = "Add to cart", description = "Adds item specified by restaurant-id, item-index and qunatity, to the user's cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Added to cart"),
+            @ApiResponse(responseCode = "404", description = "restaurant or item not found", content = @Content) })
+    public ResponseEntity<Cart> postToCart(
+            @PathVariable("user-id") @NotNull String userId,
+            @RequestParam("restaurant-id") @NotNull String restaurantId,
+            @RequestParam("item-index") @NotNull Integer itemIndex,
+            @RequestParam("quantity") @NotNull Integer quantity) {
 
-                return ResponseEntity.ok().body(
-                                cartService.addToCart(userId, restaurantId, itemIndex, quantity));
-        }
+        return ResponseEntity.ok().body(
+                cartService.addToCart(userId, restaurantId, itemIndex, quantity));
+    }
 
-        @PreAuthorize("hasRole('ROLE_USER') and" +
-                        "#userId == authentication.principal.username")
-        @DeleteMapping(CART_API)
-        @Operation(summary = "Clear cart", description = "Removes all items present in the shopping cart of the user specified by user-id.")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200"),
-                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content)})
-        public ResponseEntity<Boolean> clearCart(
-                        @PathVariable("user-id") @NotNull String userId) {
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
+    @DeleteMapping(CART_API)
+    @Operation(summary = "Clear cart", description = "Removes all items present in the shopping cart of the user specified by user-id.")
+    public ResponseEntity<Boolean> clearCart(
+            @PathVariable("user-id") @NotNull String userId) {
 
-                return ResponseEntity.ok().body(
-                                cartService.clearCart(userId));
-        }
+        return ResponseEntity.ok().body(
+                cartService.clearCart(userId));
+    }
 
-        @PreAuthorize("hasRole('ROLE_USER') and" +
-                        "#userId == authentication.principal.username")
-        @PutMapping(CART_API + "/{item-index}")
-        @Operation(summary = "Update item quantity", description = "Updates the quantity of the specified item in the user's cart.")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200"),
-                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content),
-                @ApiResponse(responseCode = "404", description = "Item is not present in the cart", content = @Content)})
-        public ResponseEntity<Cart> updateCart(
-                        @PathVariable("user-id") @NotNull String userId,
-                        @PathVariable("item-index") @NotNull Integer itemIndex,
-                        @RequestParam("quantity") @NotNull Integer quantity) {
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
+    @PutMapping(CART_API + "/{item-index}")
+    @Operation(summary = "Update item quantity", description = "Updates the quantity of the specified item in the user's cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Item is not present in the cart", content = @Content) })
+    public ResponseEntity<Cart> updateCart(
+            @PathVariable("user-id") @NotNull String userId,
+            @PathVariable("item-index") @NotNull Integer itemIndex,
+            @RequestParam("quantity") @NotNull Integer quantity) {
 
-                return ResponseEntity.ok().body(
-                                cartService.updateCart(userId, itemIndex, quantity));
-        }
+        return ResponseEntity.ok().body(
+                cartService.updateCart(userId, itemIndex, quantity));
+    }
 
-        @PreAuthorize("hasRole('ROLE_USER') and" +
-                        "#userId == authentication.principal.username")
-        @DeleteMapping(CART_API + "/{item-index}")
-        @Operation(summary = "Remove item", description = "Removes the specified item from the user's cart.")
-        @ApiResponses(value = {
-                @ApiResponse(responseCode = "200"),
-                @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content),
-                @ApiResponse(responseCode = "404", description = "Item is not present in the cart", content = @Content)})
-        public ResponseEntity<Cart> deleteFromCart(
-                        @PathVariable("user-id") @NotNull String userId,
-                        @PathVariable("item-index") @NotNull Integer itemIndex) {
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
+    @DeleteMapping(CART_API + "/{item-index}")
+    @Operation(summary = "Remove item", description = "Removes the specified item from the user's cart.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "400", description = "Incorrect request structure or cart is empty", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Item is not present in the cart", content = @Content) })
+    public ResponseEntity<Cart> deleteFromCart(
+            @PathVariable("user-id") @NotNull String userId,
+            @PathVariable("item-index") @NotNull Integer itemIndex) {
 
-                return ResponseEntity.ok().body(
-                                cartService.deleteFromCart(userId, itemIndex));
-        }
+        return ResponseEntity.ok().body(
+                cartService.deleteFromCart(userId, itemIndex));
+    }
 }
