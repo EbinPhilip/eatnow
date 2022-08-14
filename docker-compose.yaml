@@ -14,6 +14,12 @@ services:
     depends_on:
       - eatnow-restaurant-mongo
       - eatnow-restaurant-redis
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 120s
 
   eatnow-restaurant-mongo:
     container_name: eatnow-restaurant-mongo
@@ -187,6 +193,17 @@ services:
     ports:
       - 9200:9200
       - 9300:9300
+    networks: 
+      - eatnow-network
+  eatnow-kibana:
+    container_name: eatnow-kibana
+    image: docker.elastic.co/kibana/kibana:7.4.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://eatnow-elasticsearch:9200
+    ports:
+      - 5601:5601
+    depends_on:
+      - eatnow-elasticsearch
     networks: 
       - eatnow-network
   
