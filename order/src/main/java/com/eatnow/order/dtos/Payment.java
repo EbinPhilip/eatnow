@@ -15,7 +15,7 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentDto {
+public class Payment {
     @NonNull
     @NotBlank
     private String transactionId;

@@ -27,7 +27,7 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Order {
+public class OrderEntity {
     public static enum Status
     {
         UNPAID,
@@ -70,5 +70,5 @@ public class Order {
     @Default
     @NonNull
     @Enumerated(EnumType.ORDINAL)
-    private Order.Status status = Order.Status.UNPAID;
+    private OrderEntity.Status status = OrderEntity.Status.UNPAID;
 }

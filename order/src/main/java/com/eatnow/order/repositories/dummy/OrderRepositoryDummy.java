@@ -8,45 +8,45 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
-import com.eatnow.order.entities.Order;
+import com.eatnow.order.entities.OrderEntity;
 import com.eatnow.order.repositories.OrderRepository;
 
 @Repository
 public class OrderRepositoryDummy implements OrderRepository {
-    private HashMap<UUID, Order> orders = new HashMap<>();
+    private HashMap<UUID, OrderEntity> orders = new HashMap<>();
 
-    public Order findById(UUID orderId) {
+    public OrderEntity findById(UUID orderId) {
         return Optional.ofNullable(orders.get(orderId))
                 .orElseThrow(RuntimeException::new);
     }
 
-    public List<Order> findByUserId(String userId) {
+    public List<OrderEntity> findByUserId(String userId) {
 
         return orders.values().stream().filter(
                 (i) -> (i.getUserId().equals(userId)))
                 .collect(Collectors.toList());
     }
 
-    public List<Order> findByUserIdPaged(String userId, int pageSize, int pageNumber) {
+    public List<OrderEntity> findByUserIdPaged(String userId, int pageSize, int pageNumber) {
 
         return findByUserId(userId);
     }
 
-    public List<Order> findByRestaurantId(String restaurantId) {
+    public List<OrderEntity> findByRestaurantId(String restaurantId) {
 
         return orders.values().stream().filter(
                 (i) -> (i.getRestaurantId().equals(restaurantId)))
                 .collect(Collectors.toList());
     }
 
-    public List<Order> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber) {
+    public List<OrderEntity> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber) {
 
         return findByRestaurantId(restaurantId);
     }
 
-    public List<Order> findByRestaurantIdAndStatus(String restaurantId, Order.Status status) {
+    public List<OrderEntity> findByRestaurantIdAndStatus(String restaurantId, OrderEntity.Status status) {
 
-        Order.Status statusActual = status;
+        OrderEntity.Status statusActual = status;
         return orders.values().stream().filter(
                 (i) -> (i.getRestaurantId().equals(restaurantId)
                         && i.getStatus().equals(statusActual)))
@@ -57,12 +57,12 @@ public class OrderRepositoryDummy implements OrderRepository {
         return orders.containsKey(orderId);
     }
 
-    public Order create(Order order) {
+    public OrderEntity create(OrderEntity order) {
         orders.put(order.getId(), order);
         return order;
     }
 
-    public Order update(Order order) {
+    public OrderEntity update(OrderEntity order) {
         orders.put(order.getId(), order);
         return order;
     }
