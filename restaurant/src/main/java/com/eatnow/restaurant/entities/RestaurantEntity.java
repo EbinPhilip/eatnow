@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.geo.GeoJsonPoint;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -21,6 +22,7 @@ import lombok.Builder.Default;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Document("restaurant")
 public class RestaurantEntity {
     @Id
     private String id;
