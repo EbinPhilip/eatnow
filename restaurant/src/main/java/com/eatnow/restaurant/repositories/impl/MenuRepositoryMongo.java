@@ -109,16 +109,6 @@ public class MenuRepositoryMongo implements MenuRepository {
                 .stream()
                 .filter(
                         (i) -> (indices.contains(i.getItemIndex())))
-                .map(
-                        (i) -> {
-                            if (i.isAvailable()) {
-                                return i;
-                            } else {
-                                throw new ResponseStatusException(
-                                        HttpStatus.PRECONDITION_FAILED,
-                                        "Item is not available currently");
-                            }
-                        })
                 .collect(Collectors.toList());
     }
 

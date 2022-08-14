@@ -56,12 +56,24 @@ public class MenuService {
                     "Restaurant not serviceable");
         }
 
-        return menuRepository.findByRestaurantIdAndIndices(restaurantId, itemIndices)
+        List<Item> items = menuRepository.findByRestaurantIdAndIndices(restaurantId, itemIndices)
                 .stream().map(
                         (i) -> {
-                            return itemToDto(i);
+                            if (i.isAvailable()) {
+                                return itemToDto(i);
+                            } else {
+                                throw new ResponseStatusException(
+                                        HttpStatus.PRECONDITION_FAILED,
+                                        String.format("Item: %s is not available currently", i.getName()));
+                            }
                         })
                 .collect(Collectors.toList());
+        if (items.size() != itemIndices.size()) {
+
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "some of the requested items could not be found");
+        }
+
+        return items;
     }
 
     public Item getItemByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
