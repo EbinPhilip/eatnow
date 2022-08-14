@@ -22,7 +22,6 @@ public class Restaurant {
     @NonNull
     private String name;
 
-    @NonNull
     private String address;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
