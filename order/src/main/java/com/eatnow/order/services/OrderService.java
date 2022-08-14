@@ -92,7 +92,7 @@ public class OrderService {
     @Transactional
     public Payment confirmOrderAndPay(String orderId) {
 
-        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(uuidFromString(orderId));
         if (order.getStatus() != OrderEntity.Status.UNPAID) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot pay for this order.");
         }
@@ -100,7 +100,7 @@ public class OrderService {
         Payment payment = paymentService.pay(orderId, order.getTotal(), "");
         if (payment.getStatus().equals(Payment.PaymentStatus.SUCCESS.toString())) {
             order.setStatus(OrderEntity.Status.NEW);
-            order.setTransactionId(UUID.fromString(payment.getTransactionId()));
+            order.setTransactionId(uuidFromString(payment.getTransactionId()));
             orderRepository.update(order);
         } else {
             order.setStatus(OrderEntity.Status.CANCELLED);
@@ -111,7 +111,7 @@ public class OrderService {
 
     public Order getOrder(String orderId) {
 
-        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(uuidFromString(orderId));
         return dtoFromOrder(order);
     }
 
@@ -133,6 +133,17 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
+    public List<Order> getOrdersbyRestaurantId(String restaurantId, int page, int size) {
+
+        List<OrderEntity> ordersList = orderRepository.findByRestaurantIdPaged(restaurantId, size, page);
+        return ordersList.stream().map(
+                (i) -> {
+                    return dtoFromOrder(i);
+                })
+                .collect(Collectors.toList());
+    }
+
+
     public List<Order> getOrdersbyUserId(String userId, int page, int size) {
 
         return orderRepository.findByUserIdPaged(userId, size, page)
@@ -144,11 +155,14 @@ public class OrderService {
     }
 
     @Transactional
-    public Order acceptOrder(String orderId) {
+    public Order acceptOrder(String orderId, String restaurantId) {
 
-        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(uuidFromString(orderId));
+        if (!order.getRestaurantId().equals(restaurantId)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
         if (order.getStatus() != OrderEntity.Status.NEW) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
         order.setStatus(OrderEntity.Status.ACCEPTED);
         order = orderRepository.update(order);
@@ -157,11 +171,14 @@ public class OrderService {
     }
 
     @Transactional
-    public Order completeOrder(String orderId) {
+    public Order completeOrder(String orderId, String restaurantId) {
 
-        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(uuidFromString(orderId));
+        if (!order.getRestaurantId().equals(restaurantId)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
         if (order.getStatus() != OrderEntity.Status.ACCEPTED) {
-            throw new RuntimeException();
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
         order.setStatus(OrderEntity.Status.COMPLETED);
         order = orderRepository.update(order);
@@ -170,9 +187,16 @@ public class OrderService {
     }
 
     @Transactional
-    public Order cancelOrder(String orderId) {
+    public Order cancelOrder(String orderId, String restaurantId) {
 
-        OrderEntity order = orderRepository.findById(UUID.fromString(orderId));
+        OrderEntity order = orderRepository.findById(uuidFromString(orderId));
+        if (!order.getRestaurantId().equals(restaurantId)) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+        }
+        if (order.getStatus() != OrderEntity.Status.ACCEPTED ||
+            order.getStatus() != OrderEntity.Status.NEW) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
+        }
 
         if (paymentService.revert(order.getTransactionId().toString())) {
             order.setStatus(OrderEntity.Status.CANCELLED);
@@ -205,5 +229,14 @@ public class OrderService {
                 .status(order.getStatus().toString())
                 .build();
         return dto;
+    }
+
+    private UUID uuidFromString(String uuid) {
+
+        try {
+            return UUID.fromString(uuid);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid order-id");
+        }
     }
 }
