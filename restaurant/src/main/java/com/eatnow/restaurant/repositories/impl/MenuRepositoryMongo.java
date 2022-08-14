@@ -96,7 +96,9 @@ public class MenuRepositoryMongo implements MenuRepository {
         return menu.getItems().stream()
                 .filter((i) -> (i.getItemIndex() == itemIndex))
                 .findFirst()
-                .get();
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "item not found")));
     }
 
     public List<ItemEntity> findByRestaurantIdAndIndices(String restaurantId,
