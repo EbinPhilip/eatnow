@@ -126,9 +126,9 @@ public class OrderService {
                 .collect(Collectors.toList());
     }
 
-    public List<Order> getOrdersbyUserId(String userId) {
+    public List<Order> getOrdersbyUserId(String userId, int page, int size) {
 
-        return orderRepository.findByUserId(userId)
+        return orderRepository.findByUserIdPaged(userId, size, page)
                 .stream().map(
                         (i) -> {
                             return dtoFromOrder(i);
