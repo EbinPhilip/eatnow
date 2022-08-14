@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.eatnow.order.dtos.Order;
 import com.eatnow.order.dtos.Payment;
+import com.eatnow.order.exchanges.OrderRequest;
+import com.eatnow.order.services.CartService;
 import com.eatnow.order.services.OrderService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,30 +46,58 @@ public class UserOrderController {
     public static final String ORDER_PAYMENT_ENDPOINT = ORDERS_ENDPOINT + "/payment";
     public static final String USER_ORDERS_ENDPOINT = ORDERS_ENDPOINT + "/" +
             userIdStringParam;
+    public static final String ORDER_FROM_CART_ENDPOINT = ORDERS_ENDPOINT + "/order-request-from-cart";
 
     @Autowired
     private OrderService orderService;
 
+    @Autowired
+    private CartService cartService;
+
     @PreAuthorize("hasRole('ROLE_USER') and" +
-            "#order.getUserId() == authentication.principal.username")
+            "#orderRequest.getUserId() == authentication.principal.username")
     @PostMapping(ORDERS_ENDPOINT)
     @Operation(summary = "Create new order")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Order created"),
+            @ApiResponse(responseCode = "404", description = "Invalid restaurant, item or user address", content = @Content),
             @ApiResponse(responseCode = "412", description = "Restaurant or items unavailable, retry later", content = @Content) })
     @SecurityRequirement(name = "user token")
     public ResponseEntity<Order> createOrder(
-            @Valid @RequestBody Order order) {
+            @Valid @RequestBody OrderRequest orderRequest) {
 
+        Order order = Order.builder()
+                .userId(orderRequest.getUserId())
+                .addressIndex(orderRequest.getAddressIndex())
+                .restaurantId(orderRequest.getRestaurantId())
+                .items(orderRequest.getItems())
+                .total(orderRequest.getTotal())
+                .build();
         return ResponseEntity.ok().body(
                 orderService.createOrder(order));
+    }
+
+    @PreAuthorize("hasRole('ROLE_USER') and" +
+            "#userId == authentication.principal.username")
+    @GetMapping(ORDER_FROM_CART_ENDPOINT)
+    @Operation(summary = "Create order request from cart", description = "Creates an order request object from cart and address.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "404", description = "Cart is empty", content = @Content) })
+    @SecurityRequirement(name = "user token")
+    public ResponseEntity<OrderRequest> createOrderRequestFromCart(
+            @RequestParam String userId, @RequestParam Integer addressIndex) {
+
+        return ResponseEntity.ok().body(
+                cartService.creatOrderRequestFromCart(userId, addressIndex));
     }
 
     @PreAuthorize("hasRole('ROLE_USER')")
     @PostMapping(ORDER_PAYMENT_ENDPOINT)
     @Operation(summary = "Make payment for order")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "OK") })
+            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "409", description = "payment is already done or cannot proceed with payment") })
     @SecurityRequirement(name = "user token")
     public ResponseEntity<Payment> payAndConfirmOrder(
             @RequestParam(orderIdString) @NotNull String orderId,
