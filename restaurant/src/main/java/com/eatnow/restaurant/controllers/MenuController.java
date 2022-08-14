@@ -34,7 +34,7 @@ public class MenuController {
 
     public static final String MENU_ENDPOINT = "/menu/{restaurant-id}";
     public static final String ITEM_ENDPOINT = MENU_ENDPOINT + "/{item-index}";
-    public static final String ITEM_AVAILABLE_ENDPOINT = MENU_ENDPOINT + "/{itemIndex}/is-available";
+    public static final String ITEM_AVAILABLE_ENDPOINT = MENU_ENDPOINT + "/{item-index}/is-available";
 
     @Autowired
     private MenuService menuService;
@@ -127,8 +127,6 @@ public class MenuController {
                 HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
-            "#restaurantId == authentication.principal.username")
     @GetMapping(ITEM_AVAILABLE_ENDPOINT)
     @SecurityRequirements()
     @Operation(summary = "Get item availability", description = "Returns availability of the item specified by restaurant-id and item-index.")
