@@ -66,15 +66,8 @@ public class UserOrderController {
     public ResponseEntity<Order> createOrder(
             @Valid @RequestBody OrderRequest orderRequest) {
 
-        Order order = Order.builder()
-                .userId(orderRequest.getUserId())
-                .addressIndex(orderRequest.getAddressIndex())
-                .restaurantId(orderRequest.getRestaurantId())
-                .items(orderRequest.getItems())
-                .total(orderRequest.getTotal())
-                .build();
         return ResponseEntity.ok().body(
-                orderService.createOrder(order));
+                orderService.createOrder(orderRequest));
     }
 
     @PreAuthorize("hasRole('ROLE_USER') and" +
@@ -101,8 +94,7 @@ public class UserOrderController {
     @SecurityRequirement(name = "user token")
     public ResponseEntity<Payment> payAndConfirmOrder(
             @RequestParam(orderIdString) @NotNull String orderId,
-            @Parameter(description = "Not used, can be left empty")
-            @RequestParam(name = "details", required = false) String paymentDetails) {
+            @Parameter(description = "Not used, can be left empty") @RequestParam(name = "details", required = false) String paymentDetails) {
 
         return ResponseEntity.ok().body(
                 orderService.confirmOrderAndPay(orderId));

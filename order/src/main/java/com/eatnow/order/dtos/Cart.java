@@ -20,6 +20,9 @@ public class Cart {
     @AllArgsConstructor
     @NoArgsConstructor
     public static class CartItem {
+        @NonNull
+        private String name;
+
         private int itemIndex;
     
         private double price;
@@ -32,6 +35,9 @@ public class Cart {
 
     @NonNull
     private String restaurantId;
+
+    @NonNull
+    private String restaurantName;
 
     @NonNull
     @Default

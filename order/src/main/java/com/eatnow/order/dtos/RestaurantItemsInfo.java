@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MenuDto {
-    
-    private String restaurantId;
+public class RestaurantItemsInfo {
 
     private String restaurantName;
 
