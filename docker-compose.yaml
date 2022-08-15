@@ -206,6 +206,25 @@ services:
       - eatnow-elasticsearch
     networks: 
       - eatnow-network
+
+  eatnow-swagger:
+    container_name: eatnow-swagger
+    build:
+      context: swagger
+    ports:
+      - 8087:${EATNOW_SWAGGER_SERVER_PORT}
+    networks: 
+      - eatnow-network
+    env_file:
+      - .env
+    depends_on:
+      - eatnow-elasticsearch
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 15s
+        max_attempts: 5
+        window: 120s
   
   nginx:
     container_name: nginx
