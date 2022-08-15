@@ -70,7 +70,7 @@ public class MenuController {
                 .tags(itemRequest.getTags())
                 .available(itemRequest.getAvailable())
                 .build();
-        return ResponseEntity.ok().body(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
                 menuService.createItem(restaurantId, item));
     }
 
