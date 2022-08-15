@@ -5,8 +5,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import com.eatnow.order.dtos.Order;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +17,21 @@ import lombok.Builder.Default;
 @NoArgsConstructor
 @Data
 public class OrderRequest {
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class RequestItem {
+
+        @NonNull
+        @NotNull
+        private Integer itemIndex;
+        
+        @NonNull
+        @NotNull
+        private Integer quantity;
+    }
+
 
     @NonNull
     @NotNull
@@ -35,7 +48,7 @@ public class OrderRequest {
     @NonNull
     @Default
     @NotNull
-    List<Order.Item> items = new ArrayList<>();
+    List<OrderRequest.RequestItem> items = new ArrayList<>();
 
     @NonNull
     @NotNull

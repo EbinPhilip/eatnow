@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.eatnow.order.dtos.Cart;
-import com.eatnow.order.dtos.Order;
 import com.eatnow.order.exchanges.OrderRequest;
 import com.eatnow.order.services.clients.CartRestClient;
 
@@ -42,8 +41,7 @@ public class CartService {
                 .restaurantId(cart.getRestaurantId())
                 .items(cart.getItems().stream()
                         .map((i) -> {
-                            return new Order.Item(i.getItemIndex(),
-                                    i.getPrice(), i.getQuantity());
+                            return new OrderRequest.RequestItem(i.getItemIndex(), i.getQuantity());
                         }).collect(Collectors.toList()))
                 .total(cart.getTotal())
                 .build();

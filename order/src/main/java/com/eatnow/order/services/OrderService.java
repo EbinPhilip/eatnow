@@ -1,6 +1,7 @@
 package com.eatnow.order.services;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -16,9 +17,11 @@ import org.springframework.web.server.ResponseStatusException;
 import com.eatnow.order.dtos.ItemDto;
 import com.eatnow.order.dtos.Order;
 import com.eatnow.order.dtos.Payment;
-import com.eatnow.order.dtos.UserAddressDto;
+import com.eatnow.order.dtos.RestaurantItemsInfo;
+import com.eatnow.order.dtos.UserWithAddress;
 import com.eatnow.order.entities.OrderEntity;
 import com.eatnow.order.entities.OrderItem;
+import com.eatnow.order.exchanges.OrderRequest;
 import com.eatnow.order.repositories.OrderRepository;
 
 @Service
@@ -39,46 +42,48 @@ public class OrderService {
     private CartService cartService;
 
     @Transactional
-    public Order createOrder(Order dto) {
+    public Order createOrder(OrderRequest orderRequest) {
 
         UUID orderId = UUID.randomUUID();
 
-        UserAddressDto address = userAddressService
-                .getAddressByUserIdAndIndex(dto.getUserId(), dto.getAddressIndex());
+        UserWithAddress userDetails = userAddressService
+                .getAddressByUserIdAndIndex(orderRequest.getUserId(), orderRequest.getAddressIndex());
 
-        Map<Integer, OrderItem> items = dto.getItems()
+        Map<Integer, OrderRequest.RequestItem> items = orderRequest.getItems()
                 .stream()
-                .map(
-                        (i) -> {
-                            return OrderItem.builder()
-                                    .itemIndex(i.getItemIndex())
-                                    .quantity(i.getQuantity())
-                                    .build();
-                        })
                 .collect(Collectors.toMap(
                         (i) -> i.getItemIndex(), (i) -> i));
 
-        List<ItemDto> itemList = menuService
-                .checkServiceabilityAndFetchItems(dto.getRestaurantId(),
-                        address.getLatitude(),
-                        address.getLongitude(),
+        RestaurantItemsInfo itemsInfo = menuService
+                .checkServiceabilityAndFetchItems(orderRequest.getRestaurantId(),
+                        userDetails.getAddress().getLatitude(),
+                        userDetails.getAddress().getLongitude(),
                         items.keySet());
 
         double total = 0.0d;
-        for (ItemDto itemDto : itemList) {
-            OrderItem orderItem = items.get(itemDto.getItemIndex());
-            orderItem.setPrice(itemDto.getPrice());
+        List<OrderItem> orderItems = new ArrayList<>();
+        for (ItemDto itemDto : itemsInfo.getItems()) {
+            OrderItem orderItem = OrderItem.builder()
+                    .itemIndex(itemDto.getItemIndex())
+                    .itemName(itemDto.getName())
+                    .price(itemDto.getPrice())
+                    .quantity(items.get(itemDto.getItemIndex()).getQuantity())
+                    .build();
+            orderItems.add(orderItem);
             total = total + orderItem.getPrice() * orderItem.getQuantity();
         }
 
         OrderEntity order = OrderEntity.builder()
                 .id(orderId)
-                .userId(dto.getUserId())
-                .restaurantId(dto.getRestaurantId())
-                .latitude(address.getLatitude())
-                .longitude(address.getLongitude())
-                .address(address.getAddress())
-                .items(items.values().stream().collect(Collectors.toList()))
+                .userId(orderRequest.getUserId())
+                .userName(userDetails.getUserDetails().getName())
+                .phone(userDetails.getUserDetails().getPhone())
+                .restaurantId(orderRequest.getRestaurantId())
+                .restaurantName(itemsInfo.getRestaurantName())
+                .latitude(userDetails.getAddress().getLatitude())
+                .longitude(userDetails.getAddress().getLongitude())
+                .address(userDetails.getAddress().getAddress())
+                .items(orderItems)
                 .total(total)
                 .timeStamp(LocalDateTime.now())
                 .build();
@@ -214,12 +219,15 @@ public class OrderService {
         Order dto = Order.builder()
                 .orderId(order.getId().toString())
                 .userId(order.getUserId())
+                .userName(order.getUserName())
+                .phone(order.getPhone())
                 .address(order.getAddress())
                 .restaurantId(order.getRestaurantId())
+                .restaurantName(order.getRestaurantName())
                 .items(
                         order.getItems().stream().map(
                                 (i) -> {
-                                    return new Order.Item(i.getItemIndex(),
+                                    return new Order.Item(i.getItemName(), i.getItemIndex(),
                                             i.getPrice(), i.getQuantity());
                                 }).collect(Collectors.toList()))
                 .total(order.getTotal())

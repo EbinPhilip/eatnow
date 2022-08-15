@@ -11,6 +11,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Builder.Default;
 
 @Data
@@ -21,8 +22,12 @@ public class Order {
     
     @Data
     @AllArgsConstructor
+    @RequiredArgsConstructor
     @NoArgsConstructor
     public static class Item {
+
+        private String name;
+
         @NonNull
         private Integer itemIndex;
         
@@ -37,6 +42,10 @@ public class Order {
     @NonNull
     private String userId;
 
+    private String userName;
+
+    private String phone;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Default
     private Integer addressIndex = null;
@@ -47,6 +56,8 @@ public class Order {
 
     @NonNull
     private String restaurantId;
+
+    private String restaurantName;
 
     @NonNull
     @Default

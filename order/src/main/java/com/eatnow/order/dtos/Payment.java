@@ -2,8 +2,6 @@ package com.eatnow.order.dtos;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotBlank;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,14 +15,11 @@ import lombok.Builder.Default;
 @Builder
 public class Payment {
     @NonNull
-    @NotBlank
     private String transactionId;
 
     @NonNull
-    @NotBlank
     private String orderId;
 
-    @NotBlank
     private double total;
 
     @NonNull
@@ -32,7 +27,6 @@ public class Payment {
     private String paymentDetails = "";
 
     @NonNull
-    @NotBlank
     private String status;
 
     public static enum PaymentStatus {
@@ -42,6 +36,5 @@ public class Payment {
     }
 
     @NonNull
-    @NotBlank
     private LocalDateTime timeStamp;
 }

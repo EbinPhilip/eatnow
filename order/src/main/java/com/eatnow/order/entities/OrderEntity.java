@@ -42,16 +42,25 @@ public class OrderEntity {
 
     @NonNull
     private String userId;
+
+    @NonNull
+    private String userName;
+
+    @NonNull
+    private String phone;
     
     @NonNull
     private String address;
 
+    @NonNull
+    private String restaurantId;
+
+    @NonNull
+    private String restaurantName;
+
     private double latitude;
 
     private double longitude;
-
-    @NonNull
-    private String restaurantId;
 
     @NonNull
     @Default

@@ -10,14 +10,11 @@ import lombok.NonNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ItemDto {;
+public class UserWithAddress {
 
     @NonNull
-    private Integer itemIndex;
+    User userDetails;
 
     @NonNull
-    private String name;
-
-    @NonNull
-    private Double price;
+    UserAddress address;
 }
