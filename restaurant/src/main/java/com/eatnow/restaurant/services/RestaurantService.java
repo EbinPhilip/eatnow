@@ -64,10 +64,9 @@ public class RestaurantService {
         restaurant.setOpen(openStatus);
         restaurantRepository.update(restaurant);
 
-        RestaurantElasticEntity elasticRestaurant 
-            = restaurantElasticRepository.findById(restaurantId)
-                    .orElseThrow(()->(new ResponseStatusException(
-                            HttpStatus.NOT_FOUND, "restaurant not found")));
+        RestaurantElasticEntity elasticRestaurant = restaurantElasticRepository.findById(restaurantId)
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "restaurant not found")));
         elasticRestaurant.setOpen(openStatus);
         restaurantElasticRepository.save(elasticRestaurant);
 
@@ -82,9 +81,8 @@ public class RestaurantService {
         restaurant = restaurantRepository.update(restaurant);
 
         // updates elasticsearch restaurant index
-        RestaurantElasticEntity elasticRestaurant 
-        = restaurantElasticRepository.findById(restaurant.getId())
-                .orElseThrow(()->(new ResponseStatusException(
+        RestaurantElasticEntity elasticRestaurant = restaurantElasticRepository.findById(restaurant.getId())
+                .orElseThrow(() -> (new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "restaurant not found")));
         elasticRestaurant.setName(restaurant.getName());
         elasticRestaurant.setTags(String.join(" ", restaurant.getTags()));
@@ -93,7 +91,7 @@ public class RestaurantService {
         // update elasticsearch item index
         List<ItemElasticEntity> itemsElastic = itemElasticRepository
                 .findByRestaurantId(restaurant.getId());
-        for(ItemElasticEntity itemE : itemsElastic) {
+        for (ItemElasticEntity itemE : itemsElastic) {
             itemE.setRestaurantName(restaurant.getName());
             itemElasticRepository.save(itemE);
         }
@@ -103,7 +101,14 @@ public class RestaurantService {
 
     public boolean isRestaurantServiceable(String restaurantId, Location location) {
 
-        return true;
+        RestaurantEntity restaurant = restaurantRepository.findById(restaurantId);
+
+        if (restaurant.isOpen() && location.getDistanceFrom(
+                new Location(restaurant.getLocation())) <= max_distance) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private RestaurantEntity dtoToRestaurant(Restaurant dto, RestaurantEntity old) {
