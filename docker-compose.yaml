@@ -8,7 +8,7 @@ services:
     env_file:
         - .env
     ports:
-      - 8085:${EATNOW_RESTAURANT_SERVER_PORT}
+      - ${EATNOW_RESTAURANT_OUT}:${EATNOW_RESTAURANT_SERVER_PORT}
     networks: 
       - eatnow-network
     depends_on:
@@ -77,7 +77,7 @@ services:
     build:
       context: user
     ports:
-      - 8084:${EATNOW_USER_SERVER_PORT}
+      - ${EATNOW_USER_OUT}:${EATNOW_USER_SERVER_PORT}
     networks: 
       - eatnow-network
     env_file:
@@ -159,7 +159,7 @@ services:
     build:
       context: search
     ports:
-      - 8086:${EATNOW_SEARCH_SERVER_PORT}
+      - ${EATNOW_SEARCH_OUT}:${EATNOW_SEARCH_SERVER_PORT}
     networks: 
       - eatnow-network
     env_file:
