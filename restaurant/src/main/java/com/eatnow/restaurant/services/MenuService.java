@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 import com.eatnow.restaurant.dtos.Item;
 import com.eatnow.restaurant.dtos.Menu;
 import com.eatnow.restaurant.dtos.Restaurant;
+import com.eatnow.restaurant.dtos.RestaurantItemsInfo;
 import com.eatnow.restaurant.entities.ItemElasticEntity;
 import com.eatnow.restaurant.entities.ItemEntity;
 import com.eatnow.restaurant.entities.MenuEntity;
@@ -47,7 +48,7 @@ public class MenuService {
                 .build();
     }
 
-    public List<Item> checkServiceabilityAndFetchItems(String restaurantId,
+    public RestaurantItemsInfo checkServiceabilityAndFetchItems(String restaurantId,
             Location location, Set<Integer> itemIndices) {
 
         if (!restaurantService.isRestaurantServiceable(restaurantId, location)) {
@@ -55,7 +56,8 @@ public class MenuService {
             throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED,
                     "Restaurant not serviceable");
         }
-
+    
+        Restaurant restaurant = restaurantService.getRestaurantbyId(restaurantId);
         List<Item> items = menuRepository.findByRestaurantIdAndIndices(restaurantId, itemIndices)
                 .stream().map(
                         (i) -> {
@@ -73,7 +75,13 @@ public class MenuService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "some of the requested items could not be found");
         }
 
-        return items;
+        RestaurantItemsInfo details = RestaurantItemsInfo
+                .builder()
+                .restaurantName(restaurant.getName())
+                .items(items)
+                .build();
+
+        return details;
     }
 
     public Item getItemByRestaurantIdAndIndex(String restaurantId, int itemIndex) {
