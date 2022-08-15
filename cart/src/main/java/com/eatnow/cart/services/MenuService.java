@@ -46,12 +46,15 @@ public class MenuService {
             }
         }
 
-        return menu.getItems()
-                .stream()
-                .filter((i)->(i.getItemIndex() == itemIndex))
-                .findFirst()
-                .orElseThrow(()->(new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "requested item could not be found")));
+        ItemDto item = menu.getItems()
+            .stream()
+            .filter((i)->(i.getItemIndex() == itemIndex))
+            .findFirst()
+            .orElseThrow(()->(new ResponseStatusException(
+                HttpStatus.NOT_FOUND, "requested item could not be found")));
+        item.setRestaurantName(menu.getRestaurantName());
+
+        return item;
     }
 
     private MenuDto fromMenuJson(String menuJson) {

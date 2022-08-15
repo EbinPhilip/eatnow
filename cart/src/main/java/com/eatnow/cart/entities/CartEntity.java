@@ -25,12 +25,19 @@ public class CartEntity {
     @NonNull
     private String restaurantId;
 
+    @NonNull
+    private String restaurantName;
+
     LinkedHashMap<Integer, CartItemEntity> items = new LinkedHashMap<>();
 
     private double total = 0.0;
 
     public CartEntity add(CartItemEntity item)
     {
+        if (item.getQuantity() == 0) {
+            return this;
+        }
+
         CartItemEntity existing = items.get(item.getItemIndex());
         
         if (existing == null)
@@ -60,6 +67,10 @@ public class CartEntity {
 
     public CartEntity update(int itemIndex, int quantity)
     {
+        if (quantity == 0) {
+            return delete(itemIndex);
+        }
+
         CartItemEntity existing = Optional.ofNullable(
             items.get(itemIndex))
             .orElseThrow(()->(new ResponseStatusException(
