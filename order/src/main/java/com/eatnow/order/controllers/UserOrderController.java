@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import javax.websocket.server.PathParam;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -66,7 +67,7 @@ public class UserOrderController {
     public ResponseEntity<Order> createOrder(
             @Valid @RequestBody OrderRequest orderRequest) {
 
-        return ResponseEntity.ok().body(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
                 orderService.createOrder(orderRequest));
     }
 
@@ -89,14 +90,14 @@ public class UserOrderController {
     @PostMapping(ORDER_PAYMENT_ENDPOINT)
     @Operation(summary = "Make payment for order")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200"),
+            @ApiResponse(responseCode = "201", description = "payment successful"),
             @ApiResponse(responseCode = "409", description = "payment is already done or cannot proceed with payment") })
     @SecurityRequirement(name = "user token")
     public ResponseEntity<Payment> payAndConfirmOrder(
             @RequestParam(orderIdString) @NotNull String orderId,
             @Parameter(description = "Not used, can be left empty") @RequestParam(name = "details", required = false) String paymentDetails) {
 
-        return ResponseEntity.ok().body(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
                 orderService.confirmOrderAndPay(orderId));
     }
 
