@@ -34,16 +34,21 @@ public class CartService {
     }
 
     public Cart addToCart(String userId, String restaurantId, int itemIndex, int quantity) {
-        ItemDto itemDto = menuService.getItemByRestaurantIdAndIndex(
-                restaurantId, itemIndex);
+        
         CartEntity cart = cartRepository.findById(userId);
-
-        if (cart == null || !cart.getRestaurantId().equals(restaurantId)) {
-            cart = new CartEntity(userId, restaurantId);
+        if (quantity == 0) {
+            return cartToDto(cart);
         }
 
-        CartItemEntity item = new CartItemEntity(itemDto.getItemIndex(), itemDto.getPrice(),
-                quantity);
+        ItemDto itemDto = menuService.getItemByRestaurantIdAndIndex(
+                restaurantId, itemIndex);
+
+        if (cart == null || !cart.getRestaurantId().equals(restaurantId)) {
+            cart = new CartEntity(userId, restaurantId, itemDto.getRestaurantName());
+        }
+
+        CartItemEntity item = new CartItemEntity(itemDto.getName(),
+                itemDto.getItemIndex(), itemDto.getPrice(),quantity);
         cart.add(item);
         cart = cartRepository.save(cart);
 
@@ -51,12 +56,17 @@ public class CartService {
     }
 
     public Cart updateCart(String userId, int itemIndex, int quantity) {
+
         CartEntity cart = Optional.ofNullable(
                 cartRepository.findById(userId))
                 .orElseThrow(()->(new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "cart is empty")));
 
-        cart.update(itemIndex, quantity);
+        if (quantity == 0) {
+            cart.delete(itemIndex);
+        } else {
+            cart.update(itemIndex, quantity);
+        }
         cart = cartRepository.save(cart);
 
         return cartToDto(cart);
@@ -82,9 +92,10 @@ public class CartService {
         Cart dto = Cart.builder()
                 .userId(cart.getUserId())
                 .restaurantId(cart.getRestaurantId())
+                .restaurantName(cart.getRestaurantName())
                 .items(cart.getItems().values().stream().map(
                         (i) -> {
-                            return new Cart.CartItem(i.getItemIndex(),
+                            return new Cart.CartItem(i.getName(), i.getItemIndex(),
                                     i.getPrice(), i.getQuantity());
                         }).collect(Collectors.toList()))
                 .total(cart.getTotal())
