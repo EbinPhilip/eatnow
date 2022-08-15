@@ -74,7 +74,7 @@ public class UserOrderController {
     @PreAuthorize("hasRole('ROLE_USER') and" +
             "#userId == authentication.principal.username")
     @GetMapping(ORDER_FROM_CART_ENDPOINT)
-    @Operation(summary = "Create order request from cart", description = "Creates an order request object from cart and address.")
+    @Operation(summary = "Create order request from cart", description = "Creates and returns an order request object from given cart and address. The response can be used as the request body, in the POST method to create a new order.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200"),
             @ApiResponse(responseCode = "404", description = "Cart is empty", content = @Content) })
