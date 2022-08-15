@@ -15,6 +15,9 @@ CREATE TABLE IF NOT EXISTS public."order"
     time_stamp timestamp without time zone NOT NULL,
     status integer NOT NULL,
     restaurant_id character varying(255) COLLATE pg_catalog."default" NOT NULL,
+    phone character varying(15) COLLATE pg_catalog."default",
+    restaurant_name character varying(255) COLLATE pg_catalog."default",
+    user_name character varying(255) COLLATE pg_catalog."default",
     CONSTRAINT order_pk PRIMARY KEY (id)
 )
 
