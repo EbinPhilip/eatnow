@@ -3,6 +3,7 @@ package com.eatnow.cart.controllers;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -55,7 +56,7 @@ public class CartController {
             @RequestParam("item-index") @NotNull Integer itemIndex,
             @RequestParam("quantity") @NotNull Integer quantity) {
 
-        return ResponseEntity.ok().body(
+        return ResponseEntity.status(HttpStatus.CREATED).body(
                 cartService.addToCart(userId, restaurantId, itemIndex, quantity));
     }
 
