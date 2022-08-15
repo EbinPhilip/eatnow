@@ -98,7 +98,7 @@ public class UserController {
     @PutMapping(USER_API)
     @Operation(summary = "Update user details", description = "Update details of user specified by user-id.")
     public ResponseEntity<User> putUser(
-            @PathVariable @NotNull String userId,
+            @PathVariable("user-id") @NotNull String userId,
             @Valid @RequestBody UserEditRequest userRequest) {
 
         User user = User.builder()

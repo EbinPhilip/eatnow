@@ -53,7 +53,7 @@ public class UserAddressController {
     @Operation(summary = "Add new address", description = "Add a new address for the user specified by user-id.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "address added")})
-    public ResponseEntity<UserAddress> postUserAddress(@PathVariable @NotNull String userId,
+    public ResponseEntity<UserAddress> postUserAddress(@PathVariable("user-id") @NotNull String userId,
             @Valid @RequestBody UserAddressRequest addressRequest) {
 
         UserAddress address = UserAddress.builder()
