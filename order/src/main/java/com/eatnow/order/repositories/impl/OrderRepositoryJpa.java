@@ -99,13 +99,13 @@ public class OrderRepositoryJpa implements OrderRepository {
     public List<OrderEntity> findByUserId(String userId) {
 
         Pageable page = PageRequest.of(0, 10);
-        return dao.findByUserId(userId, page);
+        return dao.findByUserIdOrderByTimeStampDesc(userId, page).getContent();
     }
 
     public List<OrderEntity> findByUserIdPaged(String userId, int pageSize, int pageNumber) {
 
         Pageable page = PageRequest.of(pageNumber, pageSize);
-        return dao.findByUserId(userId, page);
+        return dao.findByUserIdOrderByTimeStampDesc(userId, page).getContent();
     }
 
     public List<OrderEntity> findByRestaurantId(String restaurantId) {
@@ -117,7 +117,7 @@ public class OrderRepositoryJpa implements OrderRepository {
     public List<OrderEntity> findByRestaurantIdPaged(String restaurantId, int pageSize, int pageNumber) {
 
         Pageable page = PageRequest.of(pageNumber, pageSize);
-        return dao.findByRestaurantId(restaurantId, page);
+        return dao.findByRestaurantIdOrderByTimeStampDesc(restaurantId, page).getContent();
     }
 
     public List<OrderEntity> findByRestaurantIdAndStatus(String restaurantId, OrderEntity.Status status) {
