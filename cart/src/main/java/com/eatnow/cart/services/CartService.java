@@ -1,4 +1,4 @@
-package  com.eatnow.cart.services;
+package com.eatnow.cart.services;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,11 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import  com.eatnow.cart.dtos.Cart;
-import  com.eatnow.cart.dtos.ItemDto;
-import  com.eatnow.cart.entities.CartEntity;
-import  com.eatnow.cart.entities.CartItemEntity;
-import  com.eatnow.cart.repositories.CartRepository;
+import com.eatnow.cart.dtos.Cart;
+import com.eatnow.cart.dtos.ItemDto;
+import com.eatnow.cart.entities.CartEntity;
+import com.eatnow.cart.entities.CartItemEntity;
+import com.eatnow.cart.repositories.CartRepository;
 
 @Service
 public class CartService {
@@ -34,10 +34,10 @@ public class CartService {
     }
 
     public Cart addToCart(String userId, String restaurantId, int itemIndex, int quantity) {
-        
+
         CartEntity cart = cartRepository.findById(userId);
         if (quantity == 0) {
-            return cartToDto(cart);
+            return (cart == null) ? null : cartToDto(cart);
         }
 
         ItemDto itemDto = menuService.getItemByRestaurantIdAndIndex(
@@ -48,7 +48,7 @@ public class CartService {
         }
 
         CartItemEntity item = new CartItemEntity(itemDto.getName(),
-                itemDto.getItemIndex(), itemDto.getPrice(),quantity);
+                itemDto.getItemIndex(), itemDto.getPrice(), quantity);
         cart.add(item);
         cart = cartRepository.save(cart);
 
@@ -59,8 +59,8 @@ public class CartService {
 
         CartEntity cart = Optional.ofNullable(
                 cartRepository.findById(userId))
-                .orElseThrow(()->(new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "cart is empty")));
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "cart is empty")));
 
         if (quantity == 0) {
             cart.delete(itemIndex);
@@ -75,8 +75,8 @@ public class CartService {
     public Cart deleteFromCart(String userId, int itemIndex) {
         CartEntity cart = Optional.ofNullable(
                 cartRepository.findById(userId))
-                .orElseThrow(()->(new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST, "cart is empty")));
+                .orElseThrow(() -> (new ResponseStatusException(
+                        HttpStatus.BAD_REQUEST, "cart is empty")));
 
         cart.delete(itemIndex);
         cart = cartRepository.save(cart);
