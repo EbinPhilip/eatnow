@@ -43,7 +43,6 @@ public class CartService {
                         .map((i) -> {
                             return new OrderRequest.RequestItem(i.getItemIndex(), i.getQuantity());
                         }).collect(Collectors.toList()))
-                .total(cart.getTotal())
                 .build();
     }
 }
