@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.ArrayList;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +23,5 @@ public class RestaurantEditRequest {
     private String name;
 
     @Default
-    @NotNull
     private List<String> tags = new ArrayList<>();
 }

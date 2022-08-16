@@ -24,15 +24,13 @@ public class ItemRequest {
     private String name;
 
     @NonNull
-    @NotBlank
+    @NotNull
     private Double price;
 
     @Default
-    @NotNull
     private String description = "";
 
     @Default
-    @NotNull
     private List<String> tags = new ArrayList<>();
 
     @NonNull
