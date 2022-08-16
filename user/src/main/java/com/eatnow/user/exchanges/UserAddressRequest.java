@@ -1,6 +1,7 @@
 package com.eatnow.user.exchanges;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,12 +14,12 @@ import lombok.NonNull;
 public class UserAddressRequest {
 
     @NonNull
-    @NotBlank
+    @NotBlank(message = "Address cannot be blank")
     private String address;
 
-    @NotBlank
-    private double latitude;
+    @NotNull(message = "Latitude cannot be blank")
+    private Double latitude;
 
-    @NotBlank
-    private double longitude;
+    @NotNull(message = "Longitude cannot be blank")
+    private Double longitude;
 }
