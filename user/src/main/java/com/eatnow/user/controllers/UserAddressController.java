@@ -104,10 +104,7 @@ public class UserAddressController {
     @PreAuthorize("hasRole('ROLE_USER') and" +
             "#userId == authentication.principal.username")
     @DeleteMapping(USER_ADDRESS_API)
-    @ApiResponses(value = {
-        @ApiResponse(responseCode = "200"),
-        @ApiResponse(responseCode = "404", description = "address not found", content = @Content)})
-    @Operation(summary = "Delete address", description = "Delete the address specified by user-id and address-index.")
+    @Operation(summary = "Delete address", description = "Delete the address specified by user-id and address-index. Returns success status: true/false.")
     public ResponseEntity<Boolean> deleteUserAddress(
             @PathVariable("user-id") @NotNull String userId,
             @PathVariable("address-index") @NotNull Integer index) {
