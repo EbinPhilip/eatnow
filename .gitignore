@@ -38,6 +38,6 @@ out/
 
 /init-db/search/persist/*
 
-docker-compose-override.yaml
+override.yaml
 
 .backup.application.properties
