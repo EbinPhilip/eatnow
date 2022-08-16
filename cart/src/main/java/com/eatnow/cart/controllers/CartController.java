@@ -35,7 +35,7 @@ public class CartController {
     @PreAuthorize("hasRole('ROLE_USER') and" +
             "#userId == authentication.principal.username")
     @GetMapping(CART_API)
-    @Operation(summary = "Fetch cart", description = "Fetches the shopping cart of the user specified by user-id.")
+    @Operation(summary = "Fetch cart", description = "Fetches the shopping cart of the user specified by user-id. Returns empty response body if cart doesn't exist.")
     public ResponseEntity<Cart> getCart(
             @PathVariable("user-id") @NotNull String userId) {
 
