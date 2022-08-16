@@ -13,6 +13,13 @@ spec:
                 name: eatnow-restaurant
                 port:
                   number: 8080
+          - path: /menu
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-restaurant
+                port:
+                  number: 8080
           - path: /cart
             pathType: Prefix
             backend:
@@ -27,7 +34,14 @@ spec:
                 name: eatnow-user
                 port:
                   number: 8080
-          - path: /orders
+          - path: /user-orders
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-order
+                port:
+                  number: 8080
+          - path: /restaurant-orders
             pathType: Prefix
             backend:
               service:
