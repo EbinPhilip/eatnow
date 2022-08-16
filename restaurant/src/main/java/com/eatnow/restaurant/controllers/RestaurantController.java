@@ -103,7 +103,7 @@ public class RestaurantController {
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200"),
         @ApiResponse(responseCode = "404", description = "restaurant not found", content = @Content)})
-    @Operation(summary = "Set restaurant status: open/closed", description = "Set the is-open status of restaurant specified by restaurant-id.")
+    @Operation(summary = "Set restaurant status: open/closed", description = "Set the is-open status of restaurant specified by restaurant-id. Returns the newly set status.")
     public ResponseEntity<Boolean> setRestaurantOpen(
             @PathVariable(name = "restaurant-id") @NotNull String restaurantId,
             @RequestParam(name = "open") boolean openStatus) {
