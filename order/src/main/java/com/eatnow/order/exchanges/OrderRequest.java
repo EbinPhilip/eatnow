@@ -3,6 +3,8 @@ package com.eatnow.order.exchanges;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
@@ -26,12 +28,11 @@ public class OrderRequest {
         @NonNull
         @NotNull
         private Integer itemIndex;
-        
+
         @NonNull
         @NotNull
         private Integer quantity;
     }
-
 
     @NonNull
     @NotNull
@@ -47,10 +48,8 @@ public class OrderRequest {
 
     @NonNull
     @Default
-    @NotNull
+    @NotEmpty(message = "There are no items in this order")
+    @Valid
     List<OrderRequest.RequestItem> items = new ArrayList<>();
 
-    @NonNull
-    @NotNull
-    private Double total;
 }
