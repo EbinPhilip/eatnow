@@ -1,7 +1,10 @@
 services:
   eatnow-restaurant:
     container_name: eatnow-restaurant
-    image: ebinphilip/eatnow-restaurant
+    build:
+      context: restaurant
+      args:
+        - EATNOW_RESTAURANT_SERVER_PORT=${EATNOW_RESTAURANT_SERVER_PORT}
     env_file:
         - .env
     ports:
@@ -40,7 +43,8 @@ services:
 
   eatnow-cart:
     container_name: eatnow-cart
-    image: ebinphilip/eatnow-cart
+    build:
+      context: cart
     ports:
       - 8082:${EATNOW_CART_SERVER_PORT}
     networks: 
@@ -72,7 +76,8 @@ services:
   
   eatnow-user:
     container_name: eatnow-user
-    image: ebinphilip/eatnow-user
+    build:
+      context: user
     ports:
       - ${EATNOW_USER_OUT}:${EATNOW_USER_SERVER_PORT}
     networks: 
@@ -113,7 +118,8 @@ services:
 
   eatnow-order:
     container_name: eatnow-order
-    image: ebinphilip/eatnow-order
+    build:
+      context: order
     ports:
       - 8083:${EATNOW_ORDER_SERVER_PORT}
     networks: 
@@ -154,7 +160,8 @@ services:
 
   eatnow-search:
     container_name: eatnow-search
-    image: ebinphilip/eatnow-search
+    build:
+      context: search
     ports:
       - ${EATNOW_SEARCH_OUT}:${EATNOW_SEARCH_SERVER_PORT}
     networks: 
@@ -206,7 +213,8 @@ services:
 
   eatnow-swagger:
     container_name: eatnow-swagger
-    image: ebinphilip/eatnow-swagger
+    build:
+      context: swagger
     ports:
       - 8087:${EATNOW_SWAGGER_SERVER_PORT}
     networks: 
