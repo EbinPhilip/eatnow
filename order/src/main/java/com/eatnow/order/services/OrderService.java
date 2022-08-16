@@ -99,7 +99,7 @@ public class OrderService {
 
         OrderEntity order = orderRepository.findById(uuidFromString(orderId));
         if (order.getStatus() != OrderEntity.Status.UNPAID) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot pay for this order.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot pay for this order");
         }
 
         Payment payment = paymentService.pay(orderId, order.getTotal(), "");
@@ -164,10 +164,10 @@ public class OrderService {
 
         OrderEntity order = orderRepository.findById(uuidFromString(orderId));
         if (!order.getRestaurantId().equals(restaurantId)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         if (order.getStatus() != OrderEntity.Status.NEW) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Only orders with status:NEW can be accepted");
         }
         order.setStatus(OrderEntity.Status.ACCEPTED);
         order = orderRepository.update(order);
@@ -180,10 +180,10 @@ public class OrderService {
 
         OrderEntity order = orderRepository.findById(uuidFromString(orderId));
         if (!order.getRestaurantId().equals(restaurantId)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
         if (order.getStatus() != OrderEntity.Status.ACCEPTED) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Orders only in state:ACCEPTED can be completed");
         }
         order.setStatus(OrderEntity.Status.COMPLETED);
         order = orderRepository.update(order);
@@ -196,11 +196,11 @@ public class OrderService {
 
         OrderEntity order = orderRepository.findById(uuidFromString(orderId));
         if (!order.getRestaurantId().equals(restaurantId)) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
-        if (order.getStatus() != OrderEntity.Status.ACCEPTED ||
+        if (order.getStatus() != OrderEntity.Status.ACCEPTED &&
             order.getStatus() != OrderEntity.Status.NEW) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT);
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Only orders with status ACCEPTED or NEW can be cancelled");
         }
 
         if (paymentService.revert(order.getTransactionId().toString())) {
