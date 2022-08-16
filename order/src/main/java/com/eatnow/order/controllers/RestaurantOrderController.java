@@ -11,7 +11,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -91,7 +91,7 @@ public class RestaurantOrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-    @PostMapping(ORDERS_RESTAURANT_ACCEPTED)
+    @PutMapping(ORDERS_RESTAURANT_ACCEPTED)
     @Operation(summary = "Move order to accepted status")
     @SecurityRequirement(name = "restaurant token")
     public ResponseEntity<Order> acceptOrder(
@@ -118,7 +118,7 @@ public class RestaurantOrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-    @PostMapping(ORDERS_RESTAURANT_COMPLETED)
+    @PutMapping(ORDERS_RESTAURANT_COMPLETED)
     @Operation(summary = "Move order to completed status")
     @SecurityRequirement(name = "restaurant token")
     public ResponseEntity<Order> completeOrder(
@@ -133,7 +133,7 @@ public class RestaurantOrderController {
     }
 
     @PreAuthorize("hasRole('ROLE_RESTAURANT')")
-    @PostMapping(ORDERS_RESTAURANT_CANCELLED)
+    @PutMapping(ORDERS_RESTAURANT_CANCELLED)
     @Operation(summary = "Move order to cancelled status")
     @SecurityRequirement(name = "restaurant token")
     public ResponseEntity<Order> cancelOrder(
