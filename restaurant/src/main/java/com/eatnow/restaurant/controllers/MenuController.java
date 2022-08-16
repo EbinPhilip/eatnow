@@ -145,7 +145,7 @@ public class MenuController {
     @PreAuthorize("hasRole('ROLE_RESTAURANT') and" +
             "#restaurantId == authentication.principal.username")
     @PutMapping(ITEM_AVAILABLE_ENDPOINT)
-    @Operation(summary = "Set item availability", description = "Sets availability of the item specified by restaurant-id and item-index.")
+    @Operation(summary = "Set item availability", description = "Sets availability of the item specified by restaurant-id and item-index. Returns the newly set availability.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200"),
         @ApiResponse(responseCode = "404", description = "Restaurant or item not found", content = @Content)})
