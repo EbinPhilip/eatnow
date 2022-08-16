@@ -41,3 +41,10 @@ spec:
                 name: eatnow-search
                 port:
                   number: 8080
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: eatnow-swagger
+                port:
+                  number: 8080
