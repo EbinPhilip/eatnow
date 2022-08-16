@@ -27,6 +27,7 @@ services:
     volumes:
       - ./init-db/restaurant/scripts:/docker-entrypoint-initdb.d
       - ./init-db/restaurant/data:/tmp/data
+      - eatnow-restaurant-mongo-volume:/db/data
     ports:
       - "27018:27017"
     networks: 
@@ -59,6 +60,7 @@ services:
     image: mongo:5
     volumes:
       - ./init-db/cart/scripts:/docker-entrypoint-initdb.d
+      - eatnow-cart-mongo-volume:/db/data
     ports:
       - "27019:27017"
     networks: 
@@ -102,6 +104,7 @@ services:
       - '5433:5432'
     volumes: 
       - ./init-db/user/scripts:/docker-entrypoint-initdb.d/
+      - eatnow-user-postgres-volume:/var/lib/postgresql/data
     networks: 
       - eatnow-network
   
@@ -143,6 +146,7 @@ services:
       - '5434:5432'
     volumes: 
       - ./init-db/order/scripts:/docker-entrypoint-initdb.d/
+      - eatnow-order-postgres-volume:/var/lib/postgresql/data
     networks: 
       - eatnow-network
   
@@ -236,6 +240,11 @@ services:
     networks:
       - eatnow-network
 
+volumes:
+  eatnow-restaurant-mongo-volume:
+  eatnow-cart-mongo-volume:
+  eatnow-user-postgres-volume:
+  eatnow-order-postgres-volume:
 networks:
   eatnow-network: {}
 
