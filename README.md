@@ -4,8 +4,8 @@ Demo backend for a food ordering app.
 
 ---
 
-<img src="./logos/java-original-wordmark.svg" alt="Java" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/spring-original-wordmark.svg" alt="Spring" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/docker-original-wordmark.svg" alt="Docker" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/kubernetes-plain-wordmark.svg" alt="Kubernetes" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/mongodb-original-wordmark.svg" alt="MongoDB" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/postgresql-original-wordmark.svg" alt="PostgreSQL" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/redis-original-wordmark.svg" alt="Redis" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/elasticsearch-logo.svg" alt="Elasticsearch" width="35" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/jwt-logo.svg" alt="Jwt" width="70
-" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/nginx-original.svg" alt="nginx" width="50" height="50"/>
+<img src="./logos/java-original-wordmark.svg" alt="Java" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/spring-original-wordmark.svg" alt="Spring" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/docker-original-wordmark.svg" alt="Docker" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/kubernetes-plain-wordmark.svg" alt="Kubernetes" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/mongodb-original-wordmark.svg" alt="MongoDB" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/postgresql-original-wordmark.svg" alt="PostgreSQL" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/redis-original-wordmark.svg" alt="Redis" width="50" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/elasticsearch-logo.svg" alt="Elasticsearch" width="35" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/jwt-logo.svg" alt="Jwt" width="70
+" height="50"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./logos/nginx-original.svg" alt="nginx" width="50" height="50"/>
 
 ---
 
@@ -20,7 +20,7 @@ Demo backend for a food ordering app.
 - Swagger API documentation across all microservices.
 
 ## Running the app:
-Run the app with ```Docker Compose``` or in a local ```Minikube Kubernetes``` cluster. Both methods require installation of Docker Desktop. Linux users should also complete these post installation steps.
+Run the app with ```Docker Compose``` or in a local ```Minikube Kubernetes``` cluster. Both methods require installation of [Docker Desktop](https://www.docker.com/products/docker-desktop/). Linux users should also complete these [post installation steps](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
 
 ### Method 1: Docker Compose (simple)
 
@@ -40,7 +40,7 @@ docker compose up
 
 ### Method 2: Minikube Kubernetes cluster (tedious)
 
-1) Install minikube && kubectl.
+1) Install [minikube](https://minikube.sigs.k8s.io/docs/start/) && [kubectl](https://kubernetes.io/docs/tasks/tools/).
 2) Configure minikube vm to use 6GB RAM. Providing less than 4GB can possibly cause some of the services to go into a crash loop.
 ```
 minikube config set memory 6144
@@ -83,7 +83,7 @@ minikube ip
     - API url: http://\<minikube-ip>
     - Swagger UI: http://\<minikube-ip>/swagger-ui/index.html or http://\<minikube-ip>:32000/swagger-ui/index.html
 
-## Using the app
+## Using the app with Swagger
 The swagger UI, in addition to API documentation, also provides the easiest way to use this app. API definitions across different microservices can be selected from the definition drop-down on the top right.
 
 ![Swagger](Swagger.png "")
@@ -98,7 +98,7 @@ This section describes the expected workflow when using the EatNow APIs.
 ### 1) User account : USER APIs
 1) Create a user account, with a unique user-id.
 2) Login with this user-id to get a user token.
-3) Create an address for the user, using the token. Keep the address coordinates with the the town of [Kottayam](https://goo.gl/maps/418YqgD2kbRjadEMA). All the restaurant data used in this app is from Kottayam.
+3) Create an address for the user, using the token. Keep the address coordinates within the the town of [Kottayam](https://goo.gl/maps/418YqgD2kbRjadEMA). All the restaurant data populated in the DB is from Kottayam.
 4) The address index return in the last step, along with the user-id is used to uniquely identify a user address.
 
 ### 2) Search for restaurants/items : Search APIs
