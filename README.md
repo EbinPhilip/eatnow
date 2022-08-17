@@ -19,10 +19,22 @@ Demo backend for a food ordering app.
 - JWT based API authorization.
 - Swagger API documentation across all microservices.
 
-## Running the app:
+## Contents
+1. [Architecure](#architecture)
+2. [Running the app](#running)
+    - [Docker Compose](#docker)
+    - [Kubernetes](#kubernetes)
+3. [Using the app with Swagger](#swagger)
+4. [Usage instructions](#usage)
+
+## Architecture <a name="architecture"></a>
+<img src="eatnow-system.svg" alt="eatnow-system" width="600
+" height="400"/>
+
+## Running the app <a name="running"></a>
 Run the app with ```Docker Compose``` or in a local ```Minikube Kubernetes``` cluster. Both methods require installation of [Docker Desktop](https://www.docker.com/products/docker-desktop/). Linux users should also complete these [post installation steps](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
 
-### Method 1: Docker Compose (simple)
+### Method 1: Docker Compose (simple) <a name="docker"></a>
 
 1) Ensure port 80 is free.
 
@@ -38,7 +50,7 @@ docker compose up
     - API url: http://localhost
     - Swagger UI: http://localhost/swagger-ui/index.html or http://localhost:8087//swagger-ui/index.html
 
-### Method 2: Minikube Kubernetes cluster (tedious)
+### Method 2: Minikube Kubernetes cluster (tedious) <a name="kubernetes"></a>
 
 1) Install [minikube](https://minikube.sigs.k8s.io/docs/start/) && [kubectl](https://kubernetes.io/docs/tasks/tools/).
 2) Configure minikube vm to use 6GB RAM. Providing less than 4GB can possibly cause some of the services to go into a crash loop.
@@ -83,7 +95,7 @@ minikube ip
     - API url: http://\<minikube-ip>
     - Swagger UI: http://\<minikube-ip>/swagger-ui/index.html or http://\<minikube-ip>:32000/swagger-ui/index.html
 
-## Using the app with Swagger
+## Using the app with Swagger <a name="swagger"></a>
 The swagger UI, in addition to API documentation, also provides the easiest way to use this app. API definitions across different microservices can be selected from the definition drop-down on the top right.
 
 ![Swagger](Swagger.png "")
@@ -92,7 +104,7 @@ The following error in an API definition page indicates that the service in ques
 
 ![Swagger error](SwaggerError.png "")
 
-## Usage Instructions
+## Usage instructions <a name="usage"></a>
 
 This section describes the expected workflow when using the EatNow APIs.
 ### 1) User account : USER APIs
