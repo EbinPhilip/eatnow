@@ -52,8 +52,8 @@ docker compose up
 
 ### Method 2: Minikube Kubernetes cluster (tedious) <a name="kubernetes"></a>
 
-1) Install [minikube](https://minikube.sigs.k8s.io/docs/start/) && [kubectl](https://kubernetes.io/docs/tasks/tools/).
-2) Configure minikube vm to use 6GB RAM. Providing less than 4GB can possibly cause some of the services to go into a crash loop.
+1) Install [minikube](https://minikube.sigs.k8s.io/docs/start/) & [kubectl](https://kubernetes.io/docs/tasks/tools/).
+2) Configure minikube vm to use 6GB RAM. Providing less than 4GB can cause some of the services to go into a crash loop.
 ```
 minikube config set memory 6144
 ```
@@ -78,15 +78,15 @@ git clone https://github.com/ebinphilip/eatnow && cd eatnow
 ```
 minikube mount ./init-db:/init-db
 ```
-6) Start all the microservices.
+6) Start all services.
 ```
 kubectl apply -f kubernetes/
 ```
-7) Wait for Step 6 to complete. Use the minikube dashboard for monitoring. Wait until all deployments become stable. That should take 10 mins.
+7) Wait for Step 6 to complete. Use the minikube dashboard for monitoring the services. Wait until all deployments become stable. That should take 10 mins.
 ```
 minikube dashboard
 ```
-8) Get the ip of the cluster. This will be serve as the API url.
+8) Get the ip of the cluster. This will be the API url.
 ```
 minikube ip
 ```
@@ -96,39 +96,39 @@ minikube ip
     - Swagger UI: http://\<minikube-ip>/swagger-ui/index.html or http://\<minikube-ip>:32000/swagger-ui/index.html
 
 ## Using the app with Swagger <a name="swagger"></a>
-The swagger UI, in addition to API documentation, also provides the easiest way to use this app. API definitions across different microservices can be selected from the definition drop-down on the top right.
+The swagger UI, in addition to providing API documentation, also happens to be the easiest way to use this app. API definitions across different microservices can be selected from the definition drop-down on the top right.
 
 ![Swagger](Swagger.png "")
 
-The following error in an API definition page indicates that the service in question, is not ready yet. The solution is to wait and retry. If that doesn't help, try restarting the service.
+The following error indicates that the service in question, is not ready yet. The solution is to wait and retry. If that doesn't help, restart the service.
 
 ![Swagger error](SwaggerError.png "")
 
 ## Usage instructions <a name="usage"></a>
 
-This section describes the expected workflow when using the EatNow APIs.
-### 1) User account : USER APIs
+This section describes the expected workflow when using the EatNow app, through the provided APIs.
+### 1) User account : User APIs
 1) Create a user account, with a unique user-id.
 2) Login with this user-id to get a user token.
-3) Create an address for the user, using the token. Keep the address coordinates within the the town of [Kottayam](https://goo.gl/maps/418YqgD2kbRjadEMA). All the restaurant data populated in the DB is from Kottayam.
-4) The address index return in the last step, along with the user-id is used to uniquely identify a user address.
+3) Create an address for the user, using the token. Keep the address coordinates within the town of [Kottayam](https://goo.gl/maps/418YqgD2kbRjadEMA). All the restaurant data populated in the DB is from Kottayam. Right clicking on any location in google maps gives you the coordinates of that point.
+4) The address index returned in the previous step along with user-id, is used to uniquely identify a user address.
 
 ### 2) Search for restaurants/items : Search APIs
 1) Search for restaurants or menu items by name.
-2) All searches also takes into account the location of the user. The address-index from the previous stage can be used to provide location details, in addition to latitude/longitude pairs.
+2) All searches take into account the location of the user. In addition to latitude/longitude pairs, the address-index from the previous stage can also be used to provide location details.
 4) Search results for restaurants contain a restaurant ID. Search results for items, contain both a restaurant ID and an item index. These will be used in subsequent stages.
 
 ### 3) View Restaurants/Menus : Restaurant APIs
-1) Restauranta and menus can be fetched using correspoding restaurant IDs.
+1) Restaurants and menus can be fetched using correspoding restaurant IDs.
 2) The menu contains an index for each item. The combination of restaurant ID and item-index is used to uniquely identify an item.
 
 ### 4) Shopping cart: Cart APIs
 1) Add items to cart using restaurant ID and item index.
-2) Modification of cart items and their quantities is possible.
+2) Updating cart items and their quantities is possible.
 
 ### 5) Placing orders: Order APIs (User)
-1) Use the order-request-from-cart API to generate an order request structure from the shopping cart.
-2) Post the order request created in the previous step to create an order. The response body will contain a unque order ID.
+1) Use the order-request-from-cart API to generate an order request JSON from the shopping cart.
+2) Post the order request created in the previous step to create an order. The response body will contain a unique order ID.
 3) Use the order ID to perform payment. This is just a dummy step, no payment details or actual payment is required.
 
 ### 6) Restaurant management: Restaurant APIs
@@ -138,8 +138,8 @@ This section describes the expected workflow when using the EatNow APIs.
 
 ### 7) Order management: Order APIs (Restaurant)
 1) Use the restaurant token from the previous stage to view and manage orders.
-2) After payment, an order is set to NEW status. This order should then be ACCEPTED by the restaurant and finally marked COMPLETED.
-3) An order with NEW/ACCEPTED status can also be cancelled by the restaurant.
+2) After payment is complete, the status of an order is set to NEW. This order should then be ACCEPTED by the restaurant and finally marked COMPLETED.
+3) An order with NEW/ACCEPTED status can be cancelled by the restaurant.
 
 
 
