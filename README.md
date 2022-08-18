@@ -28,8 +28,8 @@ Demo backend for a food ordering app.
 4. [Usage instructions](#usage)
 
 ## Architecture <a name="architecture"></a>
-<img src="eatnow-system.svg" alt="eatnow-system" width="600
-" height="400"/>
+<img src="eatnow-system.svg" alt="eatnow-system" width="
+" height=""/>
 
 ## Running the app <a name="running"></a>
 Run the app with ```Docker Compose``` or in a local ```Minikube Kubernetes``` cluster. Both methods require installation of [Docker Desktop](https://www.docker.com/products/docker-desktop/). Linux users should also complete these [post installation steps](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
