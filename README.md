@@ -47,8 +47,8 @@ git clone https://github.com/ebinphilip/eatnow && cd eatnow
 docker compose up
 ``` 
 4) If some of the services fail to load in the initial run, then do Ctrl+C and repeat step 3. After all the services have started, the app can be found at:
-    - API url: http://localhost
-    - Swagger UI: http://localhost/swagger-ui/index.html or http://localhost:8087//swagger-ui/index.html
+    - Swagger UI: http://localhost:8080/swagger-ui/index.html or http://localhost:8087/swagger-ui/index.html
+    - API url: http://localhost:8080
 
 ### Method 2: Minikube Kubernetes cluster (tedious) <a name="kubernetes"></a>
 
