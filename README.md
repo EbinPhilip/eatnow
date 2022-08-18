@@ -36,7 +36,7 @@ Run the app with ```Docker Compose``` or in a local ```Minikube Kubernetes``` cl
 
 ### Method 1: Docker Compose (simple) <a name="docker"></a>
 
-1) Ensure port 80 is free.
+1) Ensure port 8080 is free.
 
 2) Clone this repository and cd into it.
 ```
