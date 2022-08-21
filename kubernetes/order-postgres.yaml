@@ -19,12 +19,15 @@ spec:
   ports:
     - port: 5432
       targetPort: 5432
+  clusterIP: None
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: eatnow-order-postgres
 spec:
+  serviceName: eatnow-order-postgres
+  replicas: 1
   selector:
     matchLabels:
       app: eatnow-order-postgres

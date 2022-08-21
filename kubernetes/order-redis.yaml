@@ -8,12 +8,15 @@ spec:
   ports:
     - port: 6379
       targetPort: 6379
+  clusterIP: None
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: eatnow-order-redis
 spec:
+  serviceName: eatnow-order-redis
+  replicas: 1
   selector:
     matchLabels:
       app: eatnow-order-redis
