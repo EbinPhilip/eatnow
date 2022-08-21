@@ -19,12 +19,15 @@ spec:
   ports:
     - port: 27017
       targetPort: 27017
+  clusterIP: None
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: eatnow-restaurant-mongo
 spec:
+  serviceName: eatnow-restaurant-mongo
+  replicas: 1
   selector:
     matchLabels:
       app: eatnow-restaurant-mongo

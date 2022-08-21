@@ -8,12 +8,15 @@ spec:
   ports:
     - port: 6379
       targetPort: 6379
+  clusterIP: None
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: eatnow-user-redis
 spec:
+  serviceName: eatnow-user-postgres
+  replicas: 1
   selector:
     matchLabels:
       app: eatnow-user-redis
